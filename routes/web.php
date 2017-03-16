@@ -34,7 +34,7 @@ Route::group(['middleware'=>'admin.login','prefix'=>'admin','namespace'=>'Admin'
     //订单管理
     Route::any('order','OrderController@index');
 
-    Route::post('cate/changeOrder','CategoryController@changeOrder'); //异步修改排序路由
+   /* Route::post('cate/changeOrder','CategoryController@changeOrder'); //异步修改排序路由
     Route::resource('category', 'CategoryController'); //分类管理资源路由
 
     Route::resource('article', 'ArticleController'); //文章分类管理资源路由
@@ -48,7 +48,7 @@ Route::group(['middleware'=>'admin.login','prefix'=>'admin','namespace'=>'Admin'
     Route::get('config/putfile','ConfigController@putFile'); //写入配置文件
     Route::resource('config', 'ConfigController'); //网站配置资源路由
     Route::post('config/changeOrder','ConfigController@changeOrder');//异步修改排序路由
-    Route::post('config/changeContent','ConfigController@changeContent');//修改配置内容
+    Route::post('config/changeContent','ConfigController@changeContent');//修改配置内容*/
 
 
     Route::any('upload','CommonController@upload');  //图片上传路由
