@@ -64,22 +64,28 @@
                         </td>
                     </tr>--}}
                     <tr>
-                        <th>是否可删除：</th>
+                        <th><i class="require">*</i>是否可删除：</th>
                         <td>
-                            <input type="text" class="sm" name="isDel">
+                            <select name="isDel" id="">
+                                <option value="1">可以删除</option>
+                                <option value="0">不能删除</option>
+                            </select>
                             <span><i class="fa fa-exclamation-circle yellow"></i>必须填写</span>
                         </td>
                     </tr>
 
 
                     <tr>
-                        <th>是否系统配置：</th>
+                        <th><i class="require">*</i>是否系统配置：</th>
                         <td>
-                            <input type="text" class="sm" name="isBasic">
+                            <select name="isBasic" id="">
+                                <option value="1">是系统配置</option>
+                                <option value="0">不是系统配置</option>
+                            </select>
                             <span><i class="fa fa-exclamation-circle yellow"></i>必须填写</span>
                         </td>
                     <tr>
-                        <th><i class="require">*</i>排序：</th>
+                        <th>排序：</th>
                         <td>
                             <input type="text" class="sm" name="sort">
                         </td>
