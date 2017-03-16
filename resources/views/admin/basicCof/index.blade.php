@@ -3,7 +3,7 @@
     <!--面包屑导航 开始-->
     <div class="crumb_warp">
         <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
-        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a>  &raquo; 订单管理 &raquo; 客户订单
+        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a>  &raquo; 分类管理
     </div>
     <!--面包屑导航 结束-->
 
@@ -32,29 +32,34 @@
     <!--搜索结果页面 列表 开始-->
     <form action="#" method="post">
         <div class="result_wrap">
+            <div class="result_title">
+                <h3>全部分类</h3>
+            </div>
+            <!--快捷导航 开始-->
+            <div class="result_content">
+                <div class="short_wrap">
+                    <a href="{{url('admin/category/create')}}"><i class="fa fa-plus"></i>添加分类</a>
+                    <a href="{{url('admin/category')}}"><i class="fa fa-recycle"></i>全部分类</a>
+                    {{--<a href="#"><i class="fa fa-refresh"></i>更新排序</a>--}}
+                </div>
+            </div>
+            <!--快捷导航 结束-->
+        </div>
+
+        <div class="result_wrap">
             <div class="result_content">
                 <table class="list_tab">
                     <tr>
+                        {{--<th class="tc" width="5%"><input type="checkbox" name=""></th>--}}
                         <th class="tc">排序</th>
                         <th class="tc">ID</th>
-                        <th>订单号</th>
-                        <th>客户名称</th>
-                        <th>单据类型</th>
-                        <th>订单日期</th>
-                        <th>收货地址</th>
-                        <th>收货人</th>
-                        <th>收货人电话</th>
-                        <th>订单状态</th>
-                        <th>押金</th>
-                        <th>租金</th>
-                        <th>总金额</th>
-                        <th>付款金额</th>
-                        <th>付款状态</th>
-                        <th>押金处理状态</th>
-                        <th>备注</th>
-                        <th>创建时间</th>
-                        <th>执行人</th>
-                        <th>执行时间</th>
+                       {{-- <th>分类</th>--}}
+                        <th>分类名称</th>
+                        <th>标题</th>
+                        <th>查看次数</th>
+                        {{--<th>更新时间</th>
+                        <th>评论</th>--}}
+                        <th>操作</th>
                     </tr>
                     @foreach($data as $v)
                     <tr>
