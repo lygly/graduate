@@ -1,0 +1,118 @@
+@extends('layouts.admin')
+@section('content')
+    <!--面包屑导航 开始-->
+    <div class="crumb_warp">
+        <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
+        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a>  &raquo; 订单管理 &raquo; 客户订单
+    </div>
+    <!--面包屑导航 结束-->
+
+	{{--<!--结果页快捷搜索框 开始-->
+	<div class="search_wrap">
+        <form action="" method="post">
+            <table class="search_tab">
+                <tr>
+                    <th width="120">选择分类:</th>
+                    <td>
+                        <select onchange="javascript:location.href=this.value;">
+                            <option value="">全部</option>
+                            <option value="http://www.baidu.com">百度</option>
+                            <option value="http://www.sina.com">新浪</option>
+                        </select>
+                    </td>
+                    <th width="70">关键字:</th>
+                    <td><input type="text" name="keywords" placeholder="关键字"></td>
+                    <td><input type="submit" name="sub" value="查询"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <!--结果页快捷搜索框 结束-->--}}
+
+    <!--搜索结果页面 列表 开始-->
+    <form action="#" method="post">
+        <div class="result_wrap">
+            <div class="result_content">
+                <table class="list_tab">
+                    <tr>
+                        <th class="tc">排序</th>
+                        <th class="tc">ID</th>
+                        <th>订单号</th>
+                        <th>客户名称</th>
+                        <th>单据类型</th>
+                        <th>订单日期</th>
+                        <th>收货地址</th>
+                        <th>收货人</th>
+                        <th>收货人电话</th>
+                        <th>订单状态</th>
+                        <th>押金</th>
+                        <th>租金</th>
+                        <th>总金额</th>
+                        <th>付款金额</th>
+                        <th>付款状态</th>
+                        <th>押金处理状态</th>
+                        <th>备注</th>
+                        <th>创建时间</th>
+                        <th>执行人</th>
+                        <th>执行时间</th>
+                    </tr>
+                    @foreach($data as $v)
+                    <tr>
+                        {{--<td class="tc"><input type="checkbox" name="id[]" value="59"></td>--}}
+                        <td class="tc" width="5%">
+                            <input type="text" onchange="changeOrder(this,'{{$v->cate_id}}')" name="ord[]" value="{{$v->cate_order}}">
+                        </td>
+                        <td class="tc" width="5%">{{$v->cate_id}}</td>
+                        <td>
+                            <a href="#">{{$v->_cate_name}}</a>
+                        </td>
+                        <td>{{$v->cate_title}}</td>
+                        <td>{{$v->cate_view}}</td>
+                        {{--<td>admin</td>
+                        <td>2014-03-15 21:11:01</td>
+                        <td></td>--}}
+                        <td>
+                            <a href="{{url('admin/category/'.$v->cate_id.'/edit')}}">修改</a>
+                            <a href="javascript:;"onclick="delCate({{$v->cate_id}})">删除</a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </table>
+            </div>
+        </div>
+    </form>
+    <!--搜索结果页面 列表 结束-->
+    <script>
+        //更改排序
+        function changeOrder(obj,cate_id) {
+            var cate_order = $(obj).val();
+            $.post("{{url('admin/cate/changeOrder')}}",{'_token':'{{csrf_token()}}','cate_id':cate_id,'cate_order':cate_order},function(data){
+              if(data.status == 0){
+                  layer.msg(data.msg, {icon: 6});
+              }else{
+                  layer.msg(data.msg, {icon: 5});
+              }
+            });
+        }
+        //删除分类
+        function delCate(cate_id) {
+            layer.confirm('您确认要删除这个分类吗？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+             $.post('{{url('admin/category/')}}'+'/'+cate_id,{'_method':'delete','_token':'{{csrf_token()}}'},function (data) {
+               if(data.status == 0){
+                   layer.msg(data.msg, {icon: 6});
+                   location.href = location.href;
+               }else{
+                   layer.msg(data.msg, {icon: 5});
+               }
+             });
+            }, function(){
+
+            });
+        }
+
+    </script>
+
+
+@endsection
