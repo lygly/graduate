@@ -91,8 +91,13 @@
                         <th><i class="require">*</i>是否系统配置：</th>
                         <td>
                             <select name="isBasic" id="">
-                                <option value="0">不是系统配置</option>
+                                @if($field->isBasic==0)
+                                <option value="{{$field->isBasic}}" checked>不是系统配置</option>
                                 <option value="1">是系统配置</option>
+                                    @else
+                                    <option value="{{$field->isBasic}}" checked>是系统配置</option>
+                                    <option value="0">不是系统配置</option>
+                                @endif
                             </select>
                             <span><i class="fa fa-exclamation-circle yellow"></i>必须填写</span>
                         </td>

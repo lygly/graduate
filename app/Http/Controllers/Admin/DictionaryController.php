@@ -15,6 +15,24 @@ class DictionaryController extends CommonController
         $categorys = (new Dictionary)->tree();  //实例化类 并指向tree方法
         return view('admin.dictionary.index')->with('data',$categorys);
     }
+    public function changeOrder(){
+        $input = Input::get();
+        $cate = Dictionary::find($input['id']);
+        $cate->sort = $input['sort'];
+        $re = $cate->update();
+        if ($re){
+            $data = [
+                'status'=>0,
+                'msg'=>'分类排序更新成功！'
+            ];
+        }else{
+            $data = [
+                'status'=>1,
+                'msg'=>'分类排序更新失败，请稍后重试S！'
+            ];
+        }
+        return $data;
+    }
     //get admin/category/create  添加分类
     public function create(){
         $data = Dictionary::where('pId',0)->get();
@@ -57,14 +75,6 @@ class DictionaryController extends CommonController
     //put admin/category/{category}   更新分类
     public function update($id){
         $input = Input::except('_token','_method');
-        dd($input);
-        /* "pId" => "1"
-  "names" => "多提建议"
-  "leavels" => "2"
-  "isDel" => "0"
-  "isBasic" => "0"
-  "sort" => null
-         * */
         $re = Dictionary::where('id',$id) ->update($input);
         if($re){
             return redirect('admin/dictionary');
@@ -74,7 +84,20 @@ class DictionaryController extends CommonController
     }
     //delete admin/category/{category}  删除单个分类
     public function destroy($id){
-
+        $re = Dictionary::where('id',$id)->delete();
+        Dictionary::where('pId',$id)->update(['pId'=>0]); //如果删除的是顶级分类 则把他下面所有的子分类都变成顶级分类
+        if ($re){
+            $data = [
+                'status'=>0,
+                'msg'=>'分类删除成功！'
+            ];
+        }else{
+            $data = [
+                'status'=>1,
+                'msg'=>'分类删除失败，请稍后重试S！'
+            ];
+        }
+        return $data;
     }
     //get admin/category/{category}   显示单个分类信息
     public function show(){
