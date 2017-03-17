@@ -3,14 +3,14 @@
     <!--面包屑导航 开始-->
     <div class="crumb_warp">
         <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
-        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a>   &raquo; 基础配置 &raquo; 题库
+        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a>   &raquo; 基础配置 &raquo; 客户信息
     </div>
     <!--面包屑导航 结束-->
 
 	<!--结果集标题与导航组件 开始-->
 	<div class="result_wrap">
         <div class="result_title">
-            <h3>添加问答</h3>
+            <h3>添加客户信息</h3>
             @if(count($errors)>0)
                 <div class="mark">
                     @if(is_object($errors))   {{--如果错误信息是新密码验证错误--}}
@@ -25,8 +25,8 @@
         </div>
         <div class="result_content">
             <div class="short_wrap">
-                <a href="{{url('admin/repository')}}"><i class="fa fa-reorder"></i>全部问答</a>
-                <a href="{{url('admin/repository/create')}}"><i class="fa fa-recycle"></i>刷新</a>
+                <a href="{{url('admin/customer')}}"><i class="fa fa-reorder"></i>全部客户信息</a>
+                <a href="{{url('admin/customer/create')}}"><i class="fa fa-recycle"></i>刷新</a>
                 {{--<a href="#"><i class="fa fa-refresh"></i>更新排序</a>--}}
             </div>
         </div>
@@ -34,7 +34,7 @@
     <!--结果集标题与导航组件 结束-->
     
     <div class="result_wrap">
-        <form action="{{url('admin/repository')}}" method="post">
+        <form action="{{url('admin/customer')}}" method="post">
             {{csrf_field()}}
             <table class="add_tab">
                 <tbody>
@@ -42,8 +42,7 @@
                         <th width="120"><i class="require">*</i>类别：</th>
                         <td>
                             <select name="typeId">
-                                {{--列出父级分类--}}
-                                @foreach($data as $d)
+                                {{--列出父级客户信息--}}
                                 <option value="{{$d->id}}">{{$d->_names}}</option>
                                 @endforeach
                             </select>
@@ -74,19 +73,4 @@
             </table>
         </form>
     </div>
-    <script>
-       $(function(){
-         var submit = $(":submit");//提交按钮
-         submit.click(function(){
-             //为leavels赋值
-             var dataPId = $('select option:selected').val();
-             var Leavels =$('#leavels');
-             if(dataPId==0){
-                 Leavels.val(1);
-             }else{
-                 Leavels.val(2);
-             }
-         });
-       });
-    </script>
 @endsection

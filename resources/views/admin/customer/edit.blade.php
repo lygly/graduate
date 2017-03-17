@@ -3,14 +3,14 @@
     <!--面包屑导航 开始-->
     <div class="crumb_warp">
         <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
-        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a>   &raquo; 基础配置 &raquo; 题库
+        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a>   &raquo; 基础配置 &raquo; 客户信息
     </div>
     <!--面包屑导航 结束-->
 
 	<!--结果集标题与导航组件 开始-->
 	<div class="result_wrap">
         <div class="result_title">
-            <h3>修改问答</h3>
+            <h3>修改分类</h3>
             @if(count($errors)>0)
                 <div class="mark">
                     @if(is_object($errors))   {{--如果错误信息是新密码验证错误--}}
@@ -43,7 +43,7 @@
                     <th width="120"><i class="require">*</i>类别：</th>
                     <td>
                         <select name="typeId">
-                            {{--列出父级问答--}}
+                            {{--列出父级分类--}}
                             @foreach($data as $d)
                                 <option value="{{$d->id}}"
                                 @if($field->typeId == $d->id)

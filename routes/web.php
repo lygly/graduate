@@ -38,6 +38,8 @@ Route::group(['middleware'=>'admin.login','prefix'=>'admin','namespace'=>'Admin'
     Route::resource('dictionary', 'DictionaryController'); //分类管理资源路由
 
     Route::resource('repository', 'RepositoryController'); //分类管理资源路由
+    //个人中心
+    Route::resource('customer', 'CustomerController'); //客户信息资源路由
 
    /* Route::post('cate/changeOrder','CategoryController@changeOrder'); //异步修改排序路由
     Route::resource('category', 'CategoryController'); //分类管理资源路由
