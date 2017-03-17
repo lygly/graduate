@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Model\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends CommonController
 {
@@ -15,22 +17,22 @@ class CustomerController extends CommonController
     }
     //get admin/customer/create  添加用户信息
     public function create(){
-        $data = (new Dictionary)->question();  //实例化类 并指向question方法
-        return view('admin.customer.add',compact('data'));
+       // $data = (new Dictionary)->question();  //实例化类 并指向question方法
+        return view('admin.customer.add');
     }
     //post admin/customer 添加用户信息提交方法
     public function store(){
         $input = Input::except('_token');
+       // dd($input);
+        $input['createPerson'] = 'admin';
         $input['createDate'] = time();//自动添加时候的时间
         //填写规则
         $rules = [
-            'question'=>'required',
-            'answer'=>'required'
+            'name'=>'required',
         ];
         //填写提示信息
         $message = [
-            'question.required'=>'问题不能为空',
-            'answer.required'=>'答案不能为空'
+            'name.required'=>'姓名不能为空'
         ];
         //表单提交验证
         $validator = Validator::make($input,$rules,$message);

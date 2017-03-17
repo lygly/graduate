@@ -37,6 +37,7 @@
                         <th>省</th>
                         <th>城市</th>
                         <th>国家</th>
+                        <th>昵称</th>
                         <th>性别</th>
                         <th>出生日期</th>
                         <th>体重(KG)</th>
@@ -56,7 +57,7 @@
                         <td class="tc">{{$v->name}}</td>
                         <td>{{$v->phone}}</td>
                         <td>{{$v->addr}}</td>
-                        <td class="tc">{{$v->useCard}}</td>
+                        <td class="tc">{{$v->useCode}}</td>
                         <td>{{$v->province}}</td>
                         <td>{{$v->city}}</td>
                         <td class="tc">{{$v->country}}</td>
@@ -65,8 +66,8 @@
                         <td class="tc">{{$v->birthday}}</td>
                         <td>{{$v->weight}}</td>
                         <td>{{$v->height}}</td>
-                        <td>{{$v->intergrate}}</td>
-                        <td>{{$v->usedIntergrate}}</td>
+                        <td>{{$v->integrate}}</td>
+                        <td>{{$v->usedIntegrate}}</td>
                         <td>{{$v->createPerson}}</td>
                         <td>{{date('Y-m-d',$v->createDate)}}</td>
                         <td>

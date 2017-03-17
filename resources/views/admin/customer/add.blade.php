@@ -39,27 +39,75 @@
             <table class="add_tab">
                 <tbody>
                     <tr>
-                        <th width="120"><i class="require">*</i>类别：</th>
+                        <th><i class="require">*</i>姓名：</th>
                         <td>
-                            <select name="typeId">
-                                {{--列出父级客户信息--}}
-                                <option value="{{$d->id}}">{{$d->_names}}</option>
-                                @endforeach
+                            <input type="text" name="name" placeholder="姓名">
+                            <span><i class="fa fa-exclamation-circle yellow"></i>姓名必须填写</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>电话：</th>
+                        <td>
+                            <input  type="text" name="phone" placeholder="电话">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>地址：</th>
+                        <td>
+                            <input  type="text" name="addr" placeholder="地址">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>身份证：</th>
+                        <td>
+                            <input  type="text" name="useCode" placeholder="身份证">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>省：</th>
+                        <td>
+                            <input  type="text" name="province" placeholder="省">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>城市：</th>
+                        <td>
+                            <input  type="text" name="city" placeholder="城市">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>国家：</th>
+                        <td>
+                            <input  type="text" name="country" placeholder="国家">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>性别：</th>
+                        <td>
+                            <select name="gender" id="">
+                                <option value="1">男</option>
+                                <option value="2">女</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <th><i class="require">*</i>问题：</th>
+                        <th>出生日期：</th>
                         <td>
-                            <input  class="lg" type="text" name="question">
-                            <input type="text" name="createPerson" value="admin" hidden>
-                            <span><i class="fa fa-exclamation-circle yellow"></i>问题必须填写</span>
+                            <input  type="text" name="birthday" placeholder="出生日期">
                         </td>
                     </tr>
                     <tr>
-                        <th><i class="require">*</i>答案：</th>
+                        <th>体重：</th>
                         <td>
-                            <textarea  type="text" name="answer"></textarea>
+                            <input  type="text" name="weight" placeholder="体重">
+                            <span><i class="fa fa-exclamation-circle yellow"></i>单位KG</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>身高：</th>
+                        <td>
+                            <input  type="text" name="height" placeholder="身高">
+                            <span><i class="fa fa-exclamation-circle yellow"></i>单位cm</span>
                         </td>
                     </tr>
                     <tr>
@@ -73,4 +121,9 @@
             </table>
         </form>
     </div>
+    <script>
+        $(function () {
+            $(".add_tab input").attr('class','lg');
+        })
+    </script>
 @endsection
