@@ -31,7 +31,7 @@
                         {{--<th class="tc" width="5%"><input type="checkbox" name=""></th>--}}
                         <th class="tc">排序</th>
                         <th class="tc">问题</th>
-                        <th>答案</th>
+                        <th class="tc">答案</th>
                         <th>问题类型</th>
                         <th>创建人</th>
                         <th>创建时间</th>
@@ -44,7 +44,7 @@
                             <span type="text"  name="ord[]">{{$k+1}}</span>
                         </td>
                         <td class="tc">{{$v->question}}</td>
-                        <td>
+                        <td style="width: 700px">
                             {{$v->answer}}
                         </td>
                         <td>{{$v->names}}</td>
@@ -57,6 +57,14 @@
                     </tr>
                     @endforeach
                 </table>
+                <div class="page_list">
+                    {{$data->links()}}
+                    <style>
+                        .result_content ul li span {
+                            padding: 6px 12px;
+                        }
+                    </style>
+                </div>
             </div>
         </div>
     </form>

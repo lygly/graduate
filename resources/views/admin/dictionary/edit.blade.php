@@ -73,12 +73,12 @@
                         <td>
                             <select name="isDel" id="">
                                 @if($field->isDel==1)
-                                <option value="{{$field->isDel}}" checked>可以删除</option>
+                                <option value="{{$field->isDel}}" selected>可以删除</option>
                                 <option value="0">不能删除</option>
                                 @elseif($field->isDel==0&&$field->pId==0)
-                                <option value="{{$field->isDel}}" checked>不能删除</option>
+                                <option value="{{$field->isDel}}" selected>不能删除</option>
                                 @elseif($field->isDel==0)
-                                    <option value="{{$field->isDel}}" checked>不能删除</option>
+                                    <option value="{{$field->isDel}}" selected>不能删除</option>
                                     <option value="1">可以删除</option>
                                 @endif
                             </select>
@@ -92,10 +92,10 @@
                         <td>
                             <select name="isBasic" id="">
                                 @if($field->isBasic==0)
-                                <option value="{{$field->isBasic}}" checked>不是系统配置</option>
+                                <option value="{{$field->isBasic}}" selected>不是系统配置</option>
                                 <option value="1">是系统配置</option>
                                     @else
-                                    <option value="{{$field->isBasic}}" checked>是系统配置</option>
+                                    <option value="{{$field->isBasic}}" selected>是系统配置</option>
                                     <option value="0">不是系统配置</option>
                                 @endif
                             </select>

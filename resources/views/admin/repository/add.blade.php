@@ -43,7 +43,6 @@
                         <td>
                             <select name="typeId">
                                 {{--列出父级分类--}}
-                                @foreach($data as $d)
                                 <option value="{{$d->id}}">{{$d->_names}}</option>
                                 @endforeach
                             </select>

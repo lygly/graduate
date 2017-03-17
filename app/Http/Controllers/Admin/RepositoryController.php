@@ -15,7 +15,8 @@ class RepositoryController extends CommonController
     public function index(){
         $data = Repository::join('sys_dictionary', 'sys_repository.typeId', '=', 'sys_dictionary.id')
             ->select('sys_repository.*', 'sys_dictionary.names')
-            ->get();
+            ->orderBy('createDate','desc')
+            ->paginate(4);
         return view('admin.repository.index',compact('data'));
     }
     //get admin/repository/create  添加问答

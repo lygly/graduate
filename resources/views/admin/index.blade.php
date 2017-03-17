@@ -50,7 +50,7 @@
 			<li>
 				<h3><i class="fa fa-fw fa-wrench"></i>基础配置</h3>
 				<ul class="sub_menu">
-					<li><a href="{{url('admin/Repository')}}" target="main"><i class="fa fa-fw fa-cubes"></i>题库</a></li>
+					<li><a href="{{url('admin/repository')}}" target="main"><i class="fa fa-fw fa-cubes"></i>题库</a></li>
 					<li><a href="{{url('admin/dictionary')}}" target="main"><i class="fa fa-fw  fa-navicon"></i>类型管理</a></li>
 				</ul>
 			</li>
