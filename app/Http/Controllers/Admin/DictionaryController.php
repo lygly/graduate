@@ -50,6 +50,8 @@ class DictionaryController extends CommonController
         //填写提示信息
         $message = [
             'names.required'=>'名称不能为空',
+            'isDel.required'=>'删除不能为空',
+            'isBasic.required'=>'基数不能为空'
         ];
         //表单提交验证
         $validator = Validator::make($input,$rules,$message);

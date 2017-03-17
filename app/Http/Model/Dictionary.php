@@ -17,6 +17,11 @@ class Dictionary extends Model
         $categorys = $this->orderBy('sort','asc')->get();
         return $data = $this->getTree($categorys,'names','id','pId');
     }
+    //问答页面分类
+    public function question(){
+        $question = $this->where('pId',3)->orWhere('id',3)->orderBy('sort','asc')->get();//查出设备问题及其子类
+        return $data = $this->getTree($question,'names','id','pId');
+    }
 
     //树形分类函数
     public function getTree($data,$field_name,$field_id,$field_pid,$pid=0){
