@@ -16,8 +16,8 @@
             <!--快捷导航 开始-->
             <div class="result_content">
                 <div class="short_wrap">
-                    <a href="{{url('admin/category/create')}}"><i class="fa fa-plus"></i>添加分类</a>
-                    <a href="{{url('admin/category')}}"><i class="fa fa-recycle"></i>全部分类</a>
+                    <a href="{{url('admin/dictionary/create')}}"><i class="fa fa-plus"></i>添加分类</a>
+                    <a href="{{url('admin/dictionary')}}"><i class="fa fa-recycle"></i>刷新</a>
                     {{--<a href="#"><i class="fa fa-refresh"></i>更新排序</a>--}}
                 </div>
             </div>
@@ -33,8 +33,8 @@
                         <th class="tc">ID</th>
                        {{-- <th>分类</th>--}}
                         <th>分类名称</th>
-                        <th>标题</th>
-                        <th>查看次数</th>
+                        <th>等级</th>
+                        <th>是否系统配置</th>
                         {{--<th>更新时间</th>
                         <th>评论</th>--}}
                         <th>操作</th>
@@ -43,20 +43,32 @@
                     <tr>
                         {{--<td class="tc"><input type="checkbox" name="id[]" value="59"></td>--}}
                         <td class="tc" width="5%">
-                            <input type="text" onchange="changeOrder(this,'{{$v->cate_id}}')" name="ord[]" value="{{$v->cate_order}}">
+                            <input type="text" onchange="changeOrder(this,'{{$v->id}}')" name="ord[]" value="{{$v->sort}}">
                         </td>
-                        <td class="tc" width="5%">{{$v->cate_id}}</td>
+                        <td class="tc" width="5%">{{$v->id}}</td>
                         <td>
-                            <a href="#">{{$v->_cate_name}}</a>
+                            <a href="#">{{$v->_names}}</a>
                         </td>
-                        <td>{{$v->cate_title}}</td>
-                        <td>{{$v->cate_view}}</td>
+                        @if($v->leavels==1)
+                        <td>一级菜单</td>
+                        @elseif($v->leavels==2)
+                        <td>二级菜单</td>
+                        @else
+                            <td></td>
+                        @endif
+                        @if($v->isBasic==1)
+                        <td>是</td>
+                        @elseif($v->isBasic==0)
+                        <td>否</td>
+                        @endif
                         {{--<td>admin</td>
                         <td>2014-03-15 21:11:01</td>
                         <td></td>--}}
                         <td>
-                            <a href="{{url('admin/category/'.$v->cate_id.'/edit')}}">修改</a>
-                            <a href="javascript:;"onclick="delCate({{$v->cate_id}})">删除</a>
+                            <a href="{{url('admin/dictionary/'.$v->id.'/edit')}}">修改</a>
+                            @if($v->isDel==1)
+                            <a href="javascript:;"onclick="delCate({{$v->id}})">删除</a>
+                            @endif
                         </td>
                     </tr>
                     @endforeach

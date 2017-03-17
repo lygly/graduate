@@ -25,8 +25,8 @@
         </div>
         <div class="result_content">
             <div class="short_wrap">
-                <a href="{{url('admin/category/create')}}"><i class="fa fa-plus"></i>添加分类</a>
-                <a href="{{url('admin/category')}}"><i class="fa fa-recycle"></i>全部分类</a>
+                <a href="{{url('admin/dictionary/create')}}"><i class="fa fa-plus"></i>添加分类</a>
+                <a href="{{url('admin/dictionary')}}"><i class="fa fa-reorder"></i>全部分类</a>
                 {{--<a href="#"><i class="fa fa-refresh"></i>更新排序</a>--}}
             </div>
         </div>
@@ -34,7 +34,7 @@
     <!--结果集标题与导航组件 结束-->
     
     <div class="result_wrap">
-        <form action="{{url('admin/category/'.$field->cate_id)}}" method="post">
+        <form action="{{url('admin/dictionary/'.$field->id)}}" method="post">
             <input type="hidden" name="_method" value="put">  {{--put 方式提交表单--}}
             {{csrf_field()}}
             <table class="add_tab">
@@ -42,49 +42,64 @@
                     <tr>
                         <th width="120"><i class="require">*</i>父级分类：</th>
                         <td>
-                            <select name="cate_pid">
+                            <select name="pId">
                                 <option value="0">==顶级分类==</option>
                                 {{--列出父级分类--}}
                                 @foreach($data as $d)
-                                <option value="{{$d->cate_id}}"
-                                @if($d->cate_id == $field->cate_pid )
+                                <option value="{{$d->id}}"
+                                @if($d->id == $field->pId )
                                     selected
                                     @endif
-                                >{{$d->cate_name}}</option>
+                                >{{$d->names}}</option>
                                 @endforeach
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <th><i class="require">*</i>分类名称：</th>
+                        <th><i class="require">*</i>名称：</th>
                         <td>
-                            <input type="text" name="cate_name" value="{{$field->cate_name}}">
-                            <span><i class="fa fa-exclamation-circle yellow"></i>分类名称必须填写</span>
+                            <input type="text" name="names" value="{{$field->names}}">
+                            <span><i class="fa fa-exclamation-circle yellow"></i>名称必须填写</span>
+                        </td>
+                    </tr>
+                    <tr style="display: none;">
+                        <th><i class="require">*</i>级别：</th>
+                        <td>
+                            <input id="leavels" type="text" name="leavels" value="{{$field->leavels}}">
                         </td>
                     </tr>
                     <tr>
-                        <th>分类标题：</th>
+                        <th><i class="require">*</i>是否可删除：</th>
                         <td>
-                            <input type="text" class="lg" name="cate_title" value="{{$field->cate_title}}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>关键词：</th>
-                        <td>
-                            <textarea name="cate_keywords" data-value="">{{$field->cate_keywords}}</textarea>
+                            <select name="isDel" id="">
+                                @if($field->isDel==1)
+                                <option value="{{$field->isDel}}" checked>可以删除</option>
+                                <option value="0">不能删除</option>
+                                @elseif($field->isDel==0&&$field->pId==0)
+                                <option value="{{$field->isDel}}" checked>不能删除</option>
+                                @elseif($field->isDel==0)
+                                    <option value="{{$field->isDel}}" checked>不能删除</option>
+                                    <option value="1">可以删除</option>
+                                @endif
+                            </select>
+                            <span><i class="fa fa-exclamation-circle yellow"></i>必须填写</span>
                         </td>
                     </tr>
 
 
                     <tr>
-                        <th>描述：</th>
+                        <th><i class="require">*</i>是否系统配置：</th>
                         <td>
-                            <textarea name="cate_description" data-value="">{{$field->cate_discription}}</textarea>
+                            <select name="isBasic" id="">
+                                <option value="0">不是系统配置</option>
+                                <option value="1">是系统配置</option>
+                            </select>
+                            <span><i class="fa fa-exclamation-circle yellow"></i>必须填写</span>
                         </td>
                     <tr>
-                        <th><i class="require">*</i>排序：</th>
+                        <th>排序：</th>
                         <td>
-                            <input type="text" class="sm" name="cate_order" value="{{$field->cate_order}}">
+                            <input type="text" class="sm" name="sort" value="{{$field->sort}}">
                         </td>
                     </tr>
                     <tr>

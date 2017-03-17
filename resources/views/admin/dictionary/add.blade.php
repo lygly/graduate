@@ -25,8 +25,8 @@
         </div>
         <div class="result_content">
             <div class="short_wrap">
-                <a href="{{url('admin/category/create')}}"><i class="fa fa-plus"></i>添加分类</a>
-                <a href="{{url('admin/category')}}"><i class="fa fa-recycle"></i>全部分类</a>
+                <a href="{{url('admin/dictionary')}}"><i class="fa fa-reorder"></i>全部分类</a>
+                <a href="{{url('admin/dictionary/create')}}"><i class="fa fa-recycle"></i>刷新</a>
                 {{--<a href="#"><i class="fa fa-refresh"></i>更新排序</a>--}}
             </div>
         </div>
@@ -34,7 +34,7 @@
     <!--结果集标题与导航组件 结束-->
     
     <div class="result_wrap">
-        <form action="{{url('admin/category')}}" method="post">
+        <form action="{{url('admin/dictionary')}}" method="post">
             {{csrf_field()}}
             <table class="add_tab">
                 <tbody>
@@ -42,7 +42,7 @@
                         <th width="120"><i class="require">*</i>父级分类：</th>
                         <td>
                             <select name="pId">
-                                <option value="0">==顶级分类==</option>
+                                <option  value="0">==顶级分类==</option>
                                 {{--列出父级分类--}}
                                 @foreach($data as $d)
                                 <option value="{{$d->id}}">{{$d->names}}</option>
@@ -53,16 +53,16 @@
                     <tr>
                         <th><i class="require">*</i>名称：</th>
                         <td>
-                            <input type="text" name="cate_name">
+                            <input type="text" name="names">
                             <span><i class="fa fa-exclamation-circle yellow"></i>名称必须填写</span>
                         </td>
                     </tr>
-                   {{-- <tr>
-                        <th>分类标题：</th>
+                    <tr style="display: none;">
+                        <th><i class="require">*</i>级别：</th>
                         <td>
-                            <input type="text" class="lg" name="cate_title">
+                            <input id="leavels" type="text" name="leavels">
                         </td>
-                    </tr>--}}
+                    </tr>
                     <tr>
                         <th><i class="require">*</i>是否可删除：</th>
                         <td>
@@ -79,8 +79,8 @@
                         <th><i class="require">*</i>是否系统配置：</th>
                         <td>
                             <select name="isBasic" id="">
-                                <option value="1">是系统配置</option>
                                 <option value="0">不是系统配置</option>
+                                <option value="1">是系统配置</option>
                             </select>
                             <span><i class="fa fa-exclamation-circle yellow"></i>必须填写</span>
                         </td>
@@ -101,5 +101,19 @@
             </table>
         </form>
     </div>
-
+    <script>
+       $(function(){
+         var submit = $(":submit");//提交按钮
+         submit.click(function(){
+             //为leavels赋值
+             var dataPId = $('select option:selected').val();
+             var Leavels =$('#leavels');
+             if(dataPId==0){
+                 Leavels.val(1);
+             }else{
+                 Leavels.val(2);
+             }
+         });
+       });
+    </script>
 @endsection

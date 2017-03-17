@@ -34,7 +34,7 @@ Route::group(['middleware'=>'admin.login','prefix'=>'admin','namespace'=>'Admin'
     //订单管理
     Route::any('order','OrderController@index');
     //类型管理
-    Route::resource('dictionnary', 'DictionnaryController'); //分类管理资源路由
+    Route::resource('dictionary', 'DictionaryController'); //分类管理资源路由
 
    /* Route::post('cate/changeOrder','CategoryController@changeOrder'); //异步修改排序路由
     Route::resource('category', 'CategoryController'); //分类管理资源路由
