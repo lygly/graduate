@@ -37,11 +37,15 @@ Route::group(['middleware'=>'admin.login','prefix'=>'admin','namespace'=>'Admin'
     Route::post('dictionary/changeOrder','DictionaryController@changeOrder'); //异步修改排序路由
     Route::resource('dictionary', 'DictionaryController'); //分类管理资源路由
 
-    Route::resource('repository', 'RepositoryController'); //分类管理资源路由
+    Route::resource('repository', 'RepositoryController'); //题库资源路由
     //个人中心
     Route::resource('customer', 'CustomerController'); //客户信息资源路由
     Route::resource('about', 'AboutController'); //关于我们资源路由
     Route::resource('suggestion', 'SuggestionController'); //意见反馈资源路由
+
+    //商品管理
+    Route::resource('productSpec', 'ProductSpecController'); //规格定义资源路由
+
 
 
     /* Route::post('cate/changeOrder','CategoryController@changeOrder'); //异步修改排序路由

@@ -49,7 +49,7 @@
                                 @if($field->typeId == $d->id)
                                         selected
                                  @endif
-                                >{{$d->_names}}</option>
+                                >{{$d->names}}</option>
 
                             @endforeach
                         </select>

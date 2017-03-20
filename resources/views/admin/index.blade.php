@@ -31,7 +31,7 @@
             <li>
             	<h3><i class="fa fa-fw fa-list-ul"></i>商品管理</h3>
                 <ul class="sub_menu">
-					<li><a href="{{url('admin/category/create')}}" target="main"><i class="fa fa-fw fa-share-alt-square"></i>规格定义</a></li>
+					<li><a href="{{url('admin/productSpec')}}" target="main"><i class="fa fa-fw fa-share-alt-square"></i>规格定义</a></li>
 					<li><a href="{{url('admin/category')}}" target="main"><i class="fa fa-fw fa-reorder"></i>商品管理</a></li>
 					<li><a href="{{url('admin/article/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>添加商品</a></li>
                 </ul>
