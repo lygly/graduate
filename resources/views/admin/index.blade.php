@@ -43,7 +43,7 @@
 					<li><a href="{{url('admin/category')}}" target="main"><i class="fa fa-fw fa-qrcode"></i>积分详情</a></li>
 					<li><a href="{{url('admin/article/create')}}" target="main"><i class="fa fa-fw fa-refresh"></i>积分兑换表</a></li>
 					<li><a href="{{url('admin/customer')}}" target="main"><i class="fa fa-fw  fa-user"></i>个人信息</a></li>
-					<li><a href="{{url('admin/article/create')}}" target="main"><i class="fa fa-fw  fa-users"></i>关于我们</a></li>
+					<li><a href="{{url('admin/about')}}" target="main"><i class="fa fa-fw  fa-users"></i>关于我们</a></li>
 					<li><a href="{{url('admin/article/create')}}" target="main"><i class="fa fa-fw fa-pencil"></i>意见反馈</a></li>
 				</ul>
 			</li>
