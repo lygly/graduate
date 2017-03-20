@@ -93,7 +93,7 @@
                     <tr>
                         <th>出生日期：</th>
                         <td>
-                            <input  type="text" name="birthday" placeholder="出生日期">
+                            <input  type="text" class="wicon mr25 "  name="birthday" style="width: 200px" id="birthday" placeholder="出生日期" readonly>
                         </td>
                     </tr>
                     <tr>
@@ -121,9 +121,29 @@
             </table>
         </form>
     </div>
+    <style>
+        .mr25{margin-right:25px;}
+        .wicon{background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAQCAYAAADj5tSrAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwNi8xNS8xNGnF/oAAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAAAoElEQVQ4jWPceOnNfwYqAz9dYRQ+E7UtwAaGjyUsDAyYYUgJ2HT5LXZLcEmSCnA6duOlN///////H0bDALl8dPH/////Z8FuNW6Qtvw2nL3lyjsGBgYGhlmRqnj1kGwJuqHIlhJlCXq8EOITEsdqCXLEbbr8FisfFkTo+vBZRFZwERNEFFkCiw90nxJtCalxQmzegltCzVyP1RJq5HZ8AABuNZr0628DMwAAAABJRU5ErkJggg=="); background-repeat:no-repeat; background-position:right center;}
+    </style>
     <script>
+        jeDate({
+            dateCell:"#birthday",//isinitVal:true,
+            format:"YYYY-MM-DD",
+            isTime:false, //isClear:false,
+            isinitVal:true//是否初始化日期
+            // minDate:"2015-10-19 00:00:00",
+            //maxDate:$.nowDate(0)
+        });
         $(function () {
-            $(".add_tab input").attr('class','lg');
+            $(".add_tab input").not(".back").not(":submit").addClass('lg');
+           /* jeDate({
+                dateCell:"#birthday",//isinitVal:true,
+                format:"YYYY-MM-DD",
+                isTime:false, //isClear:false,
+               // isinitVal:true//是否初始化日期
+               // minDate:"2015-10-19 00:00:00",
+                //maxDate:$.nowDate(0)
+            });*/
         })
     </script>
 @endsection

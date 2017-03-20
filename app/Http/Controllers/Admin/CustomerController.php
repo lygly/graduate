@@ -51,13 +51,14 @@ class CustomerController extends CommonController
     }
     //get admin/customer/{customer}/edit   编辑用户信息
     public function edit($id){
-        $data = (new Dictionary)->question();  //实例化类 并指向question方法
+       // $data = (new Dictionary)->question();  //实例化类 并指向question方法
         $field = Customer::find($id);
-        return view('admin.customer.edit',compact('data','field'));
+        return view('admin.customer.edit',compact('field'));
     }
     //put admin/customer/{customer}   更新用户信息
     public function update($id){
         $input = Input::except('_token','_method');
+       // dd($input);
         $re = Customer::where('id',$id) ->update($input);
         if($re){
             return redirect('admin/customer');

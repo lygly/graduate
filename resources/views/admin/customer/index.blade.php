@@ -32,20 +32,20 @@
                         <th class="tc">排序</th>
                         <th class="tc">姓名</th>
                         <th class="tc">电话</th>
-                        <th>地址</th>
-                        <th>身份证</th>
-                        <th>省</th>
-                        <th>城市</th>
-                        <th>国家</th>
-                        <th>昵称</th>
-                        <th>性别</th>
-                        <th>出生日期</th>
-                        <th>体重(KG)</th>
-                        <th>身高(cm)</th>
-                        <th>积分</th>
-                        <th>剩余积分</th>
-                        <th>创建人</th>
-                        <th>创建时间</th>
+                        <th class="tc">地址</th>
+                        <th class="tc">身份证</th>
+                        <th class="tc">省</th>
+                        <th class="tc">城市</th>
+                        <th class="tc">国家</th>
+                        <th class="tc">昵称</th>
+                        <th class="tc">性别</th>
+                        <th class="tc">出生日期</th>
+                        <th class="tc">体重(KG)</th>
+                        <th class="tc">身高(cm)</th>
+                        <th class="tc">积分</th>
+                        <th class="tc">剩余积分</th>
+                        <th class="tc">创建人</th>
+                        <th class="tc">创建时间</th>
                         <th>操作</th>
                     </tr>
                     @foreach($data as $k=> $v)
@@ -55,21 +55,27 @@
                             <span type="text"  name="ord[]">{{$k+1}}</span>
                         </td>
                         <td class="tc">{{$v->name}}</td>
-                        <td>{{$v->phone}}</td>
-                        <td>{{$v->addr}}</td>
+                        <td class="tc">{{$v->phone}}</td>
+                        <td class="tc">{{$v->addr}}</td>
                         <td class="tc">{{$v->useCode}}</td>
-                        <td>{{$v->province}}</td>
-                        <td>{{$v->city}}</td>
+                        <td class="tc">{{$v->province}}</td>
+                        <td class="tc">{{$v->city}}</td>
                         <td class="tc">{{$v->country}}</td>
-                        <td>{{$v->nickName}}</td>
-                        <td>{{$v->gender}}</td>
+                        <td class="tc">{{$v->nickName}}</td>
+                        <td class="tc">
+                            @if($v->gender==1)
+                                男
+                            @else
+                                女
+                                @endif
+                        </td>
                         <td class="tc">{{$v->birthday}}</td>
-                        <td>{{$v->weight}}</td>
-                        <td>{{$v->height}}</td>
-                        <td>{{$v->integrate}}</td>
-                        <td>{{$v->usedIntegrate}}</td>
-                        <td>{{$v->createPerson}}</td>
-                        <td>{{date('Y-m-d',$v->createDate)}}</td>
+                        <td class="tc">{{$v->weight}}</td>
+                        <td class="tc">{{$v->height}}</td>
+                        <td class="tc">{{$v->integrate}}</td>
+                        <td class="tc">{{$v->usedIntegrate}}</td>
+                        <td class="tc">{{$v->createPerson}}</td>
+                        <td class="tc">{{date('Y-m-d',$v->createDate)}}</td>
                         <td>
                             <a href="{{url('admin/customer/'.$v->id.'/edit')}}">修改</a>
                             <a href="javascript:;"onclick="delCate({{$v->id}})">删除</a>
