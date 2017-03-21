@@ -40,4 +40,11 @@ class Dictionary extends Model
         };
         return $arr;
     }
+    /*
+     *
+     *
+    public function BelongsToProperty()
+    {
+        return $this->belongsTo(ProductProperty::class, 'id', 'colorId');
+    }*/
 }
