@@ -9,10 +9,7 @@ class ProductPhotoController extends CommonController
 {
     // get admin/productPhoto   get方式过来的 后面是地址  全部产品图列表
     public function index(){
-        $data = ProductPhoto::join('sys_dictionary','sys_dictionary.id','=','p_productPhoto.productPhotoTypeId')
-            ->leftJoin('p_productPhotodetail','p_productPhotodetail.productPhotoId','=','p_productPhoto.id')
-            ->select('p_productPhoto.*','sys_dictionary.names','p_productPhotodetail.account')
-            ->orderBy('createDate','desc')->paginate(5); //读取数据按ID倒叙显示并且每一页显示5条记录
+        $data = ProductPhoto::orderBy('createDate','desc')->paginate(5); //读取数据按ID倒叙显示并且每一页显示5条记录
         return view('admin.productPhoto.index',compact('data'));
     }
     //get admin/productPhoto/create  添加产品图

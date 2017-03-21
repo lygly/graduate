@@ -40,7 +40,7 @@
             <table class="add_tab">
                 <tbody>
                 <tr>
-                    <th width="120"><i class="require">*</i>分类：</th>
+                    <th width="120"><i class="require">*</i>产品类型：</th>
                     <td>
                         <select name="productTypeId">
                             @foreach($data as $d)
@@ -78,10 +78,10 @@
                         <input class="lg" type="text" name="remark" value="{{$field->remark}}">
                     </td>
                 </tr>
-                <tr>
+             {{--   <tr>
                     <th>缩略图：</th>
                     <td>
-                        {{--上传文件插件--}}
+                        --}}{{--上传文件插件--}}{{--
                         <input type="text" size="50" name="pic">
                         <input id="file_upload" name="file_upload" type="file" multiple="true">
                         <script src="{{asset('app/org/uploadify/jquery.uploadify.min.js')}}" type="text/javascript"></script>
@@ -110,7 +110,7 @@
                             table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
                         </style>
                     </td>
-                </tr>
+                </tr>--}}
                 <tr>
                     <th></th>
                     <td>

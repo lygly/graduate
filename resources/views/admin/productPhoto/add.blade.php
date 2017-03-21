@@ -3,7 +3,7 @@
     <!--面包屑导航 开始-->
     <div class="crumb_warp">
         <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
-        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a>   &raquo; 商品管理 &raquo; 商品清单
+        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a>   &raquo; 商品管理 &raquo; 商品图
     </div>
     <!--面包屑导航 结束-->
 
@@ -25,8 +25,8 @@
         </div>
         <div class="result_content">
             <div class="short_wrap">
-                <a href="{{url('admin/productDetail/create')}}"><i class="fa fa-recycle"></i>刷新</a>
-                <a href="{{url('admin/productDetail/'.session('productId'))}}"><i class="fa fa-arrow-left"></i>返回</a>
+                <a href="{{url('admin/productPhoto/create')}}"><i class="fa fa-recycle"></i>刷新</a>
+                <a href="{{url('admin/productPhoto/'.session('productId'))}}"><i class="fa fa-arrow-left"></i>返回</a>
                 {{--<a href="#"><i class="fa fa-refresh"></i>更新排序</a>--}}
             </div>
         </div>
@@ -34,62 +34,47 @@
     <!--结果集标题与导航组件 结束-->
     
     <div class="result_wrap">
-        <form action="{{url('admin/productDetail')}}" method="post">
+        <form action="{{url('admin/productPhoto')}}" method="post">
             {{csrf_field()}}
             <table class="add_tab">
                 <tbody>
                 <tr>
-                    <th><i class="require">*</i>批次号</th>
+                    <th>缩略图：</th>
                     <td>
-                        <input type="text" name="batchNo" placeholder="批次号">
-                        <span><i class="fa fa-exclamation-circle yellow"></i>批次号必须填写</span>
+                        {{--上传文件插件--}}
+                        <input type="text" size="50" name="pic">
+                        <input id="file_upload" name="file_upload" type="file" multiple="true">
+                        <script src="{{asset('app/org/uploadify/jquery.uploadify.min.js')}}" type="text/javascript"></script>
+                        <link rel="stylesheet" type="text/css" href="{{asset('app/org/uploadify/uploadify.css')}}">
+                        <script type="text/javascript">
+                            <?php $timestamp = time();?>
+                            $(function() {
+                                $('#file_upload').uploadify({
+                                    'buttonText' : '选择图片',
+                                    'formData'     : {
+                                        'timestamp' : '<?php echo $timestamp;?>',
+                                        '_token'     : "{{csrf_token()}}"
+                                    },
+                                    'swf'      : "{{asset('app/org/uploadify/uploadify.swf')}}",
+                                    'uploader' : "{{url('admin/upload')}}",
+                                    'onUploadSuccess' : function(file, data, response) {
+                                        $('input[name = pic]').val(data);
+                                        $('#art_thumb_img').attr('src','/'+data);
+                                    }
+                                });
+                            });
+                        </script>
+                        <style>
+                            .uploadify{display:inline-block;}
+                            .uploadify-button{border:none; border-radius:5px; margin-top:8px;}
+                            table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
+                        </style>
                     </td>
                 </tr>
                 <tr>
-                    <th width="120"><i class="require">*</i>产品属性：</th>
+                    <th></th>
                     <td>
-                        <select name="propertyId">
-                            <option value="">==选择规格属性==</option>
-                            @foreach($data as $d)
-                                <option value="{{$d->id}}">{{$d->spec.'--'.$d->names.'--'.$d->unitPrice}}</option>
-                            @endforeach
-                        </select>
-                        <span><i class="fa fa-exclamation-circle yellow"></i>依次为：规格--颜色--单价</span>
-                    </td>
-                </tr>
-                <tr>
-                    <th width="120">数量：</th>
-                    <td>
-                        <input type="text" name="account" placeholder="数量">
-                    </td>
-                </tr>
-                <tr>
-                    <th width="120">状态：</th>
-                    <td>
-                        <select name="status" id="">
-                            <option value="01">正常</option>
-                            <option value="04">已下架</option>
-                            <option value="06">已报废</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th>生产日期：</th>
-                    <td>
-                        <input type="text" name="startDate" id="startDate" placeholder="生产日期" class="mr25 wicon" >
-                        <input type="hidden" name="productId" value="{{session('productId')}}">
-                    </td>
-                </tr>
-                <tr>
-                    <th>有效期（月）：</th>
-                    <td>
-                        <input type="text" name="Validity"  placeholder="有效期">
-                    </td>
-                </tr>
-                <tr>
-                    <th>到期日期：</th>
-                    <td>
-                        <input type="text" name="endDate" id="endDate" placeholder="到期日期" class="mr25 wicon" >
+                        <img src="" alt="" id="art_thumb_img" style="max-width: 350px;max-height: 100px;">
                     </td>
                 </tr>
                     <tr>
@@ -103,45 +88,8 @@
             </table>
         </form>
     </div>
-    <style>
-        .mr25{margin-right:25px; width: 268px;}
-        .wicon{background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAQCAYAAADj5tSrAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwNi8xNS8xNGnF/oAAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAAAoElEQVQ4jWPceOnNfwYqAz9dYRQ+E7UtwAaGjyUsDAyYYUgJ2HT5LXZLcEmSCnA6duOlN///////H0bDALl8dPH/////Z8FuNW6Qtvw2nL3lyjsGBgYGhlmRqnj1kGwJuqHIlhJlCXq8EOITEsdqCXLEbbr8FisfFkTo+vBZRFZwERNEFFkCiw90nxJtCalxQmzegltCzVyP1RJq5HZ8AABuNZr0628DMwAAAABJRU5ErkJggg=="); background-repeat:no-repeat; background-position:right center;}
-    </style>
     <script>
-        //产品单价只能为数字
-        function num(obj){
-            obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
-            obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字
-            obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个, 清除多余的
-            obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
-            obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
-        }
-//上下架状态改变
-        function change(v){
-            var myDate = new Date();
-            var year=myDate.getFullYear(); //获取当前年
-            var month=myDate.getMonth()+1; //获取当前月
-            var date=myDate.getDate();  //获取当前日
-            var now = year + '-'+ month +'-' + date ;//当前年月日
-            if(v.checked){
-                $("#marketDate").val(now);
-            }else{
-                $("#marketDate").attr("readonly", "readonly").val("");
-            }
-
-        }
-
-        jeDate({
-            dateCell:"#startDate",//isinitVal:true,
-            format:"YYYY-MM-DD",
-            isTime:false, //isClear:false,
-        });
-        jeDate({
-            dateCell:"#endDate",//isinitVal:true,
-            format:"YYYY-MM-DD",
-            isTime:false, //isClear:false,
-        });
-        $(function () {
+              $(function () {
 
         })
     </script>
