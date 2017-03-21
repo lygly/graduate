@@ -14,12 +14,12 @@ class ProductPropertyController extends CommonController
 {
     // get admin/productProperty   get方式过来的 后面是地址  全部商品属性列表
     public function index(){
-        $data = ProductProperty::join('sys_dictionary','sys_dictionary.id','p_productproperty.colorId')
+       /* $data = ProductProperty::join('sys_dictionary','sys_dictionary.id','p_productproperty.colorId')
             ->join('p_productspec','p_productspec.id','p_productproperty.specId')
             ->select('p_productproperty.*','sys_dictionary.names','p_productspec.spec')
             ->orderBy('marketDate','desc')
             ->paginate(5); //读取数据按ID倒叙显示并且每一页显示5条记录
-        return view('admin.productProperty.index',compact('data'));
+        return view('admin.productProperty.index',compact('data'));*/
     }
     //get admin/productProperty/create  添加商品属性
     public function create(){
@@ -31,8 +31,7 @@ class ProductPropertyController extends CommonController
     public function store(){
         $input = Input::except('_token','PHPSESSID');
         $input['marketDate']=strtotime($input['marketDate']);
-       // dd($input);
-       // $input['art_time'] = time();//自动添加商品属性添加时候的时间
+        $productId = $input['productId'];
         //填写规则
         $rules = [
             'specId'=>'required',
@@ -49,7 +48,7 @@ class ProductPropertyController extends CommonController
         if ($validator->passes()){
             $re = ProductProperty::create($input);
             if ($re){
-                return redirect('admin/productProperty');  //返回到商品属性列表页面
+                return redirect('admin/productProperty/'.$productId);  //返回到商品属性列表页面
             }else{
                 return back()->with('errors','数据更新失败，请稍后重试！');
             }
@@ -71,9 +70,10 @@ class ProductPropertyController extends CommonController
         $input['marketDate']=strtotime($input['marketDate']);
         $input['outMarketDate']=strtotime($input['outMarketDate']);
         //dd($input);
+        $productId = $input['productId'];
         $re = ProductProperty::where('id',$id) ->update($input);
         if($re){
-            return redirect('admin/productProperty');
+            return redirect('admin/productProperty/'.$productId);
         }else{
             return back()->with('errors','商品属性更新失败，请稍后重试！');
         }
@@ -96,8 +96,16 @@ class ProductPropertyController extends CommonController
         return $data;
 
     }
-    //get admin/category/{category}   显示单个分类信息
-    public function show(){
-
+    //get admin/productProperty/{productProperty}   显示单个分类信息
+    public function show($id){
+        $data = ProductProperty::join('sys_dictionary','sys_dictionary.id','p_productproperty.colorId')
+            ->join('p_productspec','p_productspec.id','p_productproperty.specId')
+            ->where('productId',$id)
+            ->select('p_productproperty.*','sys_dictionary.names','p_productspec.spec')
+            ->orderBy('marketDate','desc')
+            ->paginate(5); //读取数据按ID倒叙显示并且每一页显示5条记录
+        session(['productId'=>$id]); //商品ID
+        //dd(session('productId'));
+        return view('admin.productProperty.index',compact('data'));
     }
 }

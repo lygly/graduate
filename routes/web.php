@@ -47,6 +47,7 @@ Route::group(['middleware'=>'admin.login','prefix'=>'admin','namespace'=>'Admin'
     Route::resource('productSpec', 'ProductSpecController'); //规格定义资源路由
     Route::resource('product', 'ProductController'); //商品管理资源路由
     Route::resource('productProperty', 'ProductPropertyController'); //商品属性资源路由
+    Route::resource('productDetail', 'ProductDetailController');//商品清单
 
 
 

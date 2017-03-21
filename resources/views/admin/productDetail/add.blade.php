@@ -3,7 +3,7 @@
     <!--面包屑导航 开始-->
     <div class="crumb_warp">
         <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
-        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a>   &raquo; 商品管理 &raquo; 商品属性
+        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a>   &raquo; 商品管理 &raquo; 商品清单
     </div>
     <!--面包屑导航 结束-->
 
@@ -25,8 +25,8 @@
         </div>
         <div class="result_content">
             <div class="short_wrap">
-                <a href="{{url('admin/productProperty/create')}}"><i class="fa fa-recycle"></i>刷新</a>
-                <a href="{{url('admin/productProperty/'.session('productId'))}}"><i class="fa fa-arrow-left"></i>返回</a>
+                <a href="{{url('admin/productDetail/create')}}"><i class="fa fa-recycle"></i>刷新</a>
+                <a href="{{url('admin/productDetail/'.session('productId'))}}"><i class="fa fa-arrow-left"></i>返回</a>
                 {{--<a href="#"><i class="fa fa-refresh"></i>更新排序</a>--}}
             </div>
         </div>
@@ -34,51 +34,62 @@
     <!--结果集标题与导航组件 结束-->
     
     <div class="result_wrap">
-        <form action="{{url('admin/productProperty')}}" method="post">
+        <form action="{{url('admin/productDetail')}}" method="post">
             {{csrf_field()}}
             <table class="add_tab">
                 <tbody>
                 <tr>
-                    <th width="120"><i class="require">*</i>规格：</th>
+                    <th><i class="require">*</i>批次号</th>
                     <td>
-                        <select name="specId">
-                            <option value="">==选择规格==</option>
+                        <input type="text" name="batchNo" placeholder="批次号">
+                        <span><i class="fa fa-exclamation-circle yellow"></i>批次号必须填写</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th width="120"><i class="require">*</i>产品属性：</th>
+                    <td>
+                        <select name="propertyId">
+                            <option value="">==选择规格属性==</option>
                             @foreach($data as $d)
-                                <option value="{{$d->id}}">{{$d->spec}}</option>
+                                <option value="{{$d->id}}">{{$d->spec.'--'.$d->names.'--'.$d->unitPrice}}</option>
                             @endforeach
+                        </select>
+                        <span><i class="fa fa-exclamation-circle yellow"></i>依次为：规格--颜色--单价</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th width="120">数量：</th>
+                    <td>
+                        <input type="text" name="account" placeholder="数量">
+                    </td>
+                </tr>
+                <tr>
+                    <th width="120">状态：</th>
+                    <td>
+                        <select name="status" id="">
+                            <option value="01">正常</option>
+                            <option value="04">已下架</option>
+                            <option value="06">已报废</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th width="120">颜色：</th>
+                    <th>生产日期：</th>
                     <td>
-                        <select name="colorId">
-                            <option value="">==选择颜色==</option>
-                            @foreach($color as $c)
-                                <option value="{{$c->id}}">{{$c->names}}</option>
-                            @endforeach
-                        </select>
-                        <span><i class="fa fa-exclamation-circle yellow"></i>不是必填</span>
-                    </td>
-                </tr>
-                    <tr>
-                        <th><i class="require">*</i>产品单价：</th>
-                        <td>
-                            <input type="text" name="unitPrice" placeholder="产品单价" onkeyup="num(this);">
-                            <span><i class="fa fa-exclamation-circle yellow"></i>单价必须填写数字，可以保留两位小数</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>上架：</th>
-                        <td>
-                            <input type="checkbox" name="isMarket" id="isMarket" onchange="javascript:change(this);">
-                        </td>
-                    </tr>
-                <tr>
-                    <th>上架时间：</th>
-                    <td>
-                        <input type="text" name="marketDate" id="marketDate" placeholder="上架时间" class="mr25 wicon" >
+                        <input type="text" name="startDate" id="startDate" placeholder="生产日期" class="mr25 wicon" >
                         <input type="hidden" name="productId" value="{{session('productId')}}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>有效期（月）：</th>
+                    <td>
+                        <input type="text" name="Validity"  placeholder="有效期">
+                    </td>
+                </tr>
+                <tr>
+                    <th>到期日期：</th>
+                    <td>
+                        <input type="text" name="endDate" id="endDate" placeholder="到期日期" class="mr25 wicon" >
                     </td>
                 </tr>
                     <tr>
@@ -121,12 +132,14 @@
         }
 
         jeDate({
-            dateCell:"#marketDate",//isinitVal:true,
+            dateCell:"#startDate",//isinitVal:true,
             format:"YYYY-MM-DD",
             isTime:false, //isClear:false,
-           // isinitVal:true//是否初始化日期
-            // minDate:"2015-10-19 00:00:00",
-            //maxDate:$.nowDate(0)
+        });
+        jeDate({
+            dateCell:"#endDate",//isinitVal:true,
+            format:"YYYY-MM-DD",
+            isTime:false, //isClear:false,
         });
         $(function () {
 

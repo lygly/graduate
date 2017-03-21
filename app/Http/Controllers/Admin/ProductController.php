@@ -14,7 +14,9 @@ class ProductController extends CommonController
 {
     // get admin/product   get方式过来的 后面是地址  全部商品列表
     public function index(){
-        $data = Product::orderBy('createDate','desc')->paginate(5); //读取数据按ID倒叙显示并且每一页显示5条记录
+        $data = Product::join('sys_dictionary','sys_dictionary.id','p_product.productTypeId')
+            ->select('p_product.*','sys_dictionary.names')
+            ->orderBy('createDate','desc')->paginate(5); //读取数据按ID倒叙显示并且每一页显示5条记录
         return view('admin.product.index',compact('data'));
     }
     //get admin/product/create  添加商品

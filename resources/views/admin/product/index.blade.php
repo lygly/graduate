@@ -64,19 +64,21 @@
                     @foreach($data as $k=> $v)
                     <tr>
                         <td class="tc">{{$k+1}}</td>
-                        <td>
+                        <td class="tc">
                             {{$v->productCode}}
                         </td>
-                        <td>{{$v->productTypeId}}</td>
-                        <td>{{$v->producName}}</td>
-                        <td>{{$v->saleAmount}}</td>
-                        <td>{{$v->unit}}</td>
-                        <td>{{$v->remark}}</td>
-                        <td>{{$v->createPerson}}</td>
-                        <td>{{date('Y-m-d',intval($v->createDate))}}</td>
+                        <td class="tc">{{$v->producName}}</td>
+                        <td class="tc">{{$v->names}}</td>
+                        <td class="tc">{{$v->saleAmount}}</td>
+                        <td class="tc">{{$v->unit}}</td>
+                        <td class="tc">{{$v->remark}}</td>
+                        <td class="tc">{{$v->createPerson}}</td>
+                        <td class="tc">{{date('Y-m-d',intval($v->createDate))}}</td>
                         <td>
-                            <a href="{{url('admin/product/'.$v->id.'/edit')}}">修改</a>
-                            <a href="javascript:;"onclick="delArt({{$v->id}})">删除</a>
+                            <a href="{{url('admin/product/'.$v->id.'/edit')}}"><i class="fa fa-pencil-square-o"></i>修改</a>
+                            <a href="{{url('admin/productProperty/'.$v->id)}}"><i class="fa fa-th"></i>属性</a>
+                            <a href="{{url('admin/productDetail/'.$v->id)}}"><i class="fa  fa-list"></i>清单</a>
+                            <a href="javascript:;"onclick="delArt({{$v->id}})"><i class="fa  fa-times"></i>删除</a>
                         </td>
                     </tr>
                     @endforeach
