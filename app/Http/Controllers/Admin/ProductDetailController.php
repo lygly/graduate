@@ -14,18 +14,12 @@ class ProductDetailController extends CommonController
 {
     // get admin/productDetail   get方式过来的 后面是地址  全部商品清单列表
     public function index(){
-        /* $data = ProductDetail::join('p_productproperty','p_productproperty.id','p_productdetail.propertyId')
-             ->join('p_productspec','p_productspec.id','p_productproperty.specId')
-             ->join('sys_dictionary','sys_dictionary.id','p_productproperty.colorId')
-             ->select('p_productdetail.*','p_productproperty.unitPrice','sys_dictionary.names','p_productspec.spec')
-             ->orderBy('startDate','desc')
-             ->paginate(5); //读取数据按ID倒叙显示并且每一页显示5条记录
-         return view('admin.productDetail.index',compact('data'));*/
+
     }
     //get admin/productDetail/create  添加商品清单
     public function create(){
-        $data = ProductProperty::join('p_productspec','p_productspec.id','p_productproperty.specId')
-        ->join('sys_dictionary','sys_dictionary.id','p_productproperty.colorId')
+        $data = ProductProperty::join('p_productspec','p_productspec.id','=','p_productproperty.specId')
+        ->join('sys_dictionary','sys_dictionary.id','=','p_productproperty.colorId')
         ->select('p_productproperty.*','sys_dictionary.names','p_productspec.spec')
         ->get(); //读取规格
         return view('admin.productDetail.add',compact('data'));
@@ -63,8 +57,8 @@ class ProductDetailController extends CommonController
     }
     //get admin/productDetail/{productDetail}/edit   修改商品清单
     public function edit($id){
-        $data = ProductProperty::join('p_productspec','p_productspec.id','p_productproperty.specId')
-            ->join('sys_dictionary','sys_dictionary.id','p_productproperty.colorId')
+        $data = ProductProperty::join('p_productspec','p_productspec.id','=','p_productproperty.specId')
+            ->join('sys_dictionary','sys_dictionary.id','=','p_productproperty.colorId')
             ->select('p_productproperty.*','sys_dictionary.names','p_productspec.spec')
             ->get(); //读取规格
         $field =  ProductDetail::find($id);
@@ -106,9 +100,9 @@ class ProductDetailController extends CommonController
     }
     //get admin/productDetail/{productDetail}   显示单个分类信息
     public function show($id){
-        $data = ProductDetail::join('p_productproperty','p_productproperty.id','p_productdetail.propertyId')
-            ->join('p_productspec','p_productspec.id','p_productproperty.specId')
-            ->join('sys_dictionary','sys_dictionary.id','p_productproperty.colorId')
+        $data = ProductDetail::join('p_productproperty','p_productproperty.id','=','p_productdetail.propertyId')
+            ->join('p_productspec','p_productspec.id','=','p_productproperty.specId')
+            ->join('sys_dictionary','sys_dictionary.id','=','p_productproperty.colorId')
             ->select('p_productdetail.*','p_productproperty.unitPrice','sys_dictionary.names','p_productspec.spec')
             ->orderBy('startDate','desc')
             ->paginate(5); //读取数据按ID倒叙显示并且每一页显示5条记录

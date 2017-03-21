@@ -39,7 +39,7 @@
             <div class="result_content">
                 <div class="short_wrap">
                     <a href="{{url('admin/product/create')}}"><i class="fa fa-plus"></i>新增商品</a>
-                    <a href="{{url('admin/product')}}"><i class="fa fa-recycle"></i>全部商品</a>
+                    <a href=""><i class="fa fa-recycle"></i>刷新</a>
                     {{--<a href="#"><i class="fa fa-refresh"></i>更新排序</a>--}}
                 </div>
             </div>
@@ -67,9 +67,9 @@
                         <td class="tc">
                             {{$v->productCode}}
                         </td>
-                        <td class="tc">{{$v->producName}}</td>
+                        <td class="tc">{{$v->productName}}</td>
                         <td class="tc">{{$v->names}}</td>
-                        <td class="tc">{{$v->saleAmount}}</td>
+                        <td class="tc">{{$v->account}}</td>
                         <td class="tc">{{$v->unit}}</td>
                         <td class="tc">{{$v->remark}}</td>
                         <td class="tc">{{$v->createPerson}}</td>
@@ -78,6 +78,7 @@
                             <a href="{{url('admin/product/'.$v->id.'/edit')}}"><i class="fa fa-pencil-square-o"></i>修改</a>
                             <a href="{{url('admin/productProperty/'.$v->id)}}"><i class="fa fa-th"></i>属性</a>
                             <a href="{{url('admin/productDetail/'.$v->id)}}"><i class="fa  fa-list"></i>清单</a>
+                            <a href="{{url('admin/productPhoto/'.$v->id)}}"><i class="fa  fa-file-image-o"></i>产品图</a>
                             <a href="javascript:;"onclick="delArt({{$v->id}})"><i class="fa  fa-times"></i>删除</a>
                         </td>
                     </tr>

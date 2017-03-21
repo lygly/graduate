@@ -26,7 +26,7 @@
         <div class="result_content">
             <div class="short_wrap">
                 <a href="{{url('admin/product/create')}}"><i class="fa fa-plus"></i>新增商品</a>
-                <a href="{{url('admin/product')}}"><i class="fa fa-recycle"></i>全部商品</a>
+                <a href="{{url('admin/product')}}"><i class="fa fa-arrow-left"></i>返回</a>
                 {{--<a href="#"><i class="fa fa-refresh"></i>更新排序</a>--}}
             </div>
         </div>
@@ -61,12 +61,12 @@
                            <input type="text" name="producName">
                        </td>
                    </tr>
-                    <tr>
+                   {{-- <tr>
                         <th>数量：</th>
                         <td>
-                            <input type="text" name="saleAmount">
+                            <input type="text" name="amount" disabled>
                         </td>
-                    </tr>
+                    </tr>--}}
                     <tr>
                         <th>单位：</th>
                         <td>

@@ -14,8 +14,9 @@ class ProductController extends CommonController
 {
     // get admin/product   get方式过来的 后面是地址  全部商品列表
     public function index(){
-        $data = Product::join('sys_dictionary','sys_dictionary.id','p_product.productTypeId')
-            ->select('p_product.*','sys_dictionary.names')
+        $data = Product::join('sys_dictionary','sys_dictionary.id','=','p_product.productTypeId')
+            ->leftJoin('p_productdetail','p_productdetail.productId','=','p_product.id')
+            ->select('p_product.*','sys_dictionary.names','p_productdetail.account')
             ->orderBy('createDate','desc')->paginate(5); //读取数据按ID倒叙显示并且每一页显示5条记录
         return view('admin.product.index',compact('data'));
     }
@@ -58,17 +59,19 @@ class ProductController extends CommonController
         }
     }
     //get admin/product/{product}/edit   修改商品
-    public function edit($art_id){
-        $data = (new Category)->tree(); //读取分类栏目
-        //$data = Category::where('cate_pid',0)->get();
-        $field =  Product::find($art_id);
+    public function edit($id){
+        $data = Dictionary::where('pId','1')->orderBy('sort','asc')->get(); //读取分类栏目
+        $field =  Product::find($id);
         return view('admin.product.edit',compact('field','data'));
 
     }
     //put admin/product/{product}   更新商品
-    public function update($art_id){
+    public function update($id){
         $input = Input::except('_token','_method');//接收网页更改的数据
-        $re = Product::where('art_id',$art_id) ->update($input);
+        unset($input['pic']);//删除
+        $input['createPerson'] = 'admin';
+        $input['createDate'] = time();//自动添加商品添加时候的时间
+        $re = Product::where('id',$id) ->update($input);
         if($re){
             return redirect('admin/product');
         }else{
@@ -77,8 +80,8 @@ class ProductController extends CommonController
 
     }
     //delete admin/product/{product}  删除单个分类
-    public function destroy($art_id){
-        $re = Product::where('art_id',$art_id)->delete();
+    public function destroy($id){
+        $re = Product::where('id',$id)->delete();
         if ($re){
             $data = [
                 'status'=>0,

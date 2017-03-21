@@ -98,8 +98,8 @@ class ProductPropertyController extends CommonController
     }
     //get admin/productProperty/{productProperty}   显示单个分类信息
     public function show($id){
-        $data = ProductProperty::join('sys_dictionary','sys_dictionary.id','p_productproperty.colorId')
-            ->join('p_productspec','p_productspec.id','p_productproperty.specId')
+        $data = ProductProperty::join('sys_dictionary','sys_dictionary.id','=','p_productproperty.colorId')
+            ->join('p_productspec','p_productspec.id','=','p_productproperty.specId')
             ->where('productId',$id)
             ->select('p_productproperty.*','sys_dictionary.names','p_productspec.spec')
             ->orderBy('marketDate','desc')
