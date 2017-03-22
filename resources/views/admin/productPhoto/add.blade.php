@@ -25,7 +25,7 @@
         </div>
         <div class="result_content">
             <div class="short_wrap">
-                <a href="{{url('admin/productPhoto/create')}}"><i class="fa fa-recycle"></i>刷新</a>
+                <a href=""><i class="fa fa-recycle"></i>刷新</a>
                 <a href="{{url('admin/productPhoto/'.session('productId'))}}"><i class="fa fa-arrow-left"></i>返回</a>
                 {{--<a href="#"><i class="fa fa-refresh"></i>更新排序</a>--}}
             </div>
@@ -39,10 +39,10 @@
             <table class="add_tab">
                 <tbody>
                 <tr>
-                    <th>缩略图：</th>
+                    <th>产品图：</th>
                     <td>
                         {{--上传文件插件--}}
-                        <input type="text" size="50" name="pic">
+                        <input type="text" size="50" name="picUrl">
                         <input id="file_upload" name="file_upload" type="file" multiple="true">
                         <script src="{{asset('app/org/uploadify/jquery.uploadify.min.js')}}" type="text/javascript"></script>
                         <link rel="stylesheet" type="text/css" href="{{asset('app/org/uploadify/uploadify.css')}}">
@@ -58,7 +58,7 @@
                                     'swf'      : "{{asset('app/org/uploadify/uploadify.swf')}}",
                                     'uploader' : "{{url('admin/upload')}}",
                                     'onUploadSuccess' : function(file, data, response) {
-                                        $('input[name = pic]').val(data);
+                                        $('input[name = picUrl]').val(data);
                                         $('#art_thumb_img').attr('src','/'+data);
                                     }
                                 });

@@ -25,16 +25,16 @@
         </div>
         <div class="result_content">
             <div class="short_wrap">
-                <a href="{{url('admin/productDetail/create')}}"><i class="fa fa-plus"></i>添加</a>
+                <a href="{{url('admin/productPhoto/create')}}"><i class="fa fa-plus"></i>添加</a>
                 <a href=""><i class="fa fa-refresh"></i>刷新</a>
-                <a href="{{url('admin/productDetail/'.session('productId'))}}"><i class="fa fa-arrow-left"></i>返回</a>
+                <a href="{{url('admin/productPhoto/'.session('productId'))}}"><i class="fa fa-arrow-left"></i>返回</a>
             </div>
         </div>
     </div>
     <!--结果集标题与导航组件 结束-->
     
     <div class="result_wrap">
-        <form action="{{url('admin/productDetail/'.$field->id)}}" method="post">
+        <form action="{{url('admin/productPhoto/'.$field->id)}}" method="post">
             <input type="hidden" name="_method" value="put">  {{--put 方式提交表单--}}
             {{csrf_field()}}
             <table class="add_tab">
@@ -43,7 +43,7 @@
                     <th>缩略图：</th>
                     <td>
                         {{--上传文件插件--}}
-                        <input type="text" size="50" name="pic">
+                        <input type="text" size="50" name="picUrl" value="{{$field->picUrl}}">
                         <input id="file_upload" name="file_upload" type="file" multiple="true">
                         <script src="{{asset('app/org/uploadify/jquery.uploadify.min.js')}}" type="text/javascript"></script>
                         <link rel="stylesheet" type="text/css" href="{{asset('app/org/uploadify/uploadify.css')}}">
@@ -59,7 +59,7 @@
                                     'swf'      : "{{asset('app/org/uploadify/uploadify.swf')}}",
                                     'uploader' : "{{url('admin/upload')}}",
                                     'onUploadSuccess' : function(file, data, response) {
-                                        $('input[name = pic]').val(data);
+                                        $('input[name = picUrl]').val(data);
                                         $('#art_thumb_img').attr('src','/'+data);
                                     }
                                 });
@@ -75,7 +75,7 @@
                 <tr>
                     <th></th>
                     <td>
-                        <img src="" alt="" id="art_thumb_img" style="max-width: 350px;max-height: 100px;">
+                        <img src="/{{$field->picUrl}}" alt="" id="art_thumb_img" style="max-width: 350px;max-height: 100px;">
                     </td>
                 </tr>
                     <tr>

@@ -78,7 +78,7 @@
                             <a href="{{url('admin/product/'.$v->id.'/edit')}}"><i class="fa fa-pencil-square-o"></i>修改</a>
                             <a href="{{url('admin/productProperty/'.$v->id)}}"><i class="fa fa-th"></i>属性</a>
                             <a href="{{url('admin/productDetail/'.$v->id)}}"><i class="fa  fa-list"></i>清单</a>
-                            <a href="{{url('admin/productPhoto/'.$v->id)}}"><i class="fa  fa-file-image-o"></i>产品图</a>
+                            <a href="{{url('admin/productDetail/'.$v->id)}}"><i class="fa  fa-file-image-o"></i>产品图</a>
                             <a href="javascript:;"onclick="delArt({{$v->id}})"><i class="fa  fa-times"></i>删除</a>
                         </td>
                     </tr>
