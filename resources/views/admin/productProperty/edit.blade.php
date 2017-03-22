@@ -67,13 +67,13 @@
                                 >{{$c->names}}</option>
                             @endforeach
                         </select>
-                        <span><i class="fa fa-exclamation-circle yellow"></i>不是必填</span>
+                        <span><i class="fa fa-exclamation-circle yellow"></i>产品颜色必填</span>
                     </td>
                 </tr>
                 <tr>
                     <th><i class="require">*</i>产品单价：</th>
                     <td>
-                        <input type="text" name="unitPrice" placeholder="产品单价" onkeyup="num(this);" value="{{$field->unitPrice}}">
+                        <input type="text" name="unitPrice" placeholder="产品单价" onkeyup="num(this);" value="{{$field->unitPrice}}">元
                         <span><i class="fa fa-exclamation-circle yellow"></i>单价必须填写数字，可以保留两位小数</span>
                     </td>
                 </tr>

@@ -28,13 +28,8 @@ class ProductController extends CommonController
     //post admin/product 添加商品提交方法
     public function store(){
         $input = Input::except('_token','PHPSESSID');
-        //dd($input);
-        $picUrl['pic'] = $input['pic'];
-
-        unset($input['pic']);//删除
         $input['createPerson'] = 'admin';
         $input['createDate'] = time();//自动添加商品添加时候的时间
-       //dd($picUrl);
         //填写规则
         $rules = [
             'productCode'=>'required'   //字段必填,
@@ -48,8 +43,7 @@ class ProductController extends CommonController
         //如果填写通过了验证
         if ($validator->passes()){
             $re = Product::create($input);
-            $re_pic = ProductPhoto::create($picUrl);
-            if ($re && $re_pic){
+            if ($re){
                 return redirect('admin/product');  //返回到商品列表页面
             }else{
                 return back()->with('errors','数据更新失败，请稍后重试！');
@@ -68,7 +62,6 @@ class ProductController extends CommonController
     //put admin/product/{product}   更新商品
     public function update($id){
         $input = Input::except('_token','_method');//接收网页更改的数据
-        unset($input['pic']);//删除
         $input['createPerson'] = 'admin';
         $input['createDate'] = time();//自动添加商品添加时候的时间
         $re = Product::where('id',$id) ->update($input);

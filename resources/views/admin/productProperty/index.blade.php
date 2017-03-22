@@ -17,7 +17,7 @@
             <div class="result_content">
                 <div class="short_wrap">
                     <a href="{{url('admin/productProperty/create')}}"><i class="fa fa-plus"></i>添加</a>
-                    <a href="{{url('admin/productProperty')}}"><i class="fa fa-refresh"></i>刷新</a>
+                    <a href=""><i class="fa fa-refresh"></i>刷新</a>
                     <a href="{{url('admin/product')}}"><i class="fa fa-arrow-left"></i>返回</a>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                         <th class="tc">排序</th>
                         <th class="tc">颜色</th>
                         <th class="tc">规格</th>
-                        <th class="tc">产品单价</th>
+                        <th class="tc">产品单价(元)</th>
                         <th class="tc">上架状态</th>
                         <th class="tc">上架时间</th>
                         <th class="tc">下架时间</th>

@@ -103,11 +103,11 @@ class ProductDetailController extends CommonController
         $data = ProductDetail::join('p_productproperty','p_productproperty.id','=','p_productdetail.propertyId')
             ->join('p_productspec','p_productspec.id','=','p_productproperty.specId')
             ->join('sys_dictionary','sys_dictionary.id','=','p_productproperty.colorId')
+            ->where('p_productdetail.productId',$id)
             ->select('p_productdetail.*','p_productproperty.unitPrice','sys_dictionary.names','p_productspec.spec')
             ->orderBy('startDate','desc')
             ->paginate(5); //读取数据按ID倒叙显示并且每一页显示5条记录
         session(['productId'=>$id]); //商品ID
-        //dd(session('productId'));
         return view('admin.productDetail.index',compact('data'));
     }
 }

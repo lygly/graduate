@@ -13,9 +13,7 @@ class ProductPhotoController extends CommonController
 {
     // get admin/productPhoto   get方式过来的 后面是地址  全部产品图列表
     public function index(){
-      /*  $data = ProductPhoto::groupBy('productId')
-              ->orderBy('createDate','desc')->paginate(5); //读取数据按ID倒叙显示并且每一页显示5条记录
-        return view('admin.productPhoto.index',compact('data'));*/
+
     }
     //get admin/productPhoto/create  添加产品图
     public function create(){
@@ -24,9 +22,8 @@ class ProductPhotoController extends CommonController
     //post admin/productPhoto 添加产品图提交方法
     public function store(){
         $input = Input::except('_token','PHPSESSID');
-        $input['productId'] = '1';
         $input['createDate'] = time();//自动添加产品图添加时候的时间
-        //dd($input);
+        $productId = $input['productId'];
         //填写规则
         $rules = [
             'picUrl'=>'required'   //字段必填,
@@ -41,7 +38,7 @@ class ProductPhotoController extends CommonController
         if ($validator->passes()){
             $re = ProductPhoto::create($input);
             if ($re){
-                return redirect('admin/productPhoto');  //返回到产品图列表页面
+                return redirect('admin/productPhoto/'.$productId);  //返回到产品图列表页面
             }else{
                 return back()->with('errors','数据更新失败，请稍后重试！');
             }
@@ -58,18 +55,17 @@ class ProductPhotoController extends CommonController
     //put admin/productPhoto/{productPhoto}   更新产品图
     public function update($id){
         $input = Input::except('_token','_method');//接收网页更改的数据
-      //  unset($input['pic']);//删除
-        $input['productId'] = '1';
         $input['createDate'] = time();//自动添加产品图添加时候的时间
+        $productId = $input['productId'];
         $re = ProductPhoto::where('id',$id) ->update($input);
         if($re){
-            return redirect('admin/productPhoto');
+            return redirect('admin/productPhoto/'.$productId);
         }else{
             return back()->with('errors','产品图更新失败，请稍后重试！');
         }
 
     }
-    //delete admin/productPhoto/{productPhoto}  删除单个分类
+    //delete admin/productPhoto/{productPhoto}  删除单个产品图
     public function destroy($id){
         $re = ProductPhoto::where('id',$id)->delete();
         if ($re){
@@ -86,11 +82,11 @@ class ProductPhotoController extends CommonController
         return $data;
 
     }
-    //get admin/category/{category}   显示单个分类信息
+    //get admin/productPhoto/{productPhoto}   显示单个产品图信息
     public function show($id){
         $data = ProductPhoto::where('productId',$id)
             ->orderBy('createDate','desc')
-            ->get();
+            ->paginate(5);
         session(['productId'=>$id]);
         return view('admin.productPhoto.index',compact('data'));
 

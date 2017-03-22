@@ -75,6 +75,7 @@
                     <th></th>
                     <td>
                         <img src="" alt="" id="art_thumb_img" style="max-width: 350px;max-height: 100px;">
+                        <input type="hidden" name="productId" value="{{session('productId')}}">
                     </td>
                 </tr>
                     <tr>

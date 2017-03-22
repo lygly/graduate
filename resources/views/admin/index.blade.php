@@ -32,16 +32,16 @@
             	<h3><i class="fa fa-fw fa-list-ul"></i>商品管理</h3>
                 <ul class="sub_menu">
 					<li><a href="{{url('admin/productSpec')}}" target="main"><i class="fa fa-fw fa-share-alt-square"></i>规格定义</a></li>
-					<li><a href="{{url('admin/category')}}" target="main"><i class="fa fa-fw fa-reorder"></i>商品管理</a></li>
-					<li><a href="{{url('admin/article/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>添加商品</a></li>
+					<li><a href="{{url('admin/product')}}" target="main"><i class="fa fa-fw fa-reorder"></i>商品管理</a></li>
+					<li><a href="{{url('admin/product/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>添加商品</a></li>
                 </ul>
             </li>
 			<li>
 				<h3><i class="fa fa-fw fa-clipboard"></i>个人中心</h3>
 				<ul class="sub_menu">
-					<li><a href="{{url('admin/category/create')}}" target="main"><i class="fa fa-fw fa-puzzle-piece"></i>积分类型</a></li>
+					{{--<li><a href="{{url('admin/category/create')}}" target="main"><i class="fa fa-fw fa-puzzle-piece"></i>积分类型</a></li>
 					<li><a href="{{url('admin/category')}}" target="main"><i class="fa fa-fw fa-qrcode"></i>积分详情</a></li>
-					<li><a href="{{url('admin/article/create')}}" target="main"><i class="fa fa-fw fa-refresh"></i>积分兑换表</a></li>
+					<li><a href="{{url('admin/article/create')}}" target="main"><i class="fa fa-fw fa-refresh"></i>积分兑换表</a></li>--}}
 					<li><a href="{{url('admin/customer')}}" target="main"><i class="fa fa-fw  fa-user"></i>个人信息</a></li>
 					<li><a href="{{url('admin/about')}}" target="main"><i class="fa fa-fw  fa-users"></i>关于我们</a></li>
 					<li><a href="{{url('admin/suggestion')}}" target="main"><i class="fa fa-fw fa-pencil"></i>意见反馈</a></li>
@@ -54,14 +54,14 @@
 					<li><a href="{{url('admin/dictionary')}}" target="main"><i class="fa fa-fw  fa-navicon"></i>类型管理</a></li>
 				</ul>
 			</li>
-            <li>
+           {{-- <li>
             	<h3><i class="fa fa-fw fa-cog"></i>系统设置</h3>
                 <ul class="sub_menu">
 					<li><a href="{{url('admin/links')}}" target="main"><i class="fa fa-fw fa-cubes"></i>菜单管理</a></li>
 					<li><a href="{{url('admin/navs')}}" target="main"><i class="fa fa-fw  fa-navicon"></i>角色管理</a></li>
                     <li><a href="{{url('admin/config')}}" target="main"><i class="fa fa-fw fa-cogs"></i>网站配置</a></li>
                 </ul>
-            </li>
+            </li>--}}
             <li>
             	<h3><i class="fa fa-fw fa-thumb-tack"></i>工具导航</h3>
                 <ul class="sub_menu">

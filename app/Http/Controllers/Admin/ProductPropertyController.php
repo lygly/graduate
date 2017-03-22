@@ -14,12 +14,7 @@ class ProductPropertyController extends CommonController
 {
     // get admin/productProperty   get方式过来的 后面是地址  全部商品属性列表
     public function index(){
-       /* $data = ProductProperty::join('sys_dictionary','sys_dictionary.id','p_productproperty.colorId')
-            ->join('p_productspec','p_productspec.id','p_productproperty.specId')
-            ->select('p_productproperty.*','sys_dictionary.names','p_productspec.spec')
-            ->orderBy('marketDate','desc')
-            ->paginate(5); //读取数据按ID倒叙显示并且每一页显示5条记录
-        return view('admin.productProperty.index',compact('data'));*/
+
     }
     //get admin/productProperty/create  添加商品属性
     public function create(){
@@ -31,15 +26,18 @@ class ProductPropertyController extends CommonController
     public function store(){
         $input = Input::except('_token','PHPSESSID');
         $input['marketDate']=strtotime($input['marketDate']);
+       // dd($input);
         $productId = $input['productId'];
         //填写规则
         $rules = [
             'specId'=>'required',
+            'colorId'=>'required',
             'unitPrice'=>'required',   //art_title 字段必填
         ];
         //填写提示信息
         $message = [
             'specId.required'=>'规格不能为空',
+            'colorId.required'=>'产品颜色不能为空',
             'unitPrice.required'=>'产品单价不能为空',
         ];
         //表单提交验证
@@ -69,7 +67,6 @@ class ProductPropertyController extends CommonController
         $input = Input::except('_token','_method');//接收网页更改的数据
         $input['marketDate']=strtotime($input['marketDate']);
         $input['outMarketDate']=strtotime($input['outMarketDate']);
-        //dd($input);
         $productId = $input['productId'];
         $re = ProductProperty::where('id',$id) ->update($input);
         if($re){
@@ -100,12 +97,11 @@ class ProductPropertyController extends CommonController
     public function show($id){
         $data = ProductProperty::join('sys_dictionary','sys_dictionary.id','=','p_productproperty.colorId')
             ->join('p_productspec','p_productspec.id','=','p_productproperty.specId')
-            ->where('productId',$id)
+            ->where('p_productproperty.productId',$id)
             ->select('p_productproperty.*','sys_dictionary.names','p_productspec.spec')
             ->orderBy('marketDate','desc')
             ->paginate(5); //读取数据按ID倒叙显示并且每一页显示5条记录
         session(['productId'=>$id]); //商品ID
-        //dd(session('productId'));
         return view('admin.productProperty.index',compact('data'));
     }
 }
