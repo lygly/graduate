@@ -11,13 +11,24 @@ class WeChatController extends Controller
 {
     //
   public function serve(){
-      $weChat = (new WeChat); //实例化WeChat类
+      $signature = Input::get("signature");//加密签名
+      $timestamp = Input::get("timestamp");//时间戳
+      $nonce = Input::get("nonce");	//随机数
 
-      $weChat ->checkSignature();//匹配公众号的接口配置信息
-     /* if(Input::get('echostr')){
-          $weChat->receive();//如果已经匹配过，就直接处理发送过来的消息
+      $token = 'lylyg';//token
+      $tmpArr = array($token, $timestamp, $nonce);//组成新数组
+      sort($tmpArr, SORT_STRING);//重新排序
+      $tmpStr = implode( $tmpArr );//转换成字符串
+      $tmpStr = sha1( $tmpStr );//再将字符串进行加密
+      /*
+       * 1.组成数组
+       * 2.组成新的加密函数
+       * 3.跟传过来的加密签名进行匹配
+       * */
+      if( $tmpStr == $signature ){
+          echo Input::get('echostr');
       }else{
-          $weChat ->checkSignature();//匹配公众号的接口配置信息
-      }*/
+          return false;
+      }
   }
 }
