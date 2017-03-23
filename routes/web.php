@@ -11,15 +11,19 @@
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-'prefix'=>'Home','namespace'=>'Home'
-});*/
-//前台路由
+/*//前台路由
 Route::group([],function (){
     Route::get('/','Home\IndexController@index');//前台首页
     Route::get('/cate/{cate_id}','Home\IndexController@cate');//前台列表页
     Route::get('/a/{art_id}','Home\IndexController@article');//前台文章页
+});*/
+//微信路由
+Route::group(['middleware'=>'csrf.ignore','prefix'=>'wechat','namespace'=>'WeChat'], function () {
+    Route::any('wechat','WeChatController@serve');
+
+    Route::get('user', function () {
+        echo 1;
+    });
 });
 
 //LoginController 里面的
