@@ -40,6 +40,15 @@
             <table class="add_tab">
                 <tbody>
                 <tr>
+                    <th>是否设置为首页导航图片：</th>
+                    <td>
+                        <select name="isBanner" id="">
+                            <option value="1" @if($field->isBanner==1) selected @endif>是</option>
+                            <option value="0" @if($field->isBanner==0) selected @endif >否</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <th>缩略图：</th>
                     <td>
                         {{--上传文件插件--}}
@@ -75,7 +84,7 @@
                 <tr>
                     <th></th>
                     <td>
-                        <img src="/{{$field->picUrl}}" alt="" id="art_thumb_img" style="max-width: 350px;max-height: 100px;">
+                        <img src="/{{$field->picUrl}}" alt="" id="art_thumb_img" style="max-width: 800px;max-height: 350px;">
                         <input type="hidden" name="productId" value="{{session('productId')}}">
                     </td>
                 </tr>

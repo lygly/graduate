@@ -50,6 +50,5 @@
     <p>{!!Config::get('web.copyright')!!}
     </p>
 </footer>
-{{--<script src="{{asset('/resources/views/home/js/silder.js')}}"></script>--}}
 </body>
 </html>

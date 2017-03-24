@@ -64,6 +64,7 @@
                     @foreach($data as $k=> $v)
                     <tr>
                         <td class="tc">{{$k+1}}</td>
+                        <td style="display: none;">{{$v->id}}</td>
                         <td class="tc">
                             {{$v->productCode}}
                         </td>

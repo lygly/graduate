@@ -57,7 +57,7 @@ class WeChat
      {	
           "type":"view",
           "name":"微信商城",
-          "url":"http://v.qq.com/"
+          "url":"http://www.lylyg2017.cn/graduate/wechat"
       },
       {
            "type":"click",

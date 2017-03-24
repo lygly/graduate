@@ -19,11 +19,10 @@ Route::group([],function (){
 });*/
 //微信路由
 Route::group(['middleware'=>'csrf.ignore','prefix'=>'wechat','namespace'=>'WeChat'], function () {
-    Route::any('wechat','WeChatController@serve');
+    Route::any('wechat','WeChatController@serve');//连接微信和基础配置
 
-    Route::get('user', function () {
-        echo 1;
-    });
+    Route::any('/','IndexController@index'); //微信首页
+    Route::any('/p/{productId}','IndexController@detail');
 });
 
 //LoginController 里面的

@@ -32,6 +32,7 @@
                         <th class="tc">排序</th>
                         <th class="tc">产品图</th>
                         <th class="tc">创建时间</th>
+                        <th class="tc">是否为首页导航图片</th>
                         <th>操作</th>
                     </tr>
                     @foreach($data as $k=> $v)
@@ -41,6 +42,7 @@
                         </td>
                         <td class="tc"><img src="/{{$v->picUrl}}" alt="" style="max-width: 350px;max-height: 100px;"></td>
                         <td class="tc">{{date('Y-m-d',$v->createDate)}}</td>
+                        <td class="tc">@if($v->isBanner==1) 是 @else 否 @endif</td>
                         <td>
                             <a href="{{url('admin/productPhoto/'.$v->id.'/edit')}}">修改</a>
                             <a href="javascript:;"onclick="delCate({{$v->id}})">删除</a>

@@ -57,6 +57,7 @@ class ProductPhotoController extends CommonController
         $input = Input::except('_token','_method');//接收网页更改的数据
         $input['createDate'] = time();//自动添加产品图添加时候的时间
         $productId = $input['productId'];
+        //dd($input);
         $re = ProductPhoto::where('id',$id) ->update($input);
         if($re){
             return redirect('admin/productPhoto/'.$productId);
