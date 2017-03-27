@@ -12,7 +12,7 @@ class CustomerController extends CommonController
 {
     // get admin/customer   get方式过来的 后面是地址  全部用户信息列表
     public function index(){
-       $data = Customer::orderBy('createDate','desc')->paginate(4);
+       $data = Customer::orderBy('subscribe_time','desc')->paginate(4);
         return view('admin.customer.index',compact('data'));
     }
     //get admin/customer/create  添加用户信息
@@ -24,8 +24,8 @@ class CustomerController extends CommonController
     public function store(){
         $input = Input::except('_token');
        // dd($input);
-        $input['createPerson'] = 'admin';
-        $input['createDate'] = time();//自动添加时候的时间
+       // $input['createPerson'] = 'admin';
+       // $input['createDate'] = time();//自动添加时候的时间
         //填写规则
         $rules = [
             'name'=>'required',

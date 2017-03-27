@@ -84,7 +84,7 @@
                     <tr>
                         <th>性别：</th>
                         <td>
-                            <select name="gender" id="">
+                            <select name="sex" id="">
                                 <option value="1">男</option>
                                 <option value="2">女</option>
                             </select>

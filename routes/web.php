@@ -22,7 +22,8 @@ Route::group(['middleware'=>'csrf.ignore','prefix'=>'wechat','namespace'=>'WeCha
     Route::any('wechat','WeChatController@serve');//连接微信和基础配置
 
     Route::any('/','IndexController@index'); //微信首页
-    Route::any('/p/{productId}','IndexController@detail');
+    Route::any('/p/{productId}','IndexController@detail');//产品详情页
+    Route::any('/profile','IndexController@profile');//个人中心页
 });
 
 //LoginController 里面的

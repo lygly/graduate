@@ -47,9 +47,6 @@ class WeChat
        if (empty($access_token)||$now-$get_token_time>7000){
           $this->get_token();
        }
-       /*$access_token = $this->get_token()->access_token;
-       session(['access_token'=>$this->get_token()->access_token]); //写入session
-       session(['get_token_time'=>$this->get_token()->get_token_time]);*/
        $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token={$access_token}";//自定义菜单接口
        $data = <<<php
 {
@@ -74,8 +71,25 @@ class WeChat
  }
 php;
        $result = $this->http_curl($url,$data);
-       var_dump($result);
    }
+//获取用户公开信息
+    public function unionId(){
+        $open_id = session('FromUserName');//用户openID
+        $access_token = session('access_token');//access_token
+        $get_token_time =session('get_token_time');//token 创建时间
+        $now = time();//获取当前时间
+        if (empty($access_token)||$now-$get_token_time>7000){
+            $this->get_token();
+        }
+      /*  $this->get_token();
+        $access_token = session('access_token');//access_token*/
+        //var_dump($access_token);
+        //dd($open_id);
+        $url="https://api.weixin.qq.com/cgi-bin/user/info?access_token={$access_token}&openid={$open_id}&lang=zh_CN";
+        $result = $this->http_curl($url);
+        $this->logger($result);
+        return $result;
+    }
 
     /*自动回复文本消息*/
     public function receive(){
@@ -89,7 +103,13 @@ php;
                     $result= $this->receiveText($postSql); //如果是文本消息则
                     break;
                 case "event":
+
                     $result = $this->receiveEvent($postSql);//关注自动回复消息
+                    $this->menu();   //初始化菜单
+                    session(['FromUserName'=>$postSql->FromUserName]);//把用户的openID写入session
+                  //  $userInfo = $this->unionId();
+                   // $this->logger($userInfo);
+                   // return $userInfo;
             }
             //为了防止5s钟没反应微信服务器帮我们处理
             if (!empty($result)){
@@ -156,8 +176,8 @@ php;
         $result->get_token_time = time();
         session(['access_token'=>$result->access_token]); //写入session
         session(['get_token_time'=>$result->get_token_time]);
+        $this->logger("access_token:\n".$result->access_token);
         return $result;
-        // return $result->access_token; //返回access_token
     }
     /*写入日志*/
     private function logger($content){

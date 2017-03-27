@@ -44,8 +44,7 @@
                         <th class="tc">身高(cm)</th>
                         <th class="tc">积分</th>
                         <th class="tc">剩余积分</th>
-                        <th class="tc">创建人</th>
-                        <th class="tc">创建时间</th>
+                        <th class="tc">关注时间</th>
                         <th>操作</th>
                     </tr>
                     @foreach($data as $k=> $v)
@@ -63,7 +62,7 @@
                         <td class="tc">{{$v->country}}</td>
                         <td class="tc">{{$v->nickName}}</td>
                         <td class="tc">
-                            @if($v->gender==1)
+                            @if($v->sex==1)
                                 男
                             @else
                                 女
@@ -74,8 +73,7 @@
                         <td class="tc">{{$v->height}}</td>
                         <td class="tc">{{$v->integrate}}</td>
                         <td class="tc">{{$v->usedIntegrate}}</td>
-                        <td class="tc">{{$v->createPerson}}</td>
-                        <td class="tc">{{date('Y-m-d',$v->createDate)}}</td>
+                        <td class="tc">{{date('Y-m-d',$v->subscribe_time)}}</td>
                         <td>
                             <a href="{{url('admin/customer/'.$v->id.'/edit')}}">修改</a>
                             <a href="javascript:;"onclick="delCate({{$v->id}})">删除</a>

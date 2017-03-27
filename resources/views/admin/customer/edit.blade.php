@@ -85,9 +85,9 @@
                 <tr>
                     <th>性别：</th>
                     <td>
-                        <select name="gender" id="">
-                            <option value="1" @if($field->gender==1) selected @endif>男</option>
-                            <option value="2" @if($field->gender==2) selected @endif>女</option>
+                        <select name="sex" id="">
+                            <option value="1" @if($field->sex==1) selected @endif>男</option>
+                            <option value="2" @if($field->sex==2) selected @endif>女</option>
                         </select>
                     </td>
                 </tr>
