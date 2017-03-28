@@ -17,7 +17,11 @@
 <div class="swiper-container x-pc-slider" id="slider1">
 <div class="swiper-wrapper">
     @foreach($data as $d)
-<div class="swiper-slide"><a href="{{url('/wechat/p/'.$d->productId)}}"><img src="{{url('/'.$d->picUrl)}}" alt="Slide 1" /></a></div>
+<div class="swiper-slide">
+	<a href="{{url('/wechat/p/'.$d->productId)}}">
+		<img style="max-width: inherit;" src="{{url('/'.$d->picUrl)}}" alt="Slide 1" />
+	</a>
+</div>
     @endforeach
 </div>
 <div class="swiper-pagination"></div>
