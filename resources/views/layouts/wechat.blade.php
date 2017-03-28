@@ -8,7 +8,7 @@
     <link href="{{asset('/resources/views/wechat/static/css/style.css')}}" rel="stylesheet" />
 </head>
 
-<body>
+
 @yield('content')
-</body>
+
 </html>

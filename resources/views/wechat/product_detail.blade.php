@@ -14,8 +14,7 @@
 {{$data->remark}}
 </div>
     <div class="weui-tabbar">
-        <input type="button" class="weui-btn weui-btn_primary" style="margin:0 5px;background-color: #4b7cea;" value="加入购物车">
-        <input type="submit" class="weui-btn weui-btn_primary" style="margin:0 5px 0 0;background-color: #4b7cea;" value="立即购买">
+        <input type="button" class="weui-btn weui-btn_primary" style="background-color: #4b7cea;" value="加入购物车">
     </div>
 </div>
 </form>

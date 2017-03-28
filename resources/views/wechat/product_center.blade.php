@@ -1,5 +1,6 @@
 @extends('layouts.wechat')
 @section('content')
+	<body>
 <div class="weui-tabbar x-tabbar">
 <a href="{{url('/wechat/about')}}" class="weui-tabbar__item">
 <i class="weui-tabbar__icon x-tabbar-icon x-tabbar-icon-1"></i><p class="weui-tabbar__label">关于我们</p>
@@ -41,4 +42,5 @@ var swiper = new Swiper('#slider1', {
 	paginationClickable: true
 });
 </script>
+	</body>
 @endsection

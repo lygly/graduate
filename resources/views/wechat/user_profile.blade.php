@@ -1,5 +1,6 @@
 @extends('layouts.wechat')
 @section('content')
+    <body>
 <div class="x-container">
 <div class="weui-cells x-up-list">
 <a class="weui-cell weui-cell_access" href="javascript:;">
@@ -40,5 +41,5 @@
 </div>
 
 </div>
-
+    </body>
 @endsection
