@@ -21,9 +21,13 @@ class RepositoryController extends CommonController
     }
     //get admin/repository/create  添加问答
     public function create(){
-       // $data = (new Dictionary)->question();  //实例化类 并指向question方法
         $data = Dictionary::where('pId',3)->orderBy('sort','asc')->get();
-        //dd($data);
+       // dd($data);
+       /* foreach ($data as $k=>$r) {
+            //$this->logger($k.$r->names);
+            // ($k+1).''.$r->names."</br>"
+            echo "<p>" . ($k + 1) . ' ' . $r->names . "</p>";
+        }*/
         return view('admin.repository.add',compact('data'));
     }
     //post admin/repository 添加问答提交方法

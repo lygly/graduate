@@ -4,6 +4,7 @@ namespace App\Http\Controllers\WeChat;
 
 use App\Http\Model\Customer;
 use App\Http\Model\ProductPhoto;
+use App\Library\WeChat;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -29,13 +30,13 @@ class IndexController extends Controller
         return view('wechat.product_detail',compact('data'));
     }
     public function profile(){
+        $weChat =new WeChat();
 
-
-        $open_id =  session('FromUserName');
-        dd($open_id);
-        $data = Customer::where('openId',$open_id)->get();
+        $weChat->oauth();
+       // dd($open_id);
+       /* $data = Customer::where('openId',$open_id)->get();
         $data = Customer::get();
         dd($data);
-        return view('wechat.user_profile',compact('data'));
+        return view('wechat.user_profile',compact('data'));*/
     }
 }

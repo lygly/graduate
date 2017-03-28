@@ -9,7 +9,11 @@
 namespace APP\Library;
 
 
+use App\Http\Model\Customer;
+use App\Http\Model\Dictionary;
+use App\Http\Model\Repository;
 use Illuminate\Support\Facades\Input;
+use phpDocumentor\Reflection\Location;
 
 class WeChat
 {
@@ -74,7 +78,7 @@ php;
    }
 //获取用户公开信息
     public function unionId(){
-        $open_id = session('FromUserName');//用户openID
+        $open_id = session('open_id');//用户openID
         $access_token = session('access_token');//access_token
         $get_token_time =session('get_token_time');//token 创建时间
         $now = time();//获取当前时间
@@ -86,11 +90,39 @@ php;
         //var_dump($access_token);
         //dd($open_id);
         $url="https://api.weixin.qq.com/cgi-bin/user/info?access_token={$access_token}&openid={$open_id}&lang=zh_CN";
-        $result = $this->http_curl($url);
-        $this->logger($result);
-        return $result;
+        $userInfo = $this->http_curl($url);
+        $this->logger($userInfo);
+        $userInfo = json_decode($userInfo,true); //true 则转换为数组 默认转换为对象
+        //忽略这些字段
+        unset($userInfo['subscribe']);
+        unset($userInfo['language']);
+        unset($userInfo['groupid']);
+        unset($userInfo['tagid_list']);
+        Customer::create($userInfo); //如果openID 没有则插入到数据库
     }
-
+    //网页授权
+    public function oauth(){
+        $appid ="wx2fb8f9fd418d80c5"; //测试号的appid
+        $secret = "416b11926695931ee5b2b23e2766838b"; //测试号的appsecret
+        $redirect_uri = "http://www.lylyg2017.cn/graduate/wechat/profile"; //返回地址
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo#wechat_redirect";
+        //echo $url;
+        //redirect($url);
+        header("Location::($url)");
+        if(Input::get('code')){
+            $code = Input::get('code');
+           $url_code="https://api.weixin.qq.com/sns/oauth2/access_token?appid={$appid}&secret={$secret}&code={$code}&grant_type=authorization_code";
+           $result = $this->http_curl($url_code);
+           $this->logger($result);
+           echo $result;
+        }
+    }
+//获取openid
+    public function get_openId(){
+        $open_id = session('FromUserName');//用户openID
+        $this->logger("openId:".$open_id);
+        return $open_id;
+    }
     /*自动回复文本消息*/
     public function receive(){
         //$obj = $GLOBALS['HTTP_RAW_POST_DATA']; //使用全局函数接收发送的内容
@@ -98,19 +130,24 @@ php;
         $postSql = simplexml_load_string($obj,'SimpleXMLElement',LIBXML_NOCDATA);//把xml文本转换成php对象并且去除文本中的CDATA
         $this->logger("接收：\n".$obj);
         if(!empty($postSql)){
-            switch (trim($postSql->MsgType)){ //判断消息类型
-                case "text":
-                    $result= $this->receiveText($postSql); //如果是文本消息则
-                    break;
-                case "event":
-
-                    $result = $this->receiveEvent($postSql);//关注自动回复消息
-                    $this->menu();   //初始化菜单
-                    session(['FromUserName'=>$postSql->FromUserName]);//把用户的openID写入session
-                  //  $userInfo = $this->unionId();
-                   // $this->logger($userInfo);
-                   // return $userInfo;
+            //session(['open_id'=>$postSql->FromUserName]);//把用户的openID写入session
+            if ($postSql->Event == 'subscribe'){
+                $result = $this->receiveEvent($postSql);//关注自动回复消息
+                $this->menu();   //初始化菜单
+               // $this->unionId();//获取用户公开信息
+            }else{
+                switch (trim($postSql->MsgType)){ //判断消息类型
+                    case "text":
+                        $result= $this->receiveText($postSql); //如果是文本消息则
+                        break;
+                    case "event":
+                        $result = $this->repository($postSql);
+                        /* $result = $this->receiveEvent($postSql);//关注自动回复消息
+                         $this->menu();   //初始化菜单*/
+                       /* session(['FromUserName'=>$postSql->FromUserName]);//把用户的openID写入session*/
+                }
             }
+
             //为了防止5s钟没反应微信服务器帮我们处理
             if (!empty($result)){
                 echo $result;
@@ -126,6 +163,97 @@ php;
             }
         }
 
+    }
+    /*
+    * 在线咨询问题类型
+    * */
+    private function repository($postSql){
+        $xml = "<xml>
+                <ToUserName><![CDATA[%s]]></ToUserName>
+                <FromUserName><![CDATA[%s]]></FromUserName>
+                <CreateTime>%s</CreateTime>
+                <MsgType><![CDATA[%s]]></MsgType>
+                <Content><![CDATA[%s]]></Content>
+                </xml>";
+        $content = "您好！请回复以下数字获得服务：\n\n";
+        $data = Dictionary::where('pId',3)->orderBy('sort','asc')->get();
+         foreach ($data as $k=>$r)
+             $content .= ($k+1).' '.$r->names."\n";
+        $result = sprintf($xml,$postSql->FromUserName,$postSql->ToUserName,time(),"text",$content);
+        $this->logger("回复问题类别：\n".$result);
+        return $result;
+    }
+    /*
+        * 如果传送过来的内容里面含有"1"这个词语，则回复“设备问题”
+        * */
+    private function receiveText($postSql){
+        $content = trim($postSql->Content);//提取传送过来的内容
+        if (strlen($content) == 1){//如果是问题类型
+            $perfixId = $content; //微信返回的类型
+            switch ($content){
+                case 1:
+                    $result=$this->receiveQuestion($postSql,18,$perfixId);
+                    break;
+                case 2:
+                    $result=$this->receiveQuestion($postSql,19,$perfixId);
+                    break;
+                case 3:
+                    $result=$this->receiveQuestion($postSql,20,$perfixId);
+                    break;
+            }
+
+        }else{
+            $questionId = $content;
+            $result = $this->receiveAnswer($postSql,$questionId);
+        }
+
+        $this->logger("发送问答消息：\n".$result);
+
+        return $result;
+    }
+    /*回复问题
+     * */
+    private function receiveQuestion($postSql,$typeId,$perfixId){
+        $xml = "<xml>
+                <ToUserName><![CDATA[%s]]></ToUserName>
+                <FromUserName><![CDATA[%s]]></FromUserName>
+                <CreateTime>%s</CreateTime>
+                <MsgType><![CDATA[%s]]></MsgType>
+                <Content><![CDATA[%s]]></Content>
+                </xml>";
+        $content = "";
+        $data = Repository::where('typeId',$typeId)->orderBy('createDate','asc')->get();
+        if (count($data)!=0){
+            foreach ($data as $k=>$v)
+                $content.=$perfixId.$v->id.' '.$v->question."\n";
+        }else{
+            $content="此类问题暂无数据。";
+        }
+        $result = sprintf($xml,$postSql->FromUserName,$postSql->ToUserName,time(),$postSql->MsgType,$content);
+        return $result;
+    }
+    /*
+     * 回复答案
+     * */
+    private function receiveAnswer($postSql,$questionId){
+        $xml = "<xml>
+                <ToUserName><![CDATA[%s]]></ToUserName>
+                <FromUserName><![CDATA[%s]]></FromUserName>
+                <CreateTime>%s</CreateTime>
+                <MsgType><![CDATA[%s]]></MsgType>
+                <Content><![CDATA[%s]]></Content>
+                </xml>";
+        $content = "";
+        $questionId = substr($questionId,1);
+        $data = Repository::where('id',$questionId)->get();
+        if (count($data)!=0){
+            foreach ($data as $k=>$v)
+                $content.=' '.$v->answer."\n";
+        }else{
+            $content="此问题暂无答案。";
+        }
+        $result = sprintf($xml,$postSql->FromUserName,$postSql->ToUserName,time(),$postSql->MsgType,$content);
+        return $result;
     }
     /*
 * 关注自动回复
