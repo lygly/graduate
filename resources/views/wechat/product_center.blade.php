@@ -1,8 +1,8 @@
 @extends('layouts.wechat')
 @section('content')
 <div class="weui-tabbar x-tabbar">
-<a href="javascript:;" class="weui-tabbar__item">
-<i class="weui-tabbar__icon x-tabbar-icon x-tabbar-icon-1"></i><p class="weui-tabbar__label">我的医狗儿</p>
+<a href="{{url('/wechat/about')}}" class="weui-tabbar__item">
+<i class="weui-tabbar__icon x-tabbar-icon x-tabbar-icon-1"></i><p class="weui-tabbar__label">关于我们</p>
 </a>
 <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
 <i class="weui-tabbar__icon x-tabbar-icon x-tabbar-icon-2"></i><p class="weui-tabbar__label">产品中心</p>

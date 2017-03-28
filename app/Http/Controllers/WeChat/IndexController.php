@@ -29,6 +29,7 @@ class IndexController extends Controller
        // dd($data);
         return view('wechat.product_detail',compact('data'));
     }
+    //个人中心
     public function profile(){
         $weChat =new WeChat();
 
@@ -38,5 +39,9 @@ class IndexController extends Controller
         $data = Customer::get();
         dd($data);
         return view('wechat.user_profile',compact('data'));*/
+    }
+    //关于我们
+    public function about(){
+        return view('wechat.seller_about');
     }
 }

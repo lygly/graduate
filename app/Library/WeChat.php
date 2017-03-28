@@ -106,16 +106,23 @@ php;
         $secret = "416b11926695931ee5b2b23e2766838b"; //测试号的appsecret
         $redirect_uri = "http://www.lylyg2017.cn/graduate/wechat/profile"; //返回地址
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo#wechat_redirect";
-        //echo $url;
-        //redirect($url);
-        header("Location::($url)");
-        if(Input::get('code')){
+       // if(session('open_id')){
             $code = Input::get('code');
-           $url_code="https://api.weixin.qq.com/sns/oauth2/access_token?appid={$appid}&secret={$secret}&code={$code}&grant_type=authorization_code";
-           $result = $this->http_curl($url_code);
-           $this->logger($result);
-           echo $result;
-        }
+            if(isset($code)){
+                //code参数已有，获取openid;
+                $url_get='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$secret.'&code='.$code.'&grant_type=authorization_code';
+                $res=json_decode($this->http_curl($url_get));
+                session('open_id',$res->openid);//保存openid。
+                header("location:".$redirect_uri); //获取openid后跳转到指定页面。
+                $this->logger($res);
+                echo $res;
+            }else{
+                //无code参数，先获取code
+                $redirect_uri=urlencode($redirect_uri);//这里需要urlencode一下
+                $redurl='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=0101010#wechat_redirect';
+                header("location:".$redurl);
+            }
+       // }
     }
 //获取openid
     public function get_openId(){
