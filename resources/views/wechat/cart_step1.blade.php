@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0" />
-<link href="static/lib/weui/style/weui.min.css" rel="stylesheet" />
-<link href="static/css/style.css" rel="stylesheet" />
-</head>
-
+@extends('layouts.wechat')
+@section('content')
 <body>
 <div class="x-cart-actionbar">
 <div class="x-cart-actionbar-row2">
@@ -14,7 +7,7 @@
 <span class="clean"><a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_default">清空购物车</a></span>
 </div>
 <div class="x-cart-actionbar-row1">
-<a href="javascript:;" class="weui-btn weui-btn weui-btn_default">继续购物</a>
+<a href="{{url('/wechat')}}" class="weui-btn weui-btn weui-btn_default">继续购物</a>
 <a href="javascript:;" class="weui-btn weui-btn_primary">下一步</a>
 </div>
 </div>
@@ -52,9 +45,8 @@
         display: none;
     }
 </style>
-<script src="../admin/style/js/jquery.js"></script>
-<script src="static/lib/server.js"></script>
-<script src="static/lib/cookie.js"></script>
+<script src="{{url('/resources/views/wechat/static/lib/server.js')}}"></script>
+<script src="{{url('/resources/views/wechat/static/lib/cookie.js')}}"></script>
 <script>
     $(function () {
         var listObj = getAllData();
@@ -106,4 +98,4 @@
     }
 </script>
 </body>
-</html>
+@endsection

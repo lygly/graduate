@@ -37,17 +37,4 @@ class WeChatController extends Controller
         $re = Customer::create($userInfo); //如果openID 没有则插入到数据库*/
 
   }
-//  把PHP对象转换成数组函数
-   /* function object2array($object) {
-        if (is_object($object)) {
-            foreach ($object as $key => $value) {
-                $array[$key] = $value;
-            }
-        }
-        else {
-            $array = $object;
-        }
-        return $array;
-    }*/
-
 }

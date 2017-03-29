@@ -6,6 +6,7 @@
     <link href="{{asset('/resources/views/wechat/static/lib/weui/style/weui.min.css')}}" rel="stylesheet" />
     <link href="{{asset('/resources/views/wechat/static/lib/swiper/css/swiper.min.css')}}" rel="stylesheet" />
     <link href="{{asset('/resources/views/wechat/static/css/style.css')}}" rel="stylesheet" />
+    <script type="text/javascript" src="{{asset('/resources/views/admin/style/js/jquery.js')}}"></script>
 </head>
 
 

@@ -40,6 +40,10 @@ class IndexController extends Controller
         dd($data);
         return view('wechat.user_profile',compact('data'));*/
     }
+    //购物车第一个页面
+    public function cart_step1(){
+        return view('wechat.cart_step1');
+    }
     //关于我们
     public function about(){
         return view('wechat.seller_about');

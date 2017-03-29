@@ -25,6 +25,7 @@ Route::group(['middleware'=>'csrf.ignore','prefix'=>'wechat','namespace'=>'WeCha
     Route::any('/p/{productId}','IndexController@detail');//产品详情页
     Route::any('/profile','IndexController@profile');//个人中心页
     Route::any('/about','IndexController@about');//关于我们页
+    Route::any('/cart_step1','IndexController@cart_step1');//关于我们页
 });
 
 //LoginController 里面的
