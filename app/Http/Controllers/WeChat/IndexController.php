@@ -7,6 +7,7 @@ use App\Http\Model\ProductPhoto;
 use App\Library\WeChat;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 
 class IndexController extends Controller
 {
@@ -37,10 +38,14 @@ class IndexController extends Controller
             $weChat->oauth();
             $open_id = session('open_id');
         }
-       dd($open_id);
-        $data = Customer::where('openId',$open_id)->get();
-        dd($data);
+      // dd($open_id);
+        $data = Customer::where('openId',$open_id)->first();
+        //dd($data);
         return view('wechat.user_profile',compact('data'));
+    }
+    //更新个人资料
+    public function updateProfile($open_id){
+        $input = Input::get();
     }
     //购物车第一个页面
     public function cart_step1(){

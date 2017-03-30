@@ -105,25 +105,31 @@ php;
         $appid ="wx2fb8f9fd418d80c5"; //测试号的appid
         $appsecret = "416b11926695931ee5b2b23e2766838b"; //测试号的appsecret
         $redirect_uri = "http://www.lylyg2017.cn/graduate/wechat/profile"; //返回地址
-        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
-        $code = Input::get('code'); //获取code
-        if (empty($code)){
-            header('location:'.$url); //跳转页面获取code
-        }
-       $code = Input::get('code');
-       $state = Input::get('state');
+        $code = Input::get('code');
+       if (empty($code)&&!isset($_session['code'])){  //判断是否是授权的回调
+           $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
+           header('location:'.$url); //跳转页面获取code
+       }
+        $code = Input::get('code');
 //如果没有获取到code
         if (empty($code)){
             $this->logger('授权失败');
-        }else{
-            $token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$appsecret.'&code='.$code.'&grant_type=authorization_code';
+        }elseif(!isset($_session['code'])){
+            $_SESSION['code'] = $_GET['code'];
+            $token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$appsecret.'&code='.$code.'&grant_type=authorization_code'; //获取openID
             $token = $this->http_curl($token_url);
             $token = json_decode($token);
+            $this->logger($token->openid);
+           session(['open_id'=>$token->openid]);
             if (isset($token->errcode)) {
                 $errorStr =  '错误：'.$token->errcode."\n". '错误信息：'.$token->errmsg;
                 $this->logger($errorStr); //把错误 信息写入日志
                 exit;
-            }
+        }
+
+
+
+
 
            /* $access_token_url = 'https://api.weixin.qq.com/sns/oauth2/refresh_token?appid='.$appid.'&grant_type=refresh_token&refresh_token='.$token->refresh_token;
 //转成对象
@@ -148,8 +154,8 @@ php;
               print_r($rs);
               echo $rs['openid'];
               echo '</pre>';*/
-           // session(['open_id'=>$rs['openid']]); //把openID存入session*/
-        }
+           // session(['open_id'=>$rs['openid']]); //把openID存入session*/*/
+       }
     }
 //获取openid
     public function get_openId(){
