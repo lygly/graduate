@@ -31,14 +31,16 @@ class IndexController extends Controller
     }
     //个人中心
     public function profile(){
-        $weChat =new WeChat();
-
-        $weChat->oauth();
-       // dd($open_id);
-       /* $data = Customer::where('openId',$open_id)->get();
-        $data = Customer::get();
+        $open_id = session('open_id');
+        if (empty($open_id)){
+            $weChat =new WeChat();
+            $weChat->oauth();
+            $open_id = session('open_id');
+        }
+       dd($open_id);
+        $data = Customer::where('openId',$open_id)->get();
         dd($data);
-        return view('wechat.user_profile',compact('data'));*/
+        return view('wechat.user_profile',compact('data'));
     }
     //购物车第一个页面
     public function cart_step1(){

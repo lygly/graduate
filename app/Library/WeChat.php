@@ -103,26 +103,53 @@ php;
     //网页授权
     public function oauth(){
         $appid ="wx2fb8f9fd418d80c5"; //测试号的appid
-        $secret = "416b11926695931ee5b2b23e2766838b"; //测试号的appsecret
+        $appsecret = "416b11926695931ee5b2b23e2766838b"; //测试号的appsecret
         $redirect_uri = "http://www.lylyg2017.cn/graduate/wechat/profile"; //返回地址
-        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo#wechat_redirect";
-       // if(session('open_id')){
-            $code = Input::get('code');
-            if(isset($code)){
-                //code参数已有，获取openid;
-                $url_get='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$secret.'&code='.$code.'&grant_type=authorization_code';
-                $res=json_decode($this->http_curl($url_get));
-                session('open_id',$res->openid);//保存openid。
-                header("location:".$redirect_uri); //获取openid后跳转到指定页面。
-                $this->logger($res);
-                echo $res;
-            }else{
-                //无code参数，先获取code
-                $redirect_uri=urlencode($redirect_uri);//这里需要urlencode一下
-                $redurl='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=0101010#wechat_redirect';
-                header("location:".$redurl);
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
+        $code = Input::get('code'); //获取code
+        if (empty($code)){
+            header('location:'.$url); //跳转页面获取code
+        }
+       $code = Input::get('code');
+       $state = Input::get('state');
+//如果没有获取到code
+        if (empty($code)){
+            $this->logger('授权失败');
+        }else{
+            $token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$appsecret.'&code='.$code.'&grant_type=authorization_code';
+            $token = $this->http_curl($token_url);
+            $token = json_decode($token);
+            if (isset($token->errcode)) {
+                $errorStr =  '错误：'.$token->errcode."\n". '错误信息：'.$token->errmsg;
+                $this->logger($errorStr); //把错误 信息写入日志
+                exit;
             }
-       // }
+
+           /* $access_token_url = 'https://api.weixin.qq.com/sns/oauth2/refresh_token?appid='.$appid.'&grant_type=refresh_token&refresh_token='.$token->refresh_token;
+//转成对象
+            $access_token = json_decode(file_get_contents($access_token_url));
+            if (isset($access_token->errcode)) {
+                $errorStr= '错误：'.$access_token->errcode."\n" .'错误信息：'.$access_token->errmsg;
+                $this->logger($errorStr);
+                exit;
+            }
+            $user_info_url = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token->access_token.'&openid='.$access_token->openid.'&lang=zh_CN';
+//转成对象
+            $user_info = json_decode(file_get_contents($user_info_url));
+            if (isset($user_info->errcode)) {
+                $errorStr = '错误：'.$user_info->errcode."\n". '错误信息：'.$user_info->errmsg;
+                exit;
+            }
+
+            $rs =  json_decode(json_encode($user_info),true);//返回的json数组转换成array数组
+
+//打印用户信息
+            /*  echo '<pre>';
+              print_r($rs);
+              echo $rs['openid'];
+              echo '</pre>';*/
+           // session(['open_id'=>$rs['openid']]); //把openID存入session*/
+        }
     }
 //获取openid
     public function get_openId(){
@@ -142,19 +169,15 @@ php;
                 $result = $this->receiveEvent($postSql);//关注自动回复消息
                 $this->menu();   //初始化菜单
                // $this->unionId();//获取用户公开信息
-            }else{
+            }elseif(trim($postSql->Event)=="CLICK"){
                 switch (trim($postSql->MsgType)){ //判断消息类型
                     case "text":
                         $result= $this->receiveText($postSql); //如果是文本消息则
                         break;
                     case "event":
-                        $result = $this->repository($postSql);
-                        /* $result = $this->receiveEvent($postSql);//关注自动回复消息
-                         $this->menu();   //初始化菜单*/
-                       /* session(['FromUserName'=>$postSql->FromUserName]);//把用户的openID写入session*/
+                        $result = $this->repository($postSql);//获取问题类型
                 }
             }
-
             //为了防止5s钟没反应微信服务器帮我们处理
             if (!empty($result)){
                 echo $result;
@@ -208,14 +231,11 @@ php;
                     $result=$this->receiveQuestion($postSql,20,$perfixId);
                     break;
             }
-
         }else{
             $questionId = $content;
             $result = $this->receiveAnswer($postSql,$questionId);
         }
-
         $this->logger("发送问答消息：\n".$result);
-
         return $result;
     }
     /*回复问题
