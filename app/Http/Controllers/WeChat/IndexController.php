@@ -4,6 +4,7 @@ namespace App\Http\Controllers\WeChat;
 
 use App\Http\Model\Customer;
 use App\Http\Model\ProductPhoto;
+use App\Http\Model\ShoppingAddress;
 use App\Library\WeChat;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -32,13 +33,14 @@ class IndexController extends Controller
     }
     //个人中心
     public function profile(){
-        $open_id = session('open_id');
+       /* $open_id = session('open_id');
         if (empty($open_id)){
             $weChat =new WeChat();
             $weChat->oauth();
             $open_id = session('open_id');
-        }
+        }*/
       // dd($open_id);
+        $open_id = "okyhUwNdRkU577OWH3XHqbddxBao";
         $data = Customer::where('openId',$open_id)->first();
         //dd($data);
         return view('wechat.user_profile',compact('data'));
@@ -46,10 +48,27 @@ class IndexController extends Controller
     //更新个人资料
     public function updateProfile($open_id){
         $input = Input::get();
+        $input['birthday'] = strtotime($input['birthday']); //把日期转换为时间戳
+       //dd($input);
+        $re = Customer::where('openId',$open_id)->update($input);
+        if ($re){
+            return redirect('wechat/profile');
+        }else{
+            return back()->with("errors","数据更新失败，请稍后重试！");
+        }
+    }
+    //管理收货地址
+    public function shopAddr($open_id){
+       $data = ShoppingAddress::where('openId',$open_id)->get();
+       return view('wechat.shopping_addr',compact('data'));
     }
     //购物车第一个页面
     public function cart_step1(){
         return view('wechat.cart_step1');
+    }
+    //加入购物车
+    public function addToCart(){
+
     }
     //关于我们
     public function about(){

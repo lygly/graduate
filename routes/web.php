@@ -24,9 +24,11 @@ Route::group(['middleware'=>'csrf.ignore','prefix'=>'wechat','namespace'=>'WeCha
     Route::any('/','IndexController@index'); //微信首页
     Route::any('/p/{productId}','IndexController@detail');//产品详情页
     Route::any('/profile','IndexController@profile');//个人中心页
-    Route::any('/updateProfile','IndexController@updateProfile');//更新个人资料
+    Route::any('/updateProfile/{openId}','IndexController@updateProfile');//更新个人资料
     Route::any('/about','IndexController@about');//关于我们页
     Route::any('/cart_step1','IndexController@cart_step1');//购物车1页
+    Route::any('/addToCart','IndexController@addToCart');//加入购物车
+    Route::resource('shopAddr', 'ShoppingAddrController'); //收货地址资源路由
 });
 
 //LoginController 里面的
