@@ -74,21 +74,21 @@
          <div class="page__bd page__bd_spacing" style="padding: 15px; background-color: #fff;">
              <input type="submit" class="weui-btn weui-btn_primary" width="100%" value="确定" style="margin-bottom: 15px;">
              <input type="hidden" name="openId" value="{{$field->openId}}">
-             <a href="javascript:;" onclick="delCate({{$field->id}})" class="weui-btn weui-btn_default" value="">删除</a>
+             <a href="javascript:;" onclick="delCate({{$field->id,$field->openId}})" class="weui-btn weui-btn_default" value="">删除</a>
          </div>
      </div>
  </form>
  <script src="{{url('/resources/views/wechat/static/lib/distpicker.data.min.js')}}"></script>
  <script src="{{url('/resources/views/wechat/static/lib/distpicker.min.js')}}"></script>
  <script>
-     function delCate(cate_id) {
+     function delCate(cate_id,open_id) {
          layer.confirm('您确认要删除该地址吗？', {
              btn: ['确定','取消'] //按钮
          }, function(){
              $.post('{{url('wechat/shopAddr/')}}'+'/'+cate_id,{'_method':'delete'},function (data) {
                  if(data.status == 0){
                      layer.msg(data.msg, {icon: 6});
-                     location.href = location.href;
+                     location.href = "http://www.lylyg2017.cn/graduate/wechat/shopAddr/"+open_id;
                  }else{
                      layer.msg(data.msg, {icon: 5});
                  }
