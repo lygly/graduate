@@ -57,11 +57,6 @@ class IndexController extends Controller
             return back()->with("errors","数据更新失败，请稍后重试！");
         }
     }
-    //管理收货地址
-    public function shopAddr($open_id){
-       $data = ShoppingAddress::where('openId',$open_id)->get();
-       return view('wechat.shopping_addr',compact('data'));
-    }
     //购物车第一个页面
     public function cart_step1(){
         return view('wechat.cart_step1');

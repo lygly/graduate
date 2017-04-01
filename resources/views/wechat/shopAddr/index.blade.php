@@ -26,6 +26,12 @@
                 <div class="weui-cell__ft"></div>
             </a>
         </div>
+
+     <div class="weui-tabbar x-tabbar">
+         <div class="page__bd page__bd_spacing" style="padding: 5px; width: 100%;">
+             <a href="{{url('wechat/profile')}}" class="weui-btn weui-btn_primary">返回个人中心</a>
+         </div>
+        </div>
     </div>
 </body>
 @endsection

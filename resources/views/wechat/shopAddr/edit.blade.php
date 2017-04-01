@@ -34,15 +34,14 @@
                      <input class="weui-input" name="tell" type="number" pattern="[0-9]*" placeholder="请输入号码" value="{{$field->tell}}"/>
                  </div>
              </div>
-             <div data-toggle="distpicker">
+             <div id="distpicker">
              <div class="weui-cell">
                  <div class="weui-cell__hd">
                      <label for="province" class="weui-label">省份</label>
                  </div>
                  <div class="weui-cell__bd">
-                     <select  id="province" class="weui-input" name="province">
-                        {{-- <option value="{{$field->province}}" selected]></option>--}}
-                     </select>
+                     <select  id="province" class="weui-input" name="province"></select>
+                     <input type="hidden" id="province1" value="{{$field->province}}">
                  </div>
              </div>
              <div class="weui-cell">
@@ -51,6 +50,7 @@
                  </div>
                  <div class="weui-cell__bd">
                      <select  id="city" class="weui-input" name="city"></select>
+                     <input type="hidden" id="city1" value="{{$field->city}}">
                  </div>
              </div>
              <div class="weui-cell">
@@ -59,6 +59,7 @@
                  </div>
                  <div class="weui-cell__bd">
                      <select id="district" class="weui-input" name="district"></select>
+                     <input type="hidden" id="district1" value="{{$field->district}}">
                  </div>
              </div>
           </div>
@@ -72,16 +73,27 @@
              </div>
        </div>
          <div class="page__bd page__bd_spacing" style="padding: 15px; background-color: #fff;">
-             <input type="submit" class="weui-btn weui-btn_primary" width="100%" value="确定" style="margin-bottom: 15px;">
-             <input type="hidden" name="openId" value="{{$field->openId}}">
-             <a href="javascript:;" onclick="delCate({{$field->id,$field->openId}})" class="weui-btn weui-btn_default" value="">删除</a>
+             <input type="submit" class="weui-btn weui-btn_primary"  value="确定" style="margin-bottom: 15px;" onclick="return check(this.form)">
+             <input type="hidden" id="openId" name="openId" value="{{$field->openId}}">
+             <a href="javascript:;" onclick="delCate({{$field->id}})" class="weui-btn weui-btn_default">删除</a>
          </div>
      </div>
  </form>
- <script src="{{url('/resources/views/wechat/static/lib/distpicker.data.min.js')}}"></script>
- <script src="{{url('/resources/views/wechat/static/lib/distpicker.min.js')}}"></script>
+ <script src="{{url('/resources/views/wechat/static/lib/js/distpicker.js')}}"></script>
  <script>
-     function delCate(cate_id,open_id) {
+     $(function () {
+         //设置三级联动初始值
+        var province = $('#province1').val();
+        var city = $('#city1').val();
+        var district = $('#district1').val();
+        $('#distpicker').distpicker({
+            province: province,
+            city: city,
+            district: district
+        });
+     });
+     function delCate(cate_id) {
+         var open_id = $('#openId').val();
          layer.confirm('您确认要删除该地址吗？', {
              btn: ['确定','取消'] //按钮
          }, function(){
@@ -96,6 +108,57 @@
          }, function(){
 
          });
+     }
+     function check(form){
+         if(form.acceptName.value ==''){
+             layer.alert('请填写收货人姓名', {
+                 skin: 'layui-layer-molv' //样式类名
+                 ,closeBtn: 0
+             });
+             form.acceptName.focus();
+             return false;
+         }
+         if(form.tell.value ==''){
+             layer.alert('请填写电话号码', {
+                 skin: 'layui-layer-molv' //样式类名
+                 ,closeBtn: 0
+             });
+             form.tell.focus();
+             return false;
+         }
+         if(form.province.value ==''){
+             layer.alert('请选择省份', {
+                 skin: 'layui-layer-molv' //样式类名
+                 ,closeBtn: 0
+             });
+             form.province.focus();
+             return false;
+         }
+         if(form.city.value ==''){
+             layer.alert('请选择城市', {
+                 skin: 'layui-layer-molv' //样式类名
+                 ,closeBtn: 0
+             });
+             form.city.focus();
+             return false;
+         }
+         if(form.district.value ==''){
+             layer.alert('请选择区县', {
+                 skin: 'layui-layer-molv' //样式类名
+                 ,closeBtn: 0
+             });
+             form.district.focus();
+             return false;
+         }
+         if(form.detailAddr.value ==''){
+             layer.alert('请填写详细地址', {
+                 skin: 'layui-layer-molv' //样式类名
+                 ,closeBtn: 0
+             });
+             form.detailAddr.focus();
+             return false;
+         }
+         return true;
      }
  </script>
  </body>

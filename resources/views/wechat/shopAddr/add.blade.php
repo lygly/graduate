@@ -69,12 +69,64 @@
              </div>
        </div>
          <div class="weui-tabbar x-tabbar">
-             <input type="submit" class="weui-btn weui-btn_primary" value="确定">
+             <input type="submit" class="weui-btn weui-btn_primary" value="确定" onclick="return check(this.form)">
              <input type="hidden" name="openId" value="{{session('open_id')}}">
          </div>
      </div>
  </form>
- <script src="{{url('/resources/views/wechat/static/lib/distpicker.data.min.js')}}"></script>
- <script src="{{url('/resources/views/wechat/static/lib/distpicker.min.js')}}"></script>
+ <script src="{{url('/resources/views/wechat/static/lib/js/distpicker.js')}}"></script>
+ <script>
+   function check(form){
+       if(form.acceptName.value ==''){
+           layer.alert('请填写收货人姓名', {
+               skin: 'layui-layer-molv' //样式类名
+               ,closeBtn: 0
+           });
+           form.acceptName.focus();
+           return false;
+       }
+       if(form.tell.value ==''){
+           layer.alert('请填写电话号码', {
+               skin: 'layui-layer-molv' //样式类名
+               ,closeBtn: 0
+           });
+           form.tell.focus();
+           return false;
+       }
+       if(form.province.value ==''){
+           layer.alert('请选择省份', {
+               skin: 'layui-layer-molv' //样式类名
+               ,closeBtn: 0
+           });
+           form.province.focus();
+           return false;
+       }
+       if(form.city.value ==''){
+           layer.alert('请选择城市', {
+               skin: 'layui-layer-molv' //样式类名
+               ,closeBtn: 0
+           });
+           form.city.focus();
+           return false;
+       }
+       if(form.district.value ==''){
+           layer.alert('请选择区县', {
+               skin: 'layui-layer-molv' //样式类名
+               ,closeBtn: 0
+           });
+           form.district.focus();
+           return false;
+       }
+       if(form.detailAddr.value ==''){
+           layer.alert('请填写详细地址', {
+               skin: 'layui-layer-molv' //样式类名
+               ,closeBtn: 0
+           });
+           form.detailAddr.focus();
+           return false;
+       }
+       return true;
+   }
+ </script>
  </body>
 @endsection

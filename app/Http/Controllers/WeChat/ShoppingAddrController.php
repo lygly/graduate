@@ -52,15 +52,14 @@ class ShoppingAddrController extends Controller
     public function destroy($id){
         $re = ShoppingAddress::where('id',$id)->delete();
         if ($re){
-           /* $data = [
+            $data = [
                 'status'=>0,
-                'msg'=>'关于我们删除成功！'
-            ];*/
-            return redirect('wechat/shopAddr');
+                'msg'=>'删除成功！'
+            ];
         }else{
             $data = [
                 'status'=>1,
-                'msg'=>'关于我们删除失败，请稍后重试S！'
+                'msg'=>'删除失败，请稍后重试！'
             ];
         }
         return $data;
