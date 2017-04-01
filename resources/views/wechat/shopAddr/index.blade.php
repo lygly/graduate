@@ -29,7 +29,7 @@
 
      <div class="weui-tabbar x-tabbar">
          <div class="page__bd page__bd_spacing" style="padding: 5px; width: 100%;">
-             <a href="{{url('wechat/profile')}}" class="weui-btn weui-btn_primary">返回个人中心</a>
+             <a href="{{url('wechat/profile')}}" class="weui-btn weui-btn_primary" style="background-color: #4b7cea;">返回个人中心</a>
          </div>
         </div>
     </div>

@@ -11,8 +11,6 @@ class ShoppingAddrController extends Controller
 {
     // get wechat/shopAddr   get方式过来的 后面是地址  全部关于我们列表
     public function index(){
-       /* $data = ShoppingAddress::orderBy('createDate','desc')->paginate(5);
-        return view('wechat.shopAddr.index',compact('data'));*/
     }
     //get wechat/shopAddr/create  添加关于我们
     public function create(){
@@ -21,7 +19,6 @@ class ShoppingAddrController extends Controller
     //post wechat/shopAddr 添加关于我们提交方法
     public function store(){
         $input = Input::get();
-      // dd($input);
         $input['createDate'] = time();//自动添加时候的时间
         $open_id = $input['openId'];
         $re = ShoppingAddress::create($input);
@@ -39,7 +36,6 @@ class ShoppingAddrController extends Controller
     //put wechat/shopAddr/{about}   更新关于我们
     public function update($id){
         $input = Input::except('_method');
-        // dd($input);
         $open_id = $input['openId'];
         $re = ShoppingAddress::where('id',$id) ->update($input);
         if($re){

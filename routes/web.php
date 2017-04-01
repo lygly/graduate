@@ -11,12 +11,6 @@
 |
 */
 
-/*//前台路由
-Route::group([],function (){
-    Route::get('/','Home\IndexController@index');//前台首页
-    Route::get('/cate/{cate_id}','Home\IndexController@cate');//前台列表页
-    Route::get('/a/{art_id}','Home\IndexController@article');//前台文章页
-});*/
 //微信路由
 Route::group(['middleware'=>'csrf.ignore','prefix'=>'wechat','namespace'=>'WeChat'], function () {
     Route::any('wechat','WeChatController@serve');//连接微信和基础配置
@@ -26,8 +20,7 @@ Route::group(['middleware'=>'csrf.ignore','prefix'=>'wechat','namespace'=>'WeCha
     Route::any('/profile','IndexController@profile');//个人中心页
     Route::any('/updateProfile/{openId}','IndexController@updateProfile');//更新个人资料
     Route::any('/about','IndexController@about');//关于我们页
-    Route::any('/cart_step1','IndexController@cart_step1');//购物车1页
-    Route::any('/addToCart','IndexController@addToCart');//加入购物车
+    Route::resource('shopCart', 'ShopCartController'); //购物车资源路由
     Route::resource('shopAddr', 'ShoppingAddrController'); //收货地址资源路由
 });
 

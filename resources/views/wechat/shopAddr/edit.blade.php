@@ -73,7 +73,7 @@
              </div>
        </div>
          <div class="page__bd page__bd_spacing" style="padding: 15px; background-color: #fff;">
-             <input type="submit" class="weui-btn weui-btn_primary"  value="确定" style="margin-bottom: 15px;" onclick="return check(this.form)">
+             <input type="submit" class="weui-btn weui-btn_primary"  value="确定" style="margin-bottom: 15px; background-color: #4b7cea;" onclick="return check(this.form)">
              <input type="hidden" id="openId" name="openId" value="{{$field->openId}}">
              <a href="javascript:;" onclick="delCate({{$field->id}})" class="weui-btn weui-btn_default">删除</a>
          </div>

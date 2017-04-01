@@ -51,7 +51,7 @@
 </div>
         <div class="weui-tabbar x-tabbar">
             <div class="page__bd page__bd_spacing" style="padding: 5px; width: 100%;">
-            <input type="submit" class="weui-btn weui-btn_primary" value="确定">
+            <input type="submit" class="weui-btn weui-btn_primary" style="background-color: #4b7cea;" value="确定">
             </div>
         </div>
     </form>

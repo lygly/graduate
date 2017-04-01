@@ -69,8 +69,10 @@
              </div>
        </div>
          <div class="weui-tabbar x-tabbar">
-             <input type="submit" class="weui-btn weui-btn_primary" value="确定" onclick="return check(this.form)">
+             <div class="page__bd page__bd_spacing" style="padding: 5px; width: 100%;">
+             <input type="submit" class="weui-btn weui-btn_primary" value="确定" style="background-color: #4b7cea;" onclick="return check(this.form)">
              <input type="hidden" name="openId" value="{{session('open_id')}}">
+             </div>
          </div>
      </div>
  </form>
