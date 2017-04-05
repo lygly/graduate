@@ -46,31 +46,22 @@ class IndexController extends Controller
             $open_id = session('open_id');
         }*/
       // dd($open_id);
-        $open_id = "okyhUwNdRkU577OWH3XHqbddxBao";
-        $data = Customer::where('openId',$open_id)->first();
-        //dd($data);
+        $customer_id = session('customer_id');
+        $data = Customer::find($customer_id);
+       //dd($data);
         return view('wechat.user_profile',compact('data'));
     }
     //更新个人资料
-    public function updateProfile($open_id){
+    public function updateProfile($customer_id){
         $input = Input::get();
         $input['birthday'] = strtotime($input['birthday']); //把日期转换为时间戳
-        $re = Customer::where('openId',$open_id)->update($input);
+        $re = Customer::where('id',$customer_id)->update($input);
         if ($re){
             return redirect('wechat/profile');
         }else{
             return back()->with("errors","数据更新失败，请稍后重试！");
         }
     }
-  /*  //购物车第一个页面
-    public function cart_step1(){
-        return view('wechat.cart_step1');
-    }
-    //加入购物车
-    public function addToCart(){
-
-
-    }*/
     //关于我们
     public function about(){
         return view('wechat.seller_about');

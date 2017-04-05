@@ -1,8 +1,19 @@
 @extends('layouts.wechat')
 @section('content')
     <body>
+    <div class="weui-tabbar x-tabbar">
+        <a href="{{url('/wechat/about')}}" class="weui-tabbar__item">
+            <i class="weui-tabbar__icon x-tabbar-icon x-tabbar-icon-1"></i><p class="weui-tabbar__label">关于我们</p>
+        </a>
+        <a href="{{url('/wechat')}}" class="weui-tabbar__item">
+            <i class="weui-tabbar__icon x-tabbar-icon x-tabbar-icon-2"></i><p class="weui-tabbar__label">产品中心</p>
+        </a>
+        <a href="{{url('/wechat/profile')}}" class="weui-tabbar__item weui-bar__item_on">
+            <i class="weui-tabbar__icon x-tabbar-icon x-tabbar-icon-3"></i><p class="weui-tabbar__label">个人中心</p>
+        </a>
+    </div>
 <div class="x-container">
-    <form action="{{url('wechat/updateProfile/'.$data->openId)}}" method="post">
+    <form action="{{url('wechat/updateProfile/'.$data->id)}}" method="post">
 <div class="weui-cells x-up-list">
 <a class="weui-cell weui-cell_access" href="javascript:;">
 <div class="weui-cell__bd"><label for="" class="weui-label">头像</label></div>
@@ -44,13 +55,13 @@
 </div>
 
 <div class="weui-cells x-up-list">
-<a class="weui-cell weui-cell_access" href="{{url('wechat/shopAddr/'.$data->openId)}}">
+<a class="weui-cell weui-cell_access" href="{{url('wechat/shopAddr/'.$data->id)}}">
 <div class="weui-cell__bd"><label for="addr" class="weui-label">管理收货地址</label></div>
 <div class="weui-cell__ft"></div>
 </a>
 </div>
-        <div class="weui-tabbar x-tabbar">
-            <div class="page__bd page__bd_spacing" style="padding: 5px; width: 100%;">
+        <div class="weui-cells">
+            <div class="weui-cell" style="padding: 5px;">
             <input type="submit" class="weui-btn weui-btn_primary" style="background-color: #4b7cea;" value="确定">
             </div>
         </div>

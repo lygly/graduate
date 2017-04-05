@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\WeChat;
 
+use App\Http\Model\Customer;
 use App\Http\Model\ShopCart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -19,28 +20,29 @@ class ShopCartController extends Controller
       // dd($data);
         return view('wechat.shopCart.cart_step1',compact('data'));
     }
-    //get wechat/shopCart/create  添加关于我们
+    //get wechat/shopCart/create  点击按钮数量增加
     public function create(){
-        return view('wechat.shopCart.add');
+      $input = Input::get();
+      $account = ShopCart::where('productId',$input['productId'])->first();
+      $account->account = $input['account'];
+      $account->update();
     }
-    //post wechat/shopCart 添加关于我们提交方法
+    //post wechat/shopCart 点击按钮数量减少
     public function store(){
-        $input = Input::get();
-        $input['createDate'] = time();//自动添加时候的时间
-        $open_id = $input['openId'];
-        $re = ShopCart::create($input);
-        if ($re){
-            return redirect('wechat/shopCart/'.$open_id);
-        }else{
-            return back()->with("errors","数据更新失败，请稍后重试");
-        }
+    $input = Input::get();
+    $account = ShopCart::where('productId',$input['productId'])->first();
+    $account->account = $input['account'];
+    $account->update();
     }
-    //get wechat/shopCart/{about}/edit   添加商品到购物车
-    public function edit($id){
-        $field = ShopCart::find($id);
-        return view('wechat.shopCart.edit',compact('field'));
+    //get wechat/shopCart/{about}/edit  跳转到下一页
+    public function edit($customer_id){
+       // $customer_id = session('customer_id');
+        $data = Customer::where('id',$customer_id)->get();
+       // dd($data);
+        return view('wechat.shopCart.cart_step2',compact('data'));
+
     }
-    //put wechat/shopCart/{about}   更新关于我们
+    //put wechat/shopCart/{about}  添加商品到购物车
     public function update($productId){
         $input = Input::except('_method');
         $customer_id = session('customer_id');
@@ -49,10 +51,10 @@ class ShopCartController extends Controller
         $productName = $input['productName'];
         $unitPrice = $input['unitPrice'];
         $createDate = time();
-     //  dd($input);
-       /* insert into p_shopcart(customerId,openid,productId,imgUrl,productName,unitPrice,uint,createDate)
-VALUES(6,'',3,'uploads/20170322111036821.png','腰带药片', 89.00,'元',now())on duplicate key update account=account+1;*/
-      $sqlStr="insert into p_shopcart(customerId,openid,productId,imgUrl,productName,unitPrice,uint,createDate,account)VALUES($customer_id,'$open_id',$productId,'$imgUrl','$productName', $unitPrice,'元',$createDate,1)on duplicate key update account=account+1";
+        //  dd($input);
+        /* insert into p_shopcart(customerId,openid,productId,imgUrl,productName,unitPrice,uint,createDate)
+ VALUES(6,'',3,'uploads/20170322111036821.png','腰带药片', 89.00,'元',now())on duplicate key update account=account+1;*/
+        $sqlStr="insert into p_shopcart(customerId,openid,productId,imgUrl,productName,unitPrice,uint,createDate,account)VALUES($customer_id,'$open_id',$productId,'$imgUrl','$productName', $unitPrice,'元',$createDate,1)on duplicate key update account=account+1";
         $re = DB::insert($sqlStr);
         if($re){
             return redirect('wechat/shopCart');
@@ -60,29 +62,12 @@ VALUES(6,'',3,'uploads/20170322111036821.png','腰带药片', 89.00,'元',now())
             return back()->with('errors','数据更新失败，请稍后重试！');
         }
     }
-    //delete wechat/shopCart/{about}  删除单个关于我们
+    //delete wechat/shopCart/{about}  删除单个商品
     public function destroy($id){
-        $re = ShopCart::where('id',$id)->delete();
-        if ($re){
-            $data = [
-                'status'=>0,
-                'msg'=>'删除成功！'
-            ];
-        }else{
-            $data = [
-                'status'=>1,
-                'msg'=>'删除失败，请稍后重试！'
-            ];
-        }
-        return $data;
+        ShopCart::where('id',$id)->delete();
     }
-    //get wechat/shopCart/{about}   显示单个关于我们信息
-    public function show($productId){
-        $customer_id = session('customer_id');
-       // dd($customer_id);
-
-        $data = ShopCart::where('customerId',$customer_id)->orderBy('createDate','desc')->paginate(5);
-        dd($data);
-        return view('wechat.shopCart.cart_step1',compact('data'));
+    //get wechat/shopCart/{about}   删除所有商品
+    public function show($id){
+        DB::table('p_shopcart')->truncate(); //清空表
     }
 }
