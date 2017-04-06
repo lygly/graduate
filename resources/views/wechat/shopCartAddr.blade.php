@@ -1,8 +1,5 @@
 @extends('layouts.wechat')
 @section('content')
-    <style>
-        .hid{display: none;}
-    </style>
 <body>
 <form action="{{url('wechat/shopCart/addr/'.session('customer_id'))}}" method="post">
     <div class="x-container">
@@ -21,7 +18,6 @@
                 <div class="weui-cell__ft">
                     <input type="radio" class="weui-check" name="addrId" id="{{$d->id}}" value="{{$d->id}}">
                     {{session(['customer_id'=>$d->customerId,'addrId'=>$d->id])}}
-                    {{--<input type="submit" class="hid">--}}
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
