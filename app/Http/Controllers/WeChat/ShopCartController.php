@@ -41,7 +41,7 @@ class ShopCartController extends Controller
     //提交产品 跳转到下一页
     public function addr($customer_id){
         $input = Input::except('_method');
-           dd($input);
+           //dd($input);
            $addr_id = $input['addrId'];
         //如果选择了地址则显示选择的地址否则显示默认
         if ($addr_id){

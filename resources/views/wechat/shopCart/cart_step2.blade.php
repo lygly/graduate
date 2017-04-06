@@ -21,32 +21,18 @@
 <li>3.购买成功</li>
 </ol>
 
-{{--<div class="x-cart-addr">
-<textarea placeholder="请输入收货地址"></textarea>
-</div>--}}
     <div class="weui-cells__title">收货地址</div>
     <div class="weui-panel weui-panel_access">
-       <div class="weui-panel__hd weui-flex" style="display: block; overflow: hidden; cursor: pointer;" id="addr">
+       <a class="weui-panel__hd weui-flex" href="{{url('wechat/shopCart/'.$data->customerId.'/edit')}}">
           <div class="weui-media-box_text weui-flex__item" style="width: 85%; float: left;">
               <p style="line-height: 25px;">{{$data->province.$data->city.$data->district.$data->detailAddr}}</p>
               <p style="line-height: 25px;"><span>{{$data->acceptName}}</span> <span>{{$data->tell}}</span></p>
               <input type="hidden" id="customerId" value="{{$data->customerId}}">
           </div>
-           <div style="float: right;">
-               <a class="placeholder"href="{{url('wechat/shopAddr/'.$data->id.'/edit')}}">修改</a>
-           </div>
-       </div>
+       </a>
     </div>
 </div>
 </form>
-<script>
-    $(function () {
-        $("#addr").click(function () {
-            var customerId = $("#customerId").val();
 
-            location.href="http://www.lylyg2017.cn/graduate/wechat/shopCart/"+customerId+"/edit";
-        })
-    })
-</script>
 </body>
 @endsection
