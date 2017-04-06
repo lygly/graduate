@@ -1,6 +1,10 @@
 @extends('layouts.wechat')
 @section('content')
+    <style>
+        .hid{display: none;}
+    </style>
 <body>
+<form action="{{url('wechat/shopCart/addr/'.session('customer_id'))}}" method="post">
     <div class="x-container">
         <div class="weui-cells__title">选择收货地址</div>
         <div class="weui-cells weui-cells_radio">
@@ -15,25 +19,22 @@
                     </div>
                 </div>
                 <div class="weui-cell__ft">
-                    <input type="radio" class="weui-check" name="addr" id="{{$d->id}}" value="{{$d->id}}">
-                    <input type="hidden" value="{{$d->customerId}}">
+                    <input type="radio" class="weui-check" name="addrId" id="{{$d->id}}" value="{{$d->id}}">
+                    {{session(['customer_id'=>$d->customerId,'addrId'=>$d->id])}}
+                    <input type="submit" class="hid">
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
             @endforeach
         </div>
     </div>
-    <script>
-        $(function () {
-            $(".addr").click(function () {
-                var addrId = $(this).children('div.weui-cell__ft').children('input[name=addr]').val();
-                var customerId = $("input:hidden").val();
-                console.log(addrId);
-            /*    $.get('http://www.lylyg2017.cn/graduate/wechat/shopCart/addr/' + customerId +'/'+ addrId,{},function () {
-
-                });*/
-            })
-        })
-    </script>
+</form>
 </body>
+<script>
+    $(function () {
+        $(".addr").click(function () {
+            $("input:submit").submit();
+        })
+    })
+</script>
 @endsection
