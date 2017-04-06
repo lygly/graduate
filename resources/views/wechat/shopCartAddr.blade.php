@@ -21,7 +21,7 @@
                 <div class="weui-cell__ft">
                     <input type="radio" class="weui-check" name="addrId" id="{{$d->id}}" value="{{$d->id}}">
                     {{session(['customer_id'=>$d->customerId,'addrId'=>$d->id])}}
-                    <input type="submit" class="hid">
+                    {{--<input type="submit" class="hid">--}}
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
@@ -33,7 +33,7 @@
 <script>
     $(function () {
         $(".addr").click(function () {
-            $("input:submit").submit();
+            $("form").submit();
         })
     })
 </script>
