@@ -4,6 +4,7 @@ namespace App\Http\Controllers\WeChat;
 
 use App\Http\Model\Customer;
 use App\Http\Model\ShopCart;
+use App\Http\Model\ShoppingAddress;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -11,13 +12,10 @@ use Illuminate\Support\Facades\Input;
 
 class ShopCartController extends Controller
 {
-    // get wechat/shopCart   get方式过来的 后面是地址  全部关于我们列表
+    // get wechat/shopCart   get方式过来的 后面是地址
     public function index(){
         $customer_id = session('customer_id');
-        // dd($customer_id);
-
         $data = ShopCart::where('customerId',$customer_id)->orderBy('createDate','desc')->get();
-      // dd($data);
         return view('wechat.shopCart.cart_step1',compact('data'));
     }
     //get wechat/shopCart/create  点击按钮数量增加
@@ -34,13 +32,25 @@ class ShopCartController extends Controller
     $account->account = $input['account'];
     $account->update();
     }
-    //get wechat/shopCart/{about}/edit  跳转到下一页
+    //get wechat/shopCart/{about}/edit 显示所有可选择的地址
     public function edit($customer_id){
-       // $customer_id = session('customer_id');
-        $data = Customer::where('id',$customer_id)->get();
-       // dd($data);
-        return view('wechat.shopCart.cart_step2',compact('data'));
+        $data = ShoppingAddress::where('customerId',$customer_id)->orderBy('createDate','desc')->get();
+        session(['customer_id'=>$customer_id]); //把customerID写入session
+        return view('wechat.shopCartAddr',compact('data'));
+    }
+    //提交产品 跳转到下一页
+    public function addr($customer_id,$addr_id){
+        $input = Input::except('_method');
+        //   dd($input);
+        //如果选择了地址则显示选择的地址否则显示默认
+        if ($addr_id){
+            $data = ShoppingAddress::find($addr_id);
+        }else{
+            $data = ShoppingAddress::where('customerId',$customer_id)->orderBy('createDate','asc')->first();
+        }
 
+        // dd($data);
+        return view('wechat.shopCart.cart_step2',compact('data'));
     }
     //put wechat/shopCart/{about}  添加商品到购物车
     public function update($productId){

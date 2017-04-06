@@ -60,9 +60,9 @@ class ShoppingAddrController extends Controller
         }
         return $data;
     }
-    //get wechat/shopAddr/{about}   显示单个
+    //get wechat/shopAddr/{about}   显示全部收货地址
     public function show($customer_id){
-        $data = ShoppingAddress::orderBy('createDate','desc')->get();
+        $data = ShoppingAddress::where('customerId',$customer_id)->orderBy('createDate','desc')->get();
         session(['customer_id'=>$customer_id]); //把customerID写入session
         return view('wechat.shopAddr.index',compact('data'));
     }

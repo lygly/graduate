@@ -1,6 +1,9 @@
 @extends('layouts.wechat')
 @section('content')
 <body>
+<form action="{{url('wechat/shopCart/'.session('customer_id').'/edit')}}" method="post">
+    <input type="hidden" name="_method" value="get">
+
 <div class="x-cart-actionbar" style="z-index: 1;">
 <div class="x-cart-actionbar-row2">
 <span class="count">购物金额小计<strong>&yen;<span id="count"></span></strong></span>
@@ -8,7 +11,8 @@
 </div>
     <div class="x-cart-actionbar-row1">
         <a href="{{url('/wechat')}}" class="weui-btn weui-btn weui-btn_default">继续购物</a>
-        <a href="{{url('wechat/shopCart/'.session('customer_id').'/edit')}}" class="weui-btn weui-btn_primary">下一步</a>
+        {{--<a href="javascript:;" class="weui-btn weui-btn_primary">下一步</a>--}}
+        <input type="submit" class="weui-btn weui-btn_primary" value="下一步" >
     </div>
 </div>
 
@@ -21,22 +25,33 @@
     @if($data)
 <ul class="x-cart-plist">
     @foreach($data as $d)
-<li id="{{$d->productId}}">
-    <input type="radio" class="weui-icon-success">
-<div class="x-cart-plist-cover"><img id="plist-img" style="height:95px; width: 100px;" src="{{url('/'.$d->imgUrl)}}"/></div>
-<div class="x-cart-plist-info" id="x-cart-plist-info">
-<p class="title" id="title">{{$d->productName}}</p>
-<p class="text">售价：<strong id="price">{{$d->unitPrice}}</strong></p>
-<p class="text">小计：<strong id="sum">{{$d->unitPrice}}</strong></p>
-    <p class="text">数量：
-        <span class="num">
+<li id="{{$d->productId}}" style="padding: 0;">
+    <div class=" weui-cells_checkbox">
+        <label class="weui-cell weui-check__label" for="p{{$d->productId}}">
+            <div class="weui-cell__hd">
+                <input type="checkbox" class="weui-check" name="productId{{$d->productId}}" id="p{{$d->productId}}" value="{{$d->productId}}" checked="checked">
+                <i class="weui-icon-checked"></i>
+            </div>
+            <div class="weui-cell__bd">
+                <div class="x-cart-plist-cover" style="width: 30%;">
+                    <img id="plist-img" style="" src="{{url('/'.$d->imgUrl)}}"/>
+                </div>
+                <div class="x-cart-plist-info" id="x-cart-plist-info" style="margin-left: 32%;">
+                    <p class="title" id="title">{{$d->productName}}</p>
+                    <p class="text">售价：<strong id="price">{{$d->unitPrice}}</strong></p>
+                    <p class="text">小计：<strong id="sum">{{$d->unitPrice}}</strong></p>
+                    <p class="text">数量：
+                        <span class="num">
             <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_default" id="minus" onclick="minus(this,'{{$d->productId}}','{{$d->id}}')">-</a>
             <input type="text" size="1" value="{{$d->account}}" id="account"/>
             <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_default" id="plus" onclick="plus(this,'{{$d->productId}}')">+</a>
         </span>
-    </p>
-</div>
-<a href="javascript:;" class="x-cart-plist-del" id="del" onclick="del('{{$d->id}}','{{$d->productId}}')"></a>
+                    </p>
+                </div>
+                <a href="javascript:;" class="x-cart-plist-del" id="del" onclick="del('{{$d->id}}','{{$d->productId}}')"></a>
+            </div>
+        </label>
+    </div>
 </li>
         @endforeach
 </ul>
@@ -44,6 +59,7 @@
         <div class="box" id="box">购物车里没有任何商品</div>
     @endif
 </div>
+</form>
 <script>
 $(function () {
     //总额
