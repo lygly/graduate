@@ -14,6 +14,13 @@ class IndexController extends Controller
 {
     //首页
     public function index(){
+        /* $open_id = session('open_id');
+       if (empty($open_id)){
+           $weChat =new WeChat();
+           $weChat->oauth();
+           $open_id = session('open_id');
+       }*/
+        // dd($open_id);
         $open_id = "okyhUwNdRkU577OWH3XHqbddxBao";
         $customer = Customer::select('id')->where('openId',$open_id)->first();
         $customer_id = $customer->id;  //获取客户ID
@@ -39,13 +46,6 @@ class IndexController extends Controller
     }
     //个人中心
     public function profile(){
-       /* $open_id = session('open_id');
-        if (empty($open_id)){
-            $weChat =new WeChat();
-            $weChat->oauth();
-            $open_id = session('open_id');
-        }*/
-      // dd($open_id);
         $customer_id = session('customer_id');
         $data = Customer::find($customer_id);
        //dd($data);
