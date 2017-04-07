@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\WeChat;
 
 use App\Http\Model\Customer;
+use App\Http\Model\Order;
+use App\Http\Model\OrderDetail;
 use App\Http\Model\ShopCart;
 use App\Http\Model\ShoppingAddress;
 use Illuminate\Http\Request;
@@ -41,18 +43,59 @@ class ShopCartController extends Controller
     //提交产品 跳转到下一页
     public function addr($customer_id){
         $input = Input::except('_method');
-           //dd($input);
-           $addr_id = $input['addrId'];
+          $addr_id = $input['addrId'];
+         session(['addrId'=>$addr_id]);
         //如果选择了地址则显示选择的地址否则显示默认
         if ($addr_id){
             $data = ShoppingAddress::find($addr_id);
+            $productId = session('productId');
         }else{
             $data = ShoppingAddress::where('customerId',$customer_id)->orderBy('createDate','asc')->first();
+            $productId = $input['productId'];//产品ID数组
+            session(['productId'=>$productId,'sumMoney'=>$input['sumMoney'],'addrId'=>$data->id]);
         }
-
-        // dd($data);
-        return view('wechat.shopCart.cart_step2',compact('data'));
+        //查出选择了的商品
+        foreach ($productId as $k=>$v){
+            $goods[$k] = ShopCart::where('productId',$v)->first();
+        }
+        return view('wechat.shopCart.cart_step2',compact('goods','data'));
     }
+    //提交订单 跳转到下一页
+    public function order(){
+        $input = Input::get();
+        //订单主表数据
+        $orderMain['customerId'] = $input['customerId'];
+        $orderMain['sumMoney'] = $input['sumMoney'];
+        $orderMain['payment'] = $input['payment'];
+        $orderMain['addressId'] = $input['addressId'];
+        $orderMain['orderCode'] = date("YmdHis").rand(100,999); //订单编号
+        $orderMain['orderDate'] =time();
+        //写入订单主表
+        $re = Order::create($orderMain);
+        //订单明细表数据
+       // $orderDetail['oderId'] = $orderMain['orderCode'];
+        $productId = $input['productId'];
+        $uintPrice= $input['uintPrice'];
+        $account = $input['account'];
+        $len = sizeof($input['productId']);
+        for($i = 0; $i<$len;$i++){
+            $orderDetail['oderId'] = $orderMain['orderCode'];
+            $orderDetail['productId'] = $productId[$i];
+            $orderDetail['uintPrice'] = $uintPrice[$i];
+            $orderDetail['account'] = $account[$i];
+            $detailRe = OrderDetail::create($orderDetail);
+        }
+        if($re && $detailRe){
+            return view('wechat.shopCart.cart_step3');
+        }else{
+            return back()->with('errors','数据更新失败，请稍后重试！');
+        }
+    }
+//支付页面
+    public function pay(){
+        return view('wechat.shopCart.cart_step4');
+    }
+
     //put wechat/shopCart/{about}  添加商品到购物车
     public function update($productId){
         $input = Input::except('_method');

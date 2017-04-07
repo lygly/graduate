@@ -21,6 +21,8 @@ Route::group(['middleware'=>'csrf.ignore','prefix'=>'wechat','namespace'=>'WeCha
     Route::any('/updateProfile/{openId}','IndexController@updateProfile');//更新个人资料
     Route::any('/about','IndexController@about');//关于我们页
     Route::any('shopCart/addr/{customerId}','ShopCartController@addr');//确定订单页面
+    Route::any('shopCart/order','ShopCartController@order');//确认订单
+    Route::any('shopCart/pay','ShopCartController@pay');//支付
     Route::resource('shopCart', 'ShopCartController'); //购物车资源路由
     Route::resource('shopAddr', 'ShoppingAddrController'); //收货地址资源路由
 });

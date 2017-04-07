@@ -2,6 +2,7 @@
 @section('content')
 <body>
 <form action="{{url('wechat/shopCart/addr/'.session('customer_id'))}}" method="post">
+    {{--<input type="hidden" name="productId" value="{{session('productId')}}">--}}
     <div class="x-container">
         <div class="weui-cells__title">选择收货地址</div>
         <div class="weui-cells weui-cells_radio">

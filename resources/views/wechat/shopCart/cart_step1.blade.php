@@ -1,18 +1,21 @@
 @extends('layouts.wechat')
 @section('content')
 <body>
-<form action="{{url('wechat/shopCart/'.session('customer_id').'/edit')}}" method="post">
+<form action="{{url('wechat/shopCart/addr/'.session('customer_id'))}}" method="post">
     <input type="hidden" name="_method" value="get">
 
 <div class="x-cart-actionbar" style="z-index: 1;">
 <div class="x-cart-actionbar-row2">
-<span class="count">购物金额小计<strong>&yen;<span id="count"></span></strong></span>
+<span class="count">购物金额小计<strong>&yen;<span id="count"></span>
+    <input type="hidden" name="sumMoney" value="">
+    </strong></span>
 <span class="clean"><a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_default" onclick="delAll()">清空购物车</a></span>
 </div>
     <div class="x-cart-actionbar-row1">
         <a href="{{url('/wechat')}}" class="weui-btn weui-btn weui-btn_default">继续购物</a>
         {{--<a href="javascript:;" class="weui-btn weui-btn_primary">下一步</a>--}}
         <input type="submit" class="weui-btn weui-btn_primary" value="下一步" >
+        <input type="hidden" name="addrId" value="">
     </div>
 </div>
 
@@ -29,7 +32,7 @@
     <div class=" weui-cells_checkbox">
         <label class="weui-cell weui-check__label" for="p{{$d->productId}}">
             <div class="weui-cell__hd">
-                <input type="checkbox" class="weui-check" name="productId{{$d->productId}}" id="p{{$d->productId}}" value="{{$d->productId}}" checked="checked">
+                <input type="checkbox" class="weui-check" name="productId[]" id="p{{$d->productId}}" value="{{$d->productId}}" checked="checked">
                 <i class="weui-icon-checked"></i>
             </div>
             <div class="weui-cell__bd">
@@ -62,25 +65,32 @@
 </form>
 <script>
 $(function () {
-    //总额
+    //初始化金额
     sum();
+    //给li绑定点击事件，单击则总金额变化
+    var li = $(".x-cart-plist li");
+    li.unbind('click').click(function (e) {
+        sum();
+
+    });
 });
 //金额小计
 function sum() {
     var sum = 0;
-    var li = $(".x-cart-plist li");
-    li.each(function (i) {
-        var unitPrice = $(this).find("#sum").text();
-        var account = $(this).find("#account").val();
+    var input = $("input:checked"); //获取所有选中的CheckBox
+    input.each(function (i) {
+        var unitPrice = $(this).parents('li').find("#sum").text();
+        var account = $(this).parents('li').find("#account").val();
         sum += unitPrice*account;
     });
     $("#count").text(sum)  ;
+    $("input[name=sumMoney]").val(sum);
 }
 //单击数量减少
 function minus(obj,productId,id) {
     var accountObj = $(obj).next().val();
     var account = parseInt(accountObj)-1;
-    $.post("{{url('wechat/shopCart')}}",{productId:productId,account:account},function () {
+    $.post("{{url('wechat/shopCart'.session('customer_id'))}}",{productId:productId,account:account},function () {
         if(account <= 0){
             $(obj).next().val(account);
             sum();//重新计算总金额
