@@ -25,7 +25,7 @@
 			<li>
 				<h3><i class="fa fa-fw fa-list-ul"></i>订单管理</h3>
 				<ul class="sub_menu">
-					<li><a href="{{url('admin/category/create')}}" target="main"><i class="fa fa-fw fa-clipboard"></i>客户订单</a></li>
+					<li><a href="{{url('admin/order')}}" target="main"><i class="fa fa-fw fa-clipboard"></i>客户订单</a></li>
 					</ul>
 			</li>
             <li>

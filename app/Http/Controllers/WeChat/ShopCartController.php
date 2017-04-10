@@ -79,7 +79,7 @@ class ShopCartController extends Controller
         $account = $input['account'];
         $len = sizeof($input['productId']);
         for($i = 0; $i<$len;$i++){
-            $orderDetail['oderId'] = $orderMain['orderCode'];
+            $orderDetail['orderId'] = $orderMain['orderCode'];
             $orderDetail['productId'] = $productId[$i];
             $orderDetail['uintPrice'] = $uintPrice[$i];
             $orderDetail['account'] = $account[$i];
