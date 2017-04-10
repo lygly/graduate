@@ -14,14 +14,14 @@ class IndexController extends Controller
 {
     //首页
     public function index(){
-        /* $open_id = session('open_id');
+         $open_id = session('open_id');
        if (empty($open_id)){
            $weChat =new WeChat();
            $weChat->oauth();
            $open_id = session('open_id');
-       }*/
+       }
         // dd($open_id);
-        $open_id = "okyhUwNdRkU577OWH3XHqbddxBao";
+      //  $open_id = "okyhUwNdRkU577OWH3XHqbddxBao";
         $customer = Customer::select('id')->where('openId',$open_id)->first();
         $customer_id = $customer->id;  //获取客户ID
         //dd($customer_id);

@@ -105,12 +105,12 @@ php;
         $appid ="wx2fb8f9fd418d80c5"; //测试号的appid
         $appsecret = "416b11926695931ee5b2b23e2766838b"; //测试号的appsecret
         $redirect_uri = "http://www.lylyg2017.cn/graduate/wechat/profile"; //返回地址
-        $code = Input::get('code');
+        $code = $_GET['code'];
        if (empty($code)&&!isset($_session['code'])){  //判断是否是授权的回调
            $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
            header('location:'.$url); //跳转页面获取code
        }
-        $code = Input::get('code');
+        $code = $_GET['code'];
 //如果没有获取到code
         if (empty($code)){
             $this->logger('授权失败');
