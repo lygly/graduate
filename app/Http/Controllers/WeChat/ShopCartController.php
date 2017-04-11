@@ -70,6 +70,8 @@ class ShopCartController extends Controller
         $orderMain['addressId'] = $input['addressId'];
         $orderMain['orderCode'] = date("YmdHis").rand(100,999); //订单编号
         $orderMain['orderDate'] =time();
+        $orderMain['actionDate'] =time();
+        $orderMain['openId'] =session('open_id');
         //写入订单主表
         $re = Order::create($orderMain);
         //订单明细表数据
