@@ -17,6 +17,8 @@ use phpDocumentor\Reflection\Location;
 
 class WeChat
 {
+ private  $appid ="wx2fb8f9fd418d80c5"; //测试号的appid
+ private  $appsecret = "416b11926695931ee5b2b23e2766838b"; //测试号的appsecret
     /*微信接口配置函数*/
     public function checkSignature()
     {
@@ -68,8 +70,8 @@ class WeChat
        },
         {
            "type":"view",
-           "name":"我的订单",
-           "url":"http://v.qq.com/"  
+           "name":"意见反馈",
+           "url":"http://www.lylyg2017.cn/graduate/admin/suggestion/create"  
        }
        ]
  }
@@ -100,23 +102,49 @@ php;
         unset($userInfo['tagid_list']);
         Customer::create($userInfo); //如果openID 没有则插入到数据库
     }
+    /**
+     * 获取微信授权链接
+     *
+     * @param string $redirect_uri 跳转地址
+     * @param mixed $state 参数
+     */
+    public function get_authorize_url($redirect_uri = '', $state = '')
+    {
+        $redirect_uri = urlencode($redirect_uri);
+        return "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->appid}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+    }
+
+    /**
+     * 获取授权token
+     *
+     * @param string $code 通过get_authorize_url获取到的code
+     */
+    public function get_access_token($code)
+    {
+        $this->logger("code:".$code);
+        $token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$this->appid}&secret={$this->appsecret}&code={$code}&grant_type=authorization_code";
+        $token = $this->http_curl($token_url);
+        $this->logger("lalal:".$token);
+        $token=json_decode($token);
+        if (!isset($token->errcode)){
+            return $token->openid;
+        }
+        return false;
+    }
     //网页授权
-    public function oauth(){
-        $appid ="wx2fb8f9fd418d80c5"; //测试号的appid
-        $appsecret = "416b11926695931ee5b2b23e2766838b"; //测试号的appsecret
-        $redirect_uri = "http://www.lylyg2017.cn/graduate/wechat/profile"; //返回地址
-        $code = $_GET['code'];
-       if (empty($code)&&!isset($_session['code'])){  //判断是否是授权的回调
-           $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
+   /* public function oauth(){
+        $redirect_uri = "http://www.lylyg2017.cn/graduate/wechat"; //返回地址
+
+       if (empty($_GET['code'])&& empty($_session['code'])){  //判断是否是授权的回调
+           $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->appid}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
            header('location:'.$url); //跳转页面获取code
        }
-        $code = $_GET['code'];
 //如果没有获取到code
-        if (empty($code)){
+        if (empty($_GET['code'])){
             $this->logger('授权失败');
-        }elseif(!isset($_session['code'])){
+        }elseif(empty($_session['code'])){
             $_SESSION['code'] = $_GET['code'];
-            $token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$appsecret.'&code='.$code.'&grant_type=authorization_code'; //获取openID
+            $token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$this->appid.'&secret='.$this->appsecret.'&code='.$_GET['code'].'&grant_type=authorization_code'; //获取openID
             $token = $this->http_curl($token_url);
             $token = json_decode($token);
             $this->logger($token->openid);
@@ -126,37 +154,8 @@ php;
                 $this->logger($errorStr); //把错误 信息写入日志
                 exit;
         }
-
-
-
-
-
-           /* $access_token_url = 'https://api.weixin.qq.com/sns/oauth2/refresh_token?appid='.$appid.'&grant_type=refresh_token&refresh_token='.$token->refresh_token;
-//转成对象
-            $access_token = json_decode(file_get_contents($access_token_url));
-            if (isset($access_token->errcode)) {
-                $errorStr= '错误：'.$access_token->errcode."\n" .'错误信息：'.$access_token->errmsg;
-                $this->logger($errorStr);
-                exit;
-            }
-            $user_info_url = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token->access_token.'&openid='.$access_token->openid.'&lang=zh_CN';
-//转成对象
-            $user_info = json_decode(file_get_contents($user_info_url));
-            if (isset($user_info->errcode)) {
-                $errorStr = '错误：'.$user_info->errcode."\n". '错误信息：'.$user_info->errmsg;
-                exit;
-            }
-
-            $rs =  json_decode(json_encode($user_info),true);//返回的json数组转换成array数组
-
-//打印用户信息
-            /*  echo '<pre>';
-              print_r($rs);
-              echo $rs['openid'];
-              echo '</pre>';*/
-           // session(['open_id'=>$rs['openid']]); //把openID存入session*/*/
        }
-    }
+    }*/
 //获取openid
     public function get_openId(){
         $open_id = session('FromUserName');//用户openID

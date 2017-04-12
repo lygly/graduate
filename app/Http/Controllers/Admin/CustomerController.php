@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Model\Customer;
+use App\Http\Model\ShoppingAddress;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -82,8 +83,10 @@ class CustomerController extends CommonController
         }
         return $data;
     }
-    //get admin/customer/{customer}   显示单个用户信息信息
-    public function show(){
+    //get admin/customer/{customer}   显示用户收货地址
+    public function show($customer_id){
+        $data = ShoppingAddress::where('customerId',$customer_id)->paginate(5);
+        return view('admin.customer.address',compact('data'));
 
     }
 }

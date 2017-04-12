@@ -17,11 +17,22 @@ class IndexController extends Controller
          $open_id = session('open_id');
        if (empty($open_id)){
            $weChat =new WeChat();
-           $weChat->oauth();
-           $open_id = session('open_id');
+          $code = Input::get('code');
+           if (empty($code)){
+               $redirect_uri = "http://www.lylyg2017.cn/graduate/wechat"; //返回地址
+               $reUrl =  $weChat->get_authorize_url($redirect_uri);
+               header("location:". $reUrl); //跳转页面获取code;
+               exit();
+          }else if($code){
+                   $code = Input::get('code');
+              // dd($code);
+                $open_id = $weChat->get_access_token($code);
+                session(['open_id'=>$open_id]);
+           }
        }
         // dd($open_id);
       //  $open_id = "okyhUwNdRkU577OWH3XHqbddxBao";
+        $open_id = session('open_id');
         $customer = Customer::select('id')->where('openId',$open_id)->first();
         $customer_id = $customer->id;  //获取客户ID
         //dd($customer_id);
@@ -35,6 +46,7 @@ class IndexController extends Controller
          ->get();
         return view('wechat.product_center',compact('data','field'));
     }
+    //商品详情页
     public function detail($productId){
         $data = ProductPhoto::join('p_product','p_product.id','=','p_productphoto.productId')
             ->join('p_productproperty','p_productproperty.productId','=','p_productphoto.productId')

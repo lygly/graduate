@@ -25,12 +25,24 @@
     <input type="text" name="nickName" class="weui-input" value="{{$data->nickName}}" placeholder="请输入昵称">
 </div>
 </a>
+    <a class="weui-cell weui-cell_access" href="javascript:;">
+        <div class="weui-cell__bd"><label for="name" class="weui-label">姓名</label></div>
+        <div class="weui-cell__ft">
+            <input type="text" name="name" class="weui-input" value="{{$data->name}}" placeholder="请输入姓名">
+        </div>
+    </a>
+    <a class="weui-cell weui-cell_access" href="javascript:;">
+        <div class="weui-cell__bd"><label for="phone" class="weui-label">电话</label></div>
+        <div class="weui-cell__ft">
+            <input class="weui-input" name="phone" type="number" pattern="[0-9]*" value="{{$data->phone}}" placeholder="请输入电话号码"/>
+        </div>
+    </a>
 <a class="weui-cell weui-cell_select weui-cell_access weui-cell_select-after " href="javascript:;">
 <div class="weui-cell__hd"><label for="sex" class="weui-label">性别</label></div>
     <div class="weui-cell__bd">
     <select name="sex" id="" class="weui-select  weui-cell__ft">
-        <option value="1" @if($data->sex == 1) selected @endif>女</option>
-        <option value="2" @if($data->sex == 2) selected @endif>男</option>
+        <option value="1" @if($data->sex == 1) selected @endif>男</option>
+        <option value="2" @if($data->sex == 2) selected @endif>女</option>
     </select>
 </div>
 </a>
@@ -62,10 +74,30 @@
 </div>
         <div class="weui-cells">
             <div class="weui-cell" style="padding: 5px;">
-            <input type="submit" class="weui-btn weui-btn_primary" style="background-color: #4b7cea;" value="确定">
+            <input type="submit" class="weui-btn weui-btn_primary" style="background-color: #4b7cea;" value="确定" onclick="return check(this.form)">
             </div>
         </div>
     </form>
 </div>
     </body>
+    <script>
+        function check(form) {
+            if (form.name.value == '') {
+                layer.alert('请填写姓名', {
+                    skin: 'layui-layer-molv' //样式类名
+                    , closeBtn: 0
+                });
+                form.name.focus();
+                return false;
+            }
+            if (form.phone.value == '') {
+                layer.alert('请填写电话号码', {
+                    skin: 'layui-layer-molv' //样式类名
+                    , closeBtn: 0
+                });
+                form.phone.focus();
+                return false;
+            }
+        }
+        </script>
 @endsection

@@ -28,7 +28,6 @@
             <div class="result_content">
                 <table class="list_tab">
                     <tr>
-                        {{--<th class="tc" width="5%"><input type="checkbox" name=""></th>--}}
                         <th class="tc">排序</th>
                         <th class="tc">姓名</th>
                         <th class="tc">电话</th>
@@ -49,7 +48,6 @@
                     </tr>
                     @foreach($data as $k=> $v)
                     <tr>
-                        {{--<td class="tc"><input type="checkbox" name="id[]" value="59"></td>--}}
                         <td class="tc" width="5%">
                             <span type="text"  name="ord[]">{{$k+1}}</span>
                         </td>
@@ -68,7 +66,7 @@
                                 女
                                 @endif
                         </td>
-                        <td class="tc">{{$v->birthday}}</td>
+                        <td class="tc">{{date('Y-m-d',$v->birthday)}}</td>
                         <td class="tc">{{$v->weight}}</td>
                         <td class="tc">{{$v->height}}</td>
                         <td class="tc">{{$v->integrate}}</td>
@@ -76,6 +74,7 @@
                         <td class="tc">{{date('Y-m-d',$v->subscribe_time)}}</td>
                         <td>
                             <a href="{{url('admin/customer/'.$v->id.'/edit')}}">修改</a>
+                            <a href="{{url('admin/customer/'.$v->id)}}">查看收货地址</a>
                             <a href="javascript:;"onclick="delCate({{$v->id}})">删除</a>
                         </td>
                     </tr>
