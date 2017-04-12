@@ -31,6 +31,7 @@
                         {{--<th class="tc" width="5%"><input type="checkbox" name=""></th>--}}
                         <th class="tc">排序</th>
                         <th class="tc">客户姓名</th>
+                        <th class="tc">客户昵称</th>
                         <th class="tc">意见反馈</th>
                         <th class="tc">反馈时间</th>
                         <th>操作</th>
@@ -42,6 +43,7 @@
                             <span type="text"  name="ord[]">{{$k+1}}</span>
                         </td>
                         <td class="tc">{{$v->name}}</td>
+                        <td class="tc">{{$v->nickName}}</td>
                         <td class="tc">{!!$v->suggestionMember!!}</td>
                         <td class="tc">{{date('Y-m-d',$v->createDate)}}</td>
                         <td>

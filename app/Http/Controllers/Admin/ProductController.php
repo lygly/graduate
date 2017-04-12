@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Model\Dictionary;
 use App\Http\Model\Product;
+use App\Http\Model\ProductDetail;
 use App\Http\Model\ProductPhoto;
+use App\Http\Model\ProductProperty;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -75,7 +77,10 @@ class ProductController extends CommonController
     //delete admin/product/{product}  删除单个分类
     public function destroy($id){
         $re = Product::where('id',$id)->delete();
-        if ($re){
+        $propertyRe = ProductProperty::where('productId',$id)->delete(); //删除产品属性
+        $detailRe = ProductDetail::where('productId',$id)->delete(); //删除产品清单
+        $photoRe = ProductPhoto::where('productId',$id)->delete(); //删除产品图片
+        if ($re && $propertyRe && $detailRe && $photoRe){
             $data = [
                 'status'=>0,
                 'msg'=>'商品删除成功！'

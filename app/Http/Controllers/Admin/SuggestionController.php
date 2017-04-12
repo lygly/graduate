@@ -13,7 +13,7 @@ class SuggestionController extends CommonController
     // get admin/suggestion   get方式过来的 后面是地址  全部意见反馈列表
     public function index(){
         $data = Suggestion::join('u_customer','u_customer.id','=','u_suggestion.customerId')
-            ->select('u_suggestion.*','u_customer.name')
+            ->select('u_suggestion.*','u_customer.name','u_customer.nickName')
             ->orderBy('createDate','desc')->paginate(5);
         return view('admin.suggestion.index',compact('data'));
     }

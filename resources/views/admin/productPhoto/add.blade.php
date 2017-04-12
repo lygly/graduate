@@ -68,7 +68,7 @@
                                     'uploader' : "{{url('admin/upload')}}",
                                     'onUploadSuccess' : function(file, data, response) {
                                         $('input[name = picUrl]').val(data);
-                                        $('#art_thumb_img').attr('src','/'+data);
+                                        $('#art_thumb_img').attr('src','/graduate/'+data);
                                     }
                                 });
                             });

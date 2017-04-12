@@ -40,7 +40,7 @@
                         <td class="tc" width="5%">
                             <span type="text"  name="ord[]">{{$k+1}}</span>
                         </td>
-                        <td class="tc"><img src="/{{$v->picUrl}}" alt="" style="max-width: 350px;max-height: 100px;"></td>
+                        <td class="tc"><img src="{{url('/'.$v->picUrl)}}" alt="" style="max-width: 350px;max-height: 100px;"></td>
                         <td class="tc">{{date('Y-m-d',$v->createDate)}}</td>
                         <td class="tc">@if($v->isBanner==1) 是 @else 否 @endif</td>
                         <td>
