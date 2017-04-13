@@ -18,7 +18,9 @@ use phpDocumentor\Reflection\Location;
 class WeChat
 {
  private  $appid ="wx2fb8f9fd418d80c5"; //测试号的appid
- private  $appsecret = "416b11926695931ee5b2b23e2766838b"; //测试号的appsecret
+ private  $appsecret = "416b11926695931ee5b2b23e2766838b"; //测试号的appsecret 订阅号： 993d6f5d963cf995b92191abccb3d99e
+    /*private  $appid ="wxf8d585ba04177ec1"; //订阅号appid
+    private  $appsecret = "993d6f5d963cf995b92191abccb3d99e"; //测试号的appsecret 订阅号： 993d6f5d963cf995b92191abccb3d99e*/
     /*微信接口配置函数*/
     public function checkSignature()
     {
@@ -124,7 +126,7 @@ php;
         $this->logger("code:".$code);
         $token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$this->appid}&secret={$this->appsecret}&code={$code}&grant_type=authorization_code";
         $token = $this->http_curl($token_url);
-        $this->logger("lalal:".$token);
+        $this->logger("token:".$token);
         $token=json_decode($token);
         if (!isset($token->errcode)){
             return $token->openid;
@@ -328,9 +330,9 @@ php;
   * 获取access_token 的函数
   * */
     private function get_token(){
-        $appid ="wx2fb8f9fd418d80c5"; //测试号的appid
-        $secret = "416b11926695931ee5b2b23e2766838b"; //测试号的appsecret
-        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$appid}&secret={$secret}";
+       /* $appid ="wx2fb8f9fd418d80c5"; //测试号的appid
+        $secret = "416b11926695931ee5b2b23e2766838b"; //测试号的appsecret*/
+        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$this->appid}&secret={$this->secret}";
         $json = $this->http_curl($url);
         $result = json_decode($json); //把json数组转换成php对象
         $result->get_token_time = time();

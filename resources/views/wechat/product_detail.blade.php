@@ -6,8 +6,8 @@
 <div class="x-container">
 <div class="x-pd-info1" id="x-pd-info1" pid="{{$data->id}}">
 <div class="x-pd-info1-cover">
-    <img id="info1-img" src="{{url('/'.$data->picUrl)}}"/>
-    <input type="hidden" name="imgUrl" value={{"$data->picUrl"}}>
+    <img id="info1-img" src="{{url('/'.$photoData->picUrl)}}"/>
+    <input type="hidden" name="imgUrl" value={{"$photoData->picUrl"}}>
 </div>
 <div class="x-pd-info1-text">
     <p  class="title" id="title">{{$data->productName}}</p>

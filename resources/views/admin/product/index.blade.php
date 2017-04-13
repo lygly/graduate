@@ -9,15 +9,20 @@
 
 	<!--结果页快捷搜索框 开始-->
 	<div class="search_wrap">
-        <form action="" method="post">
+        <form action="{{url('admin/product/1')}}" method="get">
             <table class="search_tab">
                 <tr>
                     <th width="120">选择分类:</th>
                     <td>
-                        <select onchange="javascript:location.href=this.value;">
-                            <option value="">全部</option>
-                            <option value="http://www.baidu.com">百度</option>
-                            <option value="http://www.sina.com">新浪</option>
+                        <select name="productTypeId">
+                            <option value="">所有分类</option>
+                            @foreach($category as $d)
+                                <option value="{{$d->id}}"
+                                       {{-- @if($d->id == $data->productTypeId)
+                                        selected
+                                        @endif--}}
+                                >{{$d->names}}</option>
+                            @endforeach
                         </select>
                     </td>
                     <th width="70">关键字:</th>

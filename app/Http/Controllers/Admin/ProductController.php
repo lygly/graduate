@@ -20,7 +20,8 @@ class ProductController extends CommonController
             ->leftJoin('p_productdetail','p_productdetail.productId','=','p_product.id')
             ->select('p_product.*','sys_dictionary.names','p_productdetail.account')
             ->orderBy('createDate','desc')->paginate(5); //读取数据按ID倒叙显示并且每一页显示5条记录
-        return view('admin.product.index',compact('data'));
+        $category = Dictionary::where('pId','1')->orderBy('sort','asc')->get(); //读取分类栏目
+        return view('admin.product.index',compact('data','category'));
     }
     //get admin/product/create  添加商品
     public function create(){
@@ -94,8 +95,15 @@ class ProductController extends CommonController
         return $data;
 
     }
-    //get admin/category/{category}   显示单个分类信息
-    public function show(){
-
+    //get admin/category/{category}   显示筛选信息
+    public function show($productTypeId){
+        $productTypeId = Input::get('productTypeId');
+        $data = Product::join('sys_dictionary','sys_dictionary.id','=','p_product.productTypeId')
+            ->leftJoin('p_productdetail','p_productdetail.productId','=','p_product.id')
+            ->where('p_product.productTypeId',$productTypeId)
+            ->select('p_product.*','sys_dictionary.names','p_productdetail.account')
+            ->orderBy('createDate','desc')->paginate(5); //读取数据按ID倒叙显示并且每一页显示5条记录
+        $category = Dictionary::where('pId','1')->orderBy('sort','asc')->get(); //读取分类栏目
+        return view('admin.product.index',compact('data','category'));
     }
 }

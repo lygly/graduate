@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\WeChat;
 
 use App\Http\Model\Customer;
+use App\Http\Model\Product;
 use App\Http\Model\ProductPhoto;
 use App\Http\Model\ShoppingAddress;
 use App\Library\WeChat;
@@ -48,13 +49,12 @@ class IndexController extends Controller
     }
     //商品详情页
     public function detail($productId){
-        $data = ProductPhoto::join('p_product','p_product.id','=','p_productphoto.productId')
-            ->join('p_productproperty','p_productproperty.productId','=','p_productphoto.productId')
-            ->where('p_productphoto.productId',$productId)
-            ->select('p_productphoto.*','p_product.productName','p_product.remark','p_productproperty.unitPrice')
-            ->first();
-       // dd($data);
-        return view('wechat.product_detail',compact('data'));
+        $data = Product::join('p_productproperty','p_product.id','=','p_productproperty.productId')
+            ->select('p_product.productName','p_product.remark','p_productproperty.unitPrice')
+            ->find($productId);
+       $photoData = ProductPhoto::where('productId',$productId)->where('isBanner','0')->first();
+       // dd($photoData);
+        return view('wechat.product_detail',compact('data','photoData'));
     }
     //个人中心
     public function profile(){
