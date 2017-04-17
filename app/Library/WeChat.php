@@ -18,9 +18,7 @@ use phpDocumentor\Reflection\Location;
 class WeChat
 {
  private  $appid ="wx2fb8f9fd418d80c5"; //测试号的appid
- private  $appsecret = "416b11926695931ee5b2b23e2766838b"; //测试号的appsecret 订阅号： 993d6f5d963cf995b92191abccb3d99e
-    /*private  $appid ="wxf8d585ba04177ec1"; //订阅号appid
-    private  $appsecret = "993d6f5d963cf995b92191abccb3d99e"; //测试号的appsecret 订阅号： 993d6f5d963cf995b92191abccb3d99e*/
+ private  $appsecret = "416b11926695931ee5b2b23e2766838b"; //测试号的appsecret
     /*微信接口配置函数*/
     public function checkSignature()
     {
@@ -51,9 +49,11 @@ class WeChat
    public function menu(){
        $access_token = session('access_token');//access_token
        $get_token_time =session('get_token_time');//token 创建时间
+       $this->logger("token_time:".$get_token_time);
        $now = time();//获取当前时间
        if (empty($access_token)||$now-$get_token_time>7000){
           $this->get_token();
+          $access_token = session('access_token');//access_token
        }
        $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token={$access_token}";//自定义菜单接口
        $data = <<<php
@@ -73,37 +73,14 @@ class WeChat
         {
            "type":"view",
            "name":"意见反馈",
-           "url":"http://www.lylyg2017.cn/graduate/admin/suggestion/create"  
+           "url":"http://www.lylyg2017.cn/graduate/wechat/suggestion"  
        }
        ]
  }
 php;
-       $result = $this->http_curl($url,$data);
+        $result = $this->http_curl($url,$data);
+        $this->logger("自定义菜单返回值：".$result);
    }
-//获取用户公开信息
-    public function unionId(){
-        $open_id = session('open_id');//用户openID
-        $access_token = session('access_token');//access_token
-        $get_token_time =session('get_token_time');//token 创建时间
-        $now = time();//获取当前时间
-        if (empty($access_token)||$now-$get_token_time>7000){
-            $this->get_token();
-        }
-      /*  $this->get_token();
-        $access_token = session('access_token');//access_token*/
-        //var_dump($access_token);
-        //dd($open_id);
-        $url="https://api.weixin.qq.com/cgi-bin/user/info?access_token={$access_token}&openid={$open_id}&lang=zh_CN";
-        $userInfo = $this->http_curl($url);
-        $this->logger($userInfo);
-        $userInfo = json_decode($userInfo,true); //true 则转换为数组 默认转换为对象
-        //忽略这些字段
-        unset($userInfo['subscribe']);
-        unset($userInfo['language']);
-        unset($userInfo['groupid']);
-        unset($userInfo['tagid_list']);
-        Customer::create($userInfo); //如果openID 没有则插入到数据库
-    }
     /**
      * 获取微信授权链接
      *
@@ -129,40 +106,37 @@ php;
         $this->logger("token:".$token);
         $token=json_decode($token);
         if (!isset($token->errcode)){
+            $access_token = $token->access_token;
+            $open_id = $token->openid;
+            $get_token_time = time();
+            $this->unionId($access_token,$open_id,$get_token_time);//获取用户公开信息
             return $token->openid;
         }
         return false;
     }
-    //网页授权
-   /* public function oauth(){
-        $redirect_uri = "http://www.lylyg2017.cn/graduate/wechat"; //返回地址
-
-       if (empty($_GET['code'])&& empty($_session['code'])){  //判断是否是授权的回调
-           $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->appid}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
-           header('location:'.$url); //跳转页面获取code
-       }
-//如果没有获取到code
-        if (empty($_GET['code'])){
-            $this->logger('授权失败');
-        }elseif(empty($_session['code'])){
-            $_SESSION['code'] = $_GET['code'];
-            $token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$this->appid.'&secret='.$this->appsecret.'&code='.$_GET['code'].'&grant_type=authorization_code'; //获取openID
-            $token = $this->http_curl($token_url);
-            $token = json_decode($token);
-            $this->logger($token->openid);
-           session(['open_id'=>$token->openid]);
-            if (isset($token->errcode)) {
-                $errorStr =  '错误：'.$token->errcode."\n". '错误信息：'.$token->errmsg;
-                $this->logger($errorStr); //把错误 信息写入日志
-                exit;
-        }
-       }
-    }*/
-//获取openid
-    public function get_openId(){
-        $open_id = session('FromUserName');//用户openID
-        $this->logger("openId:".$open_id);
-        return $open_id;
+    //获取用户公开信息
+    public function unionId($access_token,$open_id,$get_token_time){
+       /* $open_id = session('open_id');//用户openID
+        $access_token = session('access_token');//access_token
+        $get_token_time =session('get_token_time');//token 创建时间*/
+       // $now = time();//获取当前时间
+       /* if (empty($access_token)||$now-$get_token_time>7000){
+            $this->get_token();
+        }*/
+        /*  $this->get_token();
+          $access_token = session('access_token');//access_token*/
+        //var_dump($access_token);
+        //dd($open_id);
+        $url="https://api.weixin.qq.com/cgi-bin/user/info?access_token={$access_token}&openid={$open_id}&lang=zh_CN";
+        $userInfo = $this->http_curl($url);
+        $this->logger($userInfo);
+        $userInfo = json_decode($userInfo,true); //true 则转换为数组 默认转换为对象
+        //忽略这些字段
+        unset($userInfo['subscribe']);
+        unset($userInfo['language']);
+        unset($userInfo['groupid']);
+        unset($userInfo['tagid_list']);
+        Customer::create($userInfo); //如果openID 没有则插入到数据库
     }
     /*自动回复文本消息*/
     public function receive(){
@@ -171,19 +145,17 @@ php;
         $postSql = simplexml_load_string($obj,'SimpleXMLElement',LIBXML_NOCDATA);//把xml文本转换成php对象并且去除文本中的CDATA
         $this->logger("接收：\n".$obj);
         if(!empty($postSql)){
-            //session(['open_id'=>$postSql->FromUserName]);//把用户的openID写入session
-            if ($postSql->Event == 'subscribe'){
+            if ($postSql->Event == 'subscribe')
+            {
                 $result = $this->receiveEvent($postSql);//关注自动回复消息
                 $this->menu();   //初始化菜单
                // $this->unionId();//获取用户公开信息
-            }elseif(trim($postSql->Event)=="CLICK"){
-                switch (trim($postSql->MsgType)){ //判断消息类型
-                    case "text":
-                        $result= $this->receiveText($postSql); //如果是文本消息则
-                        break;
-                    case "event":
-                        $result = $this->repository($postSql);//获取问题类型
-                }
+            }elseif(trim($postSql->Event)=="CLICK"&&trim($postSql->MsgType)=="event")
+            {
+                $result = $this->repository($postSql);//获取问题类型
+            }elseif (trim($postSql->MsgType)=="text")
+            {
+                $result= $this->receiveText($postSql); //如果是文本消息则
             }
             //为了防止5s钟没反应微信服务器帮我们处理
             if (!empty($result)){
@@ -330,9 +302,7 @@ php;
   * 获取access_token 的函数
   * */
     private function get_token(){
-       /* $appid ="wx2fb8f9fd418d80c5"; //测试号的appid
-        $secret = "416b11926695931ee5b2b23e2766838b"; //测试号的appsecret*/
-        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$this->appid}&secret={$this->secret}";
+        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$this->appid}&secret={$this->appsecret}";
         $json = $this->http_curl($url);
         $result = json_decode($json); //把json数组转换成php对象
         $result->get_token_time = time();

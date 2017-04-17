@@ -6,10 +6,12 @@ use App\Http\Model\Customer;
 use App\Http\Model\Product;
 use App\Http\Model\ProductPhoto;
 use App\Http\Model\ShoppingAddress;
+use App\Http\Model\Suggestion;
 use App\Library\WeChat;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
 
 class IndexController extends Controller
 {
@@ -53,7 +55,7 @@ class IndexController extends Controller
             ->select('p_product.productName','p_product.remark','p_productproperty.unitPrice')
             ->find($productId);
        $photoData = ProductPhoto::where('productId',$productId)->where('isBanner','0')->first();
-       // dd($photoData);
+       // dd($data);
         return view('wechat.product_detail',compact('data','photoData'));
     }
     //个人中心
@@ -77,5 +79,31 @@ class IndexController extends Controller
     //关于我们
     public function about(){
         return view('wechat.seller_about');
+    }
+    //意见反馈
+    public function suggestion(){
+        $customer_id = session('customer_id');
+        $data = Customer::select('name','nickName')->find($customer_id);
+        return view('wechat.suggestion',compact('data'));
+    }
+    //添加意见反馈
+    public function store(){
+        $input = Input::get();
+        // dd($input);
+        $input['createDate'] = time();//自动添加时候的时间
+
+        $re = Suggestion::create($input);
+        if ($re){
+            $data = [
+                'status'=>0,
+                'msg'=>'提交成功！'
+            ];
+        }else{
+            $data = [
+                'status'=>1,
+                'msg'=>'提交失败，请稍后重试！'
+            ];
+        }
+        return $data;
     }
 }

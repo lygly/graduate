@@ -20,13 +20,13 @@ class SuggestionController extends CommonController
     //get admin/suggestion/create  添加意见反馈
     public function create(){
         // $data = (new Dictionary)->question();  //实例化类 并指向question方法
-        return view('admin.suggestion.add');
+       // return view('admin.suggestion.add');
     }
     //post admin/suggestion 添加意见反馈提交方法
     public function store(){
         $input = Input::except('_token');
         // dd($input);
-        $input['customerId'] = '1';
+        //$input['customerId'] = '1';
         $input['createDate'] = time();//自动添加时候的时间
         //填写规则
         $rules = [

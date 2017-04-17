@@ -25,8 +25,8 @@
         </div>
         <div class="result_content">
             <div class="short_wrap">
-                <a href="{{url('admin/suggestion/create')}}"><i class="fa fa-plus"></i>添加</a>
-                <a href="{{url('admin/suggestion')}}"><i class="fa fa-reorder"></i>全部</a>
+                {{--<a href="{{url('admin/suggestion/create')}}"><i class="fa fa-plus"></i>添加</a>--}}
+                <a href="{{url('admin/suggestion')}}"><i class="fa fa-arrow-left"></i>返回</a>
                 {{--<a href="#"><i class="fa fa-refresh"></i>更新排序</a>--}}
             </div>
         </div>

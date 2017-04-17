@@ -1,7 +1,7 @@
 @extends('layouts.wechat')
 @section('content')
 <body>
-<form action="{{url('wechat/shopCart/'.$data->productId)}}" method="post">
+<form action="{{url('wechat/shopCart/'.$photoData->productId)}}" method="post">
     <input type="hidden" name="_method" value="put">
 <div class="x-container">
 <div class="x-pd-info1" id="x-pd-info1" pid="{{$data->id}}">
