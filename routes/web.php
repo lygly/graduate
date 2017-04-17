@@ -41,6 +41,7 @@ Route::group(['middleware'=>'admin.login','prefix'=>'admin','namespace'=>'Admin'
     //订单管理
     Route::any('order','OrderController@index');
     Route::any('order/detail','OrderController@detail'); //订单明细
+    Route::delete('order/{orderId}','OrderController@delete');//删除订单
     //类型管理
     Route::post('dictionary/changeOrder','DictionaryController@changeOrder'); //异步修改排序路由
     Route::resource('dictionary', 'DictionaryController'); //分类管理资源路由

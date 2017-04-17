@@ -16,20 +16,36 @@ class OrderController extends CommonController
         $data =Order::join('u_customer','u_customer.id','=','p_ordermain.customerId')
             ->join('u_address','u_address.id','=','p_ordermain.addressId')
             ->select('p_ordermain.*','u_customer.nickName','u_address.*')
-            ->orderBy('orderDate','desc')->paginate(8);//读取订单列表并每一页显示8条记录
+            ->orderBy('orderDate','desc')->paginate(5);//读取订单列表并每一页显示8条记录
         return view('admin.order.index',compact('data'));
     }
     //订单明细
     public function detail(){
         $input = Input::get();
         $orderId = $input['orderCode'];
+        /*SELECT * FROM p_orderdetail JOIN p_product ON p_orderdetail.productId = p_product.id WHERE orderId = "20170417102237606";*/
         $data = OrderDetail::join('p_product','p_product.id','=','p_orderdetail.productId')
-            ->join('p_productdetail','p_orderdetail.productId','=','p_productdetail.productId')
             ->where('orderId',$orderId)
-            ->select('p_orderdetail.*','p_product.productName','p_productdetail.propertyId')
+            ->select('p_orderdetail.*','p_product.productName')
             ->get();
-       // $propertyId = $data->propertyId;
-       // $field = ProductProperty::where('id',$propertyId)->
+        //dd($data);
         return view('admin.order.orderDetail',compact('data'));
+    }
+    //删除订单
+    public function delete($orderCode){
+        $re = Order::where('orderCode',$orderCode)->delete();
+        dd($re);
+        if ($re){
+            $data = [
+                'status'=>0,
+                'msg'=>'订单删除成功！'
+            ];
+        }else{
+            $data = [
+                'status'=>1,
+                'msg'=>'订单删除失败，请稍后重试！'
+            ];
+        }
+        return $data;
     }
 }

@@ -7,7 +7,10 @@
     </div>
     <!--面包屑导航 结束-->
         <div class="result_wrap">
-            <div class="result_content" style="float: left;width: 75%; overflow-x: scroll;">
+            <div  class="result_content"style="float: left;width: 75%;">
+
+
+            <div style=" overflow-x: scroll;">
                 <div class="result_title">
                     <h3>客户订单</h3>
                 </div>
@@ -33,7 +36,7 @@
                         <td class="tc" width="5%">
                             <span type="text" name="ord[]">{{$k+1}}</span>
                         </td>
-                        <td class="tc" width="5%"> <a href="javascript:;"onclick="delCate({{$v->id}})">删除</a></td>
+                        <td class="tc" width="5%"> <a href="javascript:;"onclick="delCate({{$v->orderCode}})">删除</a></td>
                         <td class="tc" width="5%">{{$v->orderCode}}</td>
                         <td>{{$v->name}}</td>
                         <td>{{date('Y-m-d',$v->orderDate)}}</td>
@@ -48,6 +51,15 @@
                     </tr>
                     @endforeach
                 </table>
+                </div>
+            <div class="page_list">
+                {{$data->links()}}
+                <style>
+                    .result_content ul li span {
+                        padding: 6px 12px;
+                    }
+                </style>
+            </div>
             </div>
             <div class="result_content" style="width:23%; float: right; overflow-x:scroll">
                 <div class="result_title">
@@ -59,7 +71,8 @@
                         <th>订单编号</th>
                         <th>名称</th>
                      {{--   <th>规格</th>
-                        <th>颜色</th>--}}                        <th>价格</th>
+                        <th>颜色</th>--}}
+                        <th>价格</th>
                         <th>数量</th>
                     </tr>
                    {{--@include('admin.order.orderDetail')--}}
