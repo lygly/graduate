@@ -17,7 +17,7 @@
                 <table class="list_tab" style="min-width:1000px;">
                     <tr>
                         <th class="tc">排序</th>
-                        <th>操作</th>
+                      {{--  <th>操作</th>--}}
                         <th class="tc">订单编号</th>
                         <th>客户名称</th>
                         <th>订单日期</th>
@@ -32,12 +32,14 @@
 
                     </tr>
                     @foreach($data as $k=> $v)
-                    <tr onclick="detail({{$v->orderCode}})" >
+                    <tr>
                         <td class="tc" width="5%">
                             <span type="text" name="ord[]">{{$k+1}}</span>
                         </td>
-                        <td class="tc" width="5%"> <a href="javascript:;"onclick="delCate({{$v->orderCode}})">删除</a></td>
-                        <td class="tc" width="5%">{{$v->orderCode}}</td>
+                      {{--  <td class="tc" width="5%">
+                            <a href="javascript:;" id="delete">删除</a>
+                        </td>--}}
+                        <td class="tc" width="5%" id="orderId">{{$v->orderCode}}</td>
                         <td>{{$v->name}}</td>
                         <td>{{date('Y-m-d',$v->orderDate)}}</td>
                         <td>{{$v->province.$v->city.$v->district.$v->detailAddr}}</td>
@@ -81,31 +83,40 @@
         </div>
     <!--搜索结果页面 列表 结束-->
     <script>
-      function detail(orderCode) {
-          $.post("{{url('admin/order/detail')}}",{'_token':'{{csrf_token()}}','orderCode':orderCode},function (data) {
-              console.log(data);
-              $("#detail").empty().append(data);
-          })
-      }
-
+        var tr = $("table tr:gt(0)");//选择除去第一个的tr
+        tr.each(function () {
+            $(this).click(function (i) {
+                var orderCode =  $(this).find("#orderId").text();
+                $.post("{{url('admin/order/detail')}}",{'_token':'{{csrf_token()}}','orderCode':orderCode},function (data) {
+                   // console.log(data);
+                    $("#detail").empty().append(data);
+                })
+            })
+        });
 
         //删除分类
-        function delCate(cate_id) {
-            layer.confirm('您确认要删除这个订单吗？', {
-                btn: ['确定','取消'] //按钮
-            }, function(){
-             $.post('{{url('admin/order/')}}'+'/'+cate_id,{'_method':'delete','_token':'{{csrf_token()}}'},function (data) {
-               if(data.status == 0){
-                   layer.msg(data.msg, {icon: 6});
-                   location.href = location.href;
-               }else{
-                   layer.msg(data.msg, {icon: 5});
-               }
-             });
-            }, function(){
+        /* tr.each(function () {
+           $("#delete").click(function () {
+               var orderCode = $(this).find("#orderId").text();
+               console.log(orderCode);
+               layer.confirm('您确认要删除这个订单吗？', {
+                   btn: ['确定','取消'] //按钮
+               }, function(){
+                   $.post('{{url('admin/order/')}}'+'/'+orderCode,{'_method':'delete','_token':'{{csrf_token()}}'},function (data) {
+                       if(data.status == 0){
+                           layer.msg(data.msg, {icon: 6});
+                           location.href = location.href;
+                       }else{
+                           layer.msg(data.msg, {icon: 5});
+                       }
+                   });
+               });
+           })
+        });
+        function delCate(orderCode) {
+            console.log(orderCode);
 
-            });
-        }
+        }*/
 
     </script>
 

@@ -108,28 +108,16 @@ php;
         if (!isset($token->errcode)){
             $access_token = $token->access_token;
             $open_id = $token->openid;
-            $get_token_time = time();
-            $this->unionId($access_token,$open_id,$get_token_time);//获取用户公开信息
+            $this->unionId($access_token,$open_id);//获取用户公开信息
             return $token->openid;
         }
         return false;
     }
     //获取用户公开信息
-    public function unionId($access_token,$open_id,$get_token_time){
-       /* $open_id = session('open_id');//用户openID
-        $access_token = session('access_token');//access_token
-        $get_token_time =session('get_token_time');//token 创建时间*/
-       // $now = time();//获取当前时间
-       /* if (empty($access_token)||$now-$get_token_time>7000){
-            $this->get_token();
-        }*/
-        /*  $this->get_token();
-          $access_token = session('access_token');//access_token*/
-        //var_dump($access_token);
-        //dd($open_id);
+    public function unionId($access_token,$open_id){
         $url="https://api.weixin.qq.com/cgi-bin/user/info?access_token={$access_token}&openid={$open_id}&lang=zh_CN";
         $userInfo = $this->http_curl($url);
-        $this->logger($userInfo);
+        $this->logger("userInfo:".$userInfo);
         $userInfo = json_decode($userInfo,true); //true 则转换为数组 默认转换为对象
         //忽略这些字段
         unset($userInfo['subscribe']);

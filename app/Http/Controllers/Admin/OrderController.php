@@ -31,21 +31,4 @@ class OrderController extends CommonController
         //dd($data);
         return view('admin.order.orderDetail',compact('data'));
     }
-    //删除订单
-    public function delete($orderCode){
-        $re = Order::where('orderCode',$orderCode)->delete();
-        dd($re);
-        if ($re){
-            $data = [
-                'status'=>0,
-                'msg'=>'订单删除成功！'
-            ];
-        }else{
-            $data = [
-                'status'=>1,
-                'msg'=>'订单删除失败，请稍后重试！'
-            ];
-        }
-        return $data;
-    }
 }
