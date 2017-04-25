@@ -60,6 +60,7 @@ class CustomerController extends CommonController
     public function update($id){
         $input = Input::except('_token','_method');
        // dd($input);
+        $input['birthday'] = strtotime($input['birthday']);
         $re = Customer::where('id',$id) ->update($input);
         if($re){
             return redirect('admin/customer');
