@@ -115,16 +115,29 @@ php;
     }
     //获取用户公开信息
     public function unionId($access_token,$open_id){
-        $url="https://api.weixin.qq.com/cgi-bin/user/info?access_token={$access_token}&openid={$open_id}&lang=zh_CN";
+        //$url="https://api.weixin.qq.com/cgi-bin/user/info?access_token={$access_token}&openid={$open_id}&lang=zh_CN";
+        $url = "https://api.weixin.qq.com/sns/userinfo?access_token={$access_token}&openid={$open_id}&lang=zh_CN";
         $userInfo = $this->http_curl($url);
         $this->logger("userInfo:".$userInfo);
         $userInfo = json_decode($userInfo,true); //true 则转换为数组 默认转换为对象
-        //忽略这些字段
-        unset($userInfo['subscribe']);
-        unset($userInfo['language']);
-        unset($userInfo['groupid']);
-        unset($userInfo['tagid_list']);
-        Customer::create($userInfo); //如果openID 没有则插入到数据库
+      //  $open_id = $userInfo['openid'];
+        $nickName = $userInfo['nickname'];
+        $sex = $userInfo['sex'];
+        $city = $userInfo['city'];
+        $province = $userInfo['province'];
+        $country = $userInfo['country'];
+        $headImgUrl = $userInfo['headimgurl'];
+        $subscribe_time = time();
+        $language = $userInfo['language'];
+        //Customer::create($userInfo);
+        /*
+         * userInfo:{"openid":"okyhUwNdRkU577OWH3XHqbddxBao","nickname":"My Sunshine","sex":2,"language":"zh_CN","city":"沙坪坝","province":"重庆","country":"中国","headimgurl":"http:\/\/wx.qlogo.cn\/mmopen\/83KGOWp0YHpx6QI9FgQiaMtDEETbDfTK2bp9E1uRHlJsnnAbicDfMJAWBFkd44gDWK1aHvrUrys7dOL9ibPSAar5uL8bqGGggeZ\/0","privilege":[]}
+         * */
+        //如果openID 没有则插入到数据库有就实现更新
+        $sqlStr="insert into u_customer(openId,nickName,sex,city,province,country,headimgurl,subscribe_time,language)VALUES('$open_id',$nickName,$sex,$city, $province,$country,'$headImgUrl',$subscribe_time,$language)on duplicate key update subscribe_time=account+1";
+        $re = DB::insert($sqlStr);
+        $this->logger("数据插入/更新返回值：".$re);
+
     }
     /*自动回复文本消息*/
     public function receive(){
