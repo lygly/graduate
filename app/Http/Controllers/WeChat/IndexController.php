@@ -36,7 +36,7 @@ class IndexController extends Controller
         // dd($open_id);
       //  $open_id = "okyhUwNdRkU577OWH3XHqbddxBao";
         $open_id = session('open_id');
-       dd($open_id);
+     //  dd($open_id);
         $customer = Customer::select('id')->where('openId',$open_id)->first();
         $customer_id = $customer->id;  //获取客户ID
        // dd($customer_id);
@@ -63,7 +63,7 @@ class IndexController extends Controller
     public function profile(){
         $customer_id = session('customer_id');
         $data = Customer::find($customer_id);
-       dd($data);
+      // dd($data);
         return view('wechat.user_profile',compact('data'));
     }
     //更新个人资料

@@ -94,7 +94,7 @@
                 <tr>
                     <th>出生日期：</th>
                     <td>
-                        <input  type="text" class="wicon mr25 "  name="birthday" style="width: 200px" id="birthday" placeholder="出生日期" readonly value="{{$field->birthday}}">
+                        <input  type="text" class="wicon mr25 "  name="birthday" style="width: 200px" id="birthday" placeholder="出生日期" readonly value="{{date('Y-m-d',$field->birthday)}}">
                     </td>
                 </tr>
                 <tr>

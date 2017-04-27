@@ -12,6 +12,7 @@ namespace APP\Library;
 use App\Http\Model\Customer;
 use App\Http\Model\Dictionary;
 use App\Http\Model\Repository;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use phpDocumentor\Reflection\Location;
 
@@ -134,7 +135,7 @@ php;
          * userInfo:{"openid":"okyhUwNdRkU577OWH3XHqbddxBao","nickname":"My Sunshine","sex":2,"language":"zh_CN","city":"沙坪坝","province":"重庆","country":"中国","headimgurl":"http:\/\/wx.qlogo.cn\/mmopen\/83KGOWp0YHpx6QI9FgQiaMtDEETbDfTK2bp9E1uRHlJsnnAbicDfMJAWBFkd44gDWK1aHvrUrys7dOL9ibPSAar5uL8bqGGggeZ\/0","privilege":[]}
          * */
         //如果openID 没有则插入到数据库有就实现更新
-        $sqlStr="insert into u_customer(openId,nickName,sex,city,province,country,headimgurl,subscribe_time,language)VALUES('$open_id',$nickName,$sex,$city, $province,$country,'$headImgUrl',$subscribe_time,$language)on duplicate key update subscribe_time=account+1";
+        $sqlStr="insert into u_customer(openId,nickName,sex,city,province,country,headimgurl,subscribe_time)VALUES('$open_id','$nickName',$sex,'$city','$province','$country','$headImgUrl',$subscribe_time)on duplicate key update subscribe_time=$subscribe_time";
         $re = DB::insert($sqlStr);
         $this->logger("数据插入/更新返回值：".$re);
 
