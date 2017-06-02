@@ -61,7 +61,7 @@ class RepositoryController extends CommonController
     }
     //get admin/repository/{repository}/edit   编辑问答
     public function edit($id){
-        $data = (new Dictionary)->question();  //实例化类 并指向question方法
+       // $data = (new Dictionary)->question();  //实例化类 并指向question方法
         $data = Dictionary::where('pId',3)->orderBy('sort','asc')->get();
         $field = Repository::find($id);
         return view('admin.repository.edit',compact('data','field'));
