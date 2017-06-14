@@ -31,8 +31,8 @@
                         <th class="tc">排序</th>
                         <th class="tc">姓名</th>
                         <th class="tc">电话</th>
-                        <th class="tc">地址</th>
-                        <th class="tc">身份证</th>
+                     {{--   <th class="tc">地址</th>
+                        <th class="tc">身份证</th>--}}
                         <th class="tc">省</th>
                         <th class="tc">城市</th>
                         <th class="tc">国家</th>
@@ -41,8 +41,8 @@
                         <th class="tc">出生日期</th>
                         <th class="tc">体重(KG)</th>
                         <th class="tc">身高(cm)</th>
-                        <th class="tc">积分</th>
-                        <th class="tc">剩余积分</th>
+                     {{--   <th class="tc">积分</th>
+                        <th class="tc">剩余积分</th>--}}
                         <th class="tc">关注时间</th>
                         <th>操作</th>
                     </tr>
@@ -53,8 +53,8 @@
                         </td>
                         <td class="tc">{{$v->name}}</td>
                         <td class="tc">{{$v->phone}}</td>
-                        <td class="tc">{{$v->addr}}</td>
-                        <td class="tc">{{$v->useCode}}</td>
+                     {{--   <td class="tc">{{$v->addr}}</td>
+                        <td class="tc">{{$v->useCode}}</td>--}}
                         <td class="tc">{{$v->province}}</td>
                         <td class="tc">{{$v->city}}</td>
                         <td class="tc">{{$v->country}}</td>
@@ -69,8 +69,8 @@
                         <td class="tc">{{date('Y-m-d',$v->birthday)}}</td>
                         <td class="tc">{{$v->weight}}</td>
                         <td class="tc">{{$v->height}}</td>
-                        <td class="tc">{{$v->integrate}}</td>
-                        <td class="tc">{{$v->usedIntegrate}}</td>
+                      {{--  <td class="tc">{{$v->integrate}}</td>
+                        <td class="tc">{{$v->usedIntegrate}}</td>--}}
                         <td class="tc">{{date('Y-m-d',$v->subscribe_time)}}</td>
                         <td>
                             <a href="{{url('admin/customer/'.$v->id.'/edit')}}">修改</a>

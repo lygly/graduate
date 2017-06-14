@@ -34,8 +34,8 @@ class IndexController extends Controller
            }
        }
         // dd($open_id);
-      //  $open_id = "okyhUwNdRkU577OWH3XHqbddxBao";
-        $open_id = session('open_id');
+        $open_id = "okyhUwNdRkU577OWH3XHqbddxBao";
+       // $open_id = session('open_id');
      //  dd($open_id);
         $customer = Customer::select('id')->where('openId',$open_id)->first();
         $customer_id = $customer->id;  //获取客户ID
